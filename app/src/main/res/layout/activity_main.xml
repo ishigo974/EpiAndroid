@@ -14,7 +14,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Login : "
+        android:text="@string/login_text"
         android:textSize="@dimen/text_size"
         android:textStyle="bold" />
 
@@ -23,7 +23,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_text"
-        android:hint="Login"
+        android:hint="@string/login_text"
         android:inputType="text" />
 
     <TextView
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/login_input"
         android:gravity="center"
-        android:text="Password : "
+        android:text="@string/password_text"
         android:textSize="@dimen/text_size"
         android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/password_text"
-        android:hint="Password"
+        android:hint="@string/password_text"
         android:inputType="textVisiblePassword" />
 
     <CheckBox
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/password_input"
-        android:text="Remember me" />
+        android:text="@string/remember_text" />
 
     <Button
         android:id="@+id/submit_button"
@@ -58,5 +58,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/remember_checkbox"
-        android:text="Submit" />
+        android:text="@string/submit_text" />
 </RelativeLayout>

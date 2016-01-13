@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">EpiAndroid</string>
     <string name="welcome">Welcome on EpiAndroid</string>
+    <string name="login_text">Login :</string>
+    <string name="password_text">Password :</string>
+    <string name="remember_text">Remember me</string>
+    <string name="submit_text">Submit</string>
 </resources>
