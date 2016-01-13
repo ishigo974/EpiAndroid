@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">EpiAndroid</string>
-    <string name="welcome">"Welcome on EpiAndroid"</string>
+    <string name="welcome">Welcome on EpiAndroid</string>
 </resources>

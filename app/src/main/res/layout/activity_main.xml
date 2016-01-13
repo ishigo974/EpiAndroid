@@ -13,52 +13,50 @@
         android:id="@+id/login_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Login : "
-        android:textStyle="bold"
-        android:textSize="20sp"
         android:gravity="center"
-        />
+        android:text="Login : "
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold" />
+
     <EditText
         android:id="@+id/login_input"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Login"
-        android:inputType="text"
         android:layout_below="@id/login_text"
-        />
+        android:hint="Login"
+        android:inputType="text" />
+
     <TextView
         android:id="@+id/password_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Password : "
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:gravity="center"
         android:layout_below="@id/login_input"
-        />
+        android:gravity="center"
+        android:text="Password : "
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold" />
+
     <EditText
         android:id="@+id/password_input"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textVisiblePassword"
         android:layout_below="@id/password_text"
-        />
+        android:hint="Password"
+        android:inputType="textVisiblePassword" />
 
     <CheckBox
         android:id="@+id/remember_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remember me"
         android:layout_alignParentRight="true"
         android:layout_below="@id/password_input"
-        />
+        android:text="Remember me" />
+
     <Button
         android:id="@+id/submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
         android:layout_alignParentRight="true"
         android:layout_below="@id/remember_checkbox"
-        />
+        android:text="Submit" />
 </RelativeLayout>
