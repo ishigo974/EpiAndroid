@@ -31,17 +31,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         submit = (Button) findViewById(R.id.submit_button);
+    }
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ApiConnection apiConnection = new ApiConnection();
-                EditText login = (EditText) findViewById(R.id.login_input);
-                EditText password = (EditText) findViewById(R.id.password_input);
-                apiConnection.execute(login.getText().toString(), password.getText().toString());
-                submit.setEnabled(false);
-            }
-        });
+    public void sumbit_button_clicked(View view) {
+        ApiConnection apiConnection = new ApiConnection();
+        EditText login = (EditText) findViewById(R.id.login_input);
+        EditText password = (EditText) findViewById(R.id.password_input);
+        apiConnection.execute(login.getText().toString(), password.getText().toString());
+        submit.setEnabled(false);
     }
 
     private class ApiConnection extends AsyncTask<String, Integer, Integer> {
