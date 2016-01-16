@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/password_text"
         android:hint="@string/password_text"
-        android:inputType="textVisiblePassword" />
+        android:inputType="textPassword" />
 
     <CheckBox
         android:id="@+id/remember_checkbox"

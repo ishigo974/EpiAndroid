@@ -1,5 +1,6 @@
 package com.example.menigo_m.epiandroid;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
+    public final static String SUCCESS = "com.example.menigo_m.epiandroid.intent.SUCCESS";
     private Button submit = null;
 
     @Override
@@ -34,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ApiConnection apiConnection = new ApiConnection();
-                EditText login = (EditText)findViewById(R.id.login_input);
-                EditText password = (EditText)findViewById(R.id.password_input);
+                EditText login = (EditText) findViewById(R.id.login_input);
+                EditText password = (EditText) findViewById(R.id.password_input);
                 apiConnection.execute(login.getText().toString(), password.getText().toString());
+                submit.setEnabled(false);
             }
         });
     }
@@ -49,13 +52,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onProgressUpdate(Integer... values){
+        protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
         }
 
         @Override
-        protected Integer doInBackground(String... args)
-        {
+        protected Integer doInBackground(String... args) {
             String input = null;
 
             try {
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 writer.close();
                 os.close();
 
-                Log.d("Code reponse : ", Integer.toString(conn.getResponseCode()));
+                Log.d("Code response : ", Integer.toString(conn.getResponseCode()));
 
                 if (conn.getResponseCode() == 200) {
                     try {
@@ -105,10 +107,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            if (result == -1)
+            if (result == -1) {
                 Toast.makeText(getApplicationContext(), "Authentication error", Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(getApplicationContext(), "Authentication success", Toast.LENGTH_LONG).show();
+                submit.setEnabled(true);
+            } else {
+                Intent homeActivity = new Intent(MainActivity.this, HomeActivity.class);
+                homeActivity.putExtra(MainActivity.SUCCESS, "Authentication success");
+                startActivity(homeActivity);
+            }
         }
     }
 }
