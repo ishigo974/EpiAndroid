@@ -1,9 +1,11 @@
 package com.example.menigo_m.epiandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +26,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class MainActivity extends AppCompatActivity {
     public final static String SUCCESS = "com.example.menigo_m.epiandroid.intent.SUCCESS";
     private Button submit = null;
+    private String response = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Integer doInBackground(String... args) {
-            String input = null;
-
             try {
                 URL url = new URL("https://epitech-api.herokuapp.com/login");
                 HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
@@ -86,8 +87,12 @@ public class MainActivity extends AppCompatActivity {
                         BufferedReader br =
                                 new BufferedReader(
                                         new InputStreamReader(conn.getInputStream()));
-                        while ((input = br.readLine()) != null) {
-                            Log.d("res:", input);
+                        while ((response = br.readLine()) != null) {
+                            Log.d("res", response);
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("token", response);
+                            editor.apply();
                         }
                         br.close();
                         return (1);
