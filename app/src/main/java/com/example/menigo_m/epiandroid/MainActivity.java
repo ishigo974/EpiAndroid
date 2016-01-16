@@ -6,11 +6,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -23,10 +23,10 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends MyActivities {
     public final static String SUCCESS = "com.example.menigo_m.epiandroid.intent.SUCCESS";
     private Button submit = null;
-    private String response = null;
+    private ProgressBar loading_progress = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         submit = (Button) findViewById(R.id.submit_button);
+        loading_progress = (ProgressBar) findViewById(R.id.loading_progress);
     }
 
     public void submit_button_clicked(View view) {
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         EditText password = (EditText) findViewById(R.id.password_input);
         apiConnection.execute(login.getText().toString(), password.getText().toString());
         submit.setEnabled(false);
+        loading_progress.setVisibility(View.VISIBLE);
     }
 
     private class ApiConnection extends AsyncTask<String, Integer, Integer> {
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         BufferedReader br =
                                 new BufferedReader(
                                         new InputStreamReader(conn.getInputStream()));
+                        String response = null;
                         while ((response = br.readLine()) != null) {
                             Log.d("res", response);
                             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -112,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
             if (result == -1) {
                 Toast.makeText(getApplicationContext(), "Authentication error", Toast.LENGTH_LONG).show();
                 submit.setEnabled(true);
+                loading_progress.setVisibility(View.GONE);
             } else {
                 Intent homeActivity = new Intent(MainActivity.this, HomeActivity.class);
                 homeActivity.putExtra(MainActivity.SUCCESS, "Authentication success");
