@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         submit = (Button) findViewById(R.id.submit_button);
     }
 
-    public void sumbit_button_clicked(View view) {
+    public void submit_button_clicked(View view) {
         ApiConnection apiConnection = new ApiConnection();
         EditText login = (EditText) findViewById(R.id.login_input);
         EditText password = (EditText) findViewById(R.id.password_input);
