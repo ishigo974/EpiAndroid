@@ -36,7 +36,7 @@ public class LoginActivity extends MyActivities {
     public void submit_button_clicked(View view) {
         ApiRequest apiConnection = new ApiRequest();
         final EditText login = (EditText) findViewById(R.id.login_input);
-        EditText password = (EditText) findViewById(R.id.password_input);
+        final EditText password = (EditText) findViewById(R.id.password_input);
         Map<String, String> params = new HashMap<>();
         params.put("login", login.getText().toString());
         params.put("password", password.getText().toString());
@@ -59,10 +59,14 @@ public class LoginActivity extends MyActivities {
             @Override
             public void onError() {
                 Toast.makeText(getApplicationContext(), "Authentication error", Toast.LENGTH_LONG).show();
+                login.setEnabled(true);
+                password.setEnabled(true);
                 submit.setEnabled(true);
                 loading_progress.setVisibility(View.GONE);
             }
         });
+        login.setEnabled(false);
+        password.setEnabled(false);
         submit.setEnabled(false);
         loading_progress.setVisibility(View.VISIBLE);
     }
