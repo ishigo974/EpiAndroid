@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends MyActivities {
-    public final static String SUCCESS = "com.example.menigo_m.epiandroid.intent.SUCCESS";
     private ProgressBar loading_progress = null;
     private Button submit = null;
 
@@ -35,7 +34,7 @@ public class LoginActivity extends MyActivities {
 
     public void submit_button_clicked(View view) {
         ApiRequest apiConnection = new ApiRequest();
-        EditText login = (EditText) findViewById(R.id.login_input);
+        final EditText login = (EditText) findViewById(R.id.login_input);
         EditText password = (EditText) findViewById(R.id.password_input);
         Map<String, String> params = new HashMap<>();
         params.put("login", login.getText().toString());
@@ -47,12 +46,12 @@ public class LoginActivity extends MyActivities {
                 SharedPreferences.Editor editor = preferences.edit();
                 try {
                     editor.putString("token", response.getString("token"));
+                    editor.putString("login", login.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 editor.apply();
                 Intent homeActivity = new Intent(LoginActivity.this, HomeActivity.class);
-                homeActivity.putExtra(LoginActivity.SUCCESS, "Authentication success");
                 startActivity(homeActivity);
             }
 
