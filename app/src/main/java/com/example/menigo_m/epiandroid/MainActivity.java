@@ -2,14 +2,16 @@ package com.example.menigo_m.epiandroid;
 
 import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -32,10 +34,11 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends MyActivities {
     public final static String SUCCESS = "com.example.menigo_m.epiandroid.intent.SUCCESS";
+    private ProgressBar loading_progress = null;
+    private RequestQueue queue = null;
     private Button submit = null;
-    RequestQueue queue = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(getApplicationContext());
         submit = (Button) findViewById(R.id.submit_button);
+        loading_progress = (ProgressBar) findViewById(R.id.loading_progress);
     }
 
     public void submit_button_clicked(View view) {
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         params.put("password", password.getText().toString());
         apiConnection.doPost(params);
         submit.setEnabled(false);
+        loading_progress.setVisibility(View.VISIBLE);
     }
 
     private class ApiConnection {
@@ -79,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onErrorResponse(VolleyError error) {
                             Toast.makeText(getApplicationContext(), "Authentication error", Toast.LENGTH_LONG).show();
                             submit.setEnabled(true);
+                            loading_progress.setVisibility(View.GONE);
                         }
                     }
             ) {

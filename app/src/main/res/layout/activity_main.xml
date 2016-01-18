@@ -60,4 +60,11 @@
         android:layout_below="@id/remember_checkbox"
         android:text="@string/submit_text"
         android:onClick="submit_button_clicked" />
+
+    <ProgressBar
+        android:id="@+id/loading_progress"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@id/submit_button"/>
 </RelativeLayout>
