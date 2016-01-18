@@ -1,5 +1,6 @@
 package com.example.menigo_m.epiandroid;
 
+import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -11,6 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -18,18 +26,23 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
     public final static String SUCCESS = "com.example.menigo_m.epiandroid.intent.SUCCESS";
     private Button submit = null;
+    RequestQueue queue = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        queue = Volley.newRequestQueue(getApplicationContext());
         submit = (Button) findViewById(R.id.submit_button);
     }
 
@@ -37,81 +50,44 @@ public class MainActivity extends AppCompatActivity {
         ApiConnection apiConnection = new ApiConnection();
         EditText login = (EditText) findViewById(R.id.login_input);
         EditText password = (EditText) findViewById(R.id.password_input);
-        apiConnection.execute(login.getText().toString(), password.getText().toString());
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("login", login.getText().toString());
+        params.put("password", password.getText().toString());
+        apiConnection.doPost(params);
         submit.setEnabled(false);
     }
 
-    private class ApiConnection extends AsyncTask<String, Integer, Integer> {
+    private class ApiConnection {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+        private Map <String, String> params = null;
 
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
+        protected void doPost(Map <String, String> args) {
 
-        @Override
-        protected Integer doInBackground(String... args) {
-            String input = null;
-
-            try {
-                URL url = new URL("https://epitech-api.herokuapp.com/login");
-                HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("login", args[0])
-                        .appendQueryParameter("password", args[1]);
-                String query = builder.build().getEncodedQuery();
-
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-
-                Log.d("Code response : ", Integer.toString(conn.getResponseCode()));
-
-                if (conn.getResponseCode() == 200) {
-                    try {
-                        BufferedReader br =
-                                new BufferedReader(
-                                        new InputStreamReader(conn.getInputStream()));
-                        while ((input = br.readLine()) != null) {
-                            Log.d("res:", input);
+            params = args;
+            String url = "https://epitech-api.herokuapp.com/login";
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Intent homeActivity = new Intent(MainActivity.this, HomeActivity.class);
+                            homeActivity.putExtra(MainActivity.SUCCESS, "Authentication success");
+                            startActivity(homeActivity);
                         }
-                        br.close();
-                        return (1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), "Authentication error", Toast.LENGTH_LONG).show();
+                            submit.setEnabled(true);
+                        }
                     }
-                    conn.connect();
+            ) {
+                @Override
+                protected Map<String, String> getParams() {
+                    return params;
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return -1;
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            if (result == -1) {
-                Toast.makeText(getApplicationContext(), "Authentication error", Toast.LENGTH_LONG).show();
-                submit.setEnabled(true);
-            } else {
-                Intent homeActivity = new Intent(MainActivity.this, HomeActivity.class);
-                homeActivity.putExtra(MainActivity.SUCCESS, "Authentication success");
-                startActivity(homeActivity);
-            }
+            };
+            queue.add(postRequest);
         }
     }
 }
