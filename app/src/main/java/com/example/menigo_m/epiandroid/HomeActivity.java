@@ -14,10 +14,10 @@ public class HomeActivity extends MyActivities {
         setContentView(R.layout.activity_home);
 
         Intent i = getIntent();
-        String message = i.getStringExtra(MainActivity.SUCCESS);
+        String message = i.getStringExtra(LoginActivity.SUCCESS);
         if (!message.isEmpty())
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Toast.makeText(getApplicationContext(), preferences.getString("token", "0"), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), preferences.getString("token", "Token not found"), Toast.LENGTH_LONG).show();
     }
 }
