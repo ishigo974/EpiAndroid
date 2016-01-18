@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
@@ -40,7 +41,7 @@ public class LoginActivity extends MyActivities {
         Map<String, String> params = new HashMap<>();
         params.put("login", login.getText().toString());
         params.put("password", password.getText().toString());
-        apiConnection.doPost(params, "login", queue, new ApiRequest.INetworkCallback() {
+        apiConnection.doPost(params, "login", Request.Method.POST, queue, new ApiRequest.INetworkCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
