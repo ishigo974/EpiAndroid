@@ -13,6 +13,6 @@ public class HomeActivity extends MyActivities {
         setContentView(R.layout.activity_home);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         Toast.makeText(getApplicationContext(), preferences.getString("token", "Token not found"), Toast.LENGTH_LONG).show();
-        Toast.makeText(getApplicationContext(), preferences.getString("login", "Token not found"), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), preferences.getString("login", "Login not found"), Toast.LENGTH_LONG).show();
     }
 }
