@@ -44,20 +44,12 @@
         android:hint="@string/password_text"
         android:inputType="textPassword" />
 
-    <CheckBox
-        android:id="@+id/remember_checkbox"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/password_input"
-        android:text="@string/remember_text" />
-
-    <Button
-        android:id="@+id/submit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/remember_checkbox"
         android:text="@string/submit_text"
         android:onClick="submit_button_clicked" />
 
