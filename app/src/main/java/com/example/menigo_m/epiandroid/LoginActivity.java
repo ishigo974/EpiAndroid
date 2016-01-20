@@ -29,7 +29,7 @@ public class LoginActivity extends MyActivities {
         setContentView(R.layout.activity_login);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.contains("token")) {
+        if (preferences.contains(getString(R.string.token))) {
             Intent homeActivity = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(homeActivity);
             finish();
@@ -45,16 +45,16 @@ public class LoginActivity extends MyActivities {
         final EditText login = (EditText) findViewById(R.id.login_input);
         final EditText password = (EditText) findViewById(R.id.password_input);
         Map<String, String> params = new HashMap<>();
-        params.put("login", login.getText().toString());
-        params.put("password", password.getText().toString());
-        apiConnection.doPost(params, "login", Request.Method.POST, queue, new ApiRequest.INetworkCallback() {
+        params.put(getString(R.string.login), login.getText().toString());
+        params.put(getString(R.string.password), password.getText().toString());
+        apiConnection.doPost(params, getString(R.string.login), Request.Method.POST, queue, new ApiRequest.INetworkCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                 SharedPreferences.Editor editor = preferences.edit();
                 try {
-                    editor.putString("token", response.getString("token"));
-                    editor.putString("login", login.getText().toString());
+                    editor.putString(getString(R.string.token), response.getString(getString(R.string.token)));
+                    editor.putString(getString(R.string.login), login.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -66,7 +66,7 @@ public class LoginActivity extends MyActivities {
 
             @Override
             public void onError() {
-                Toast.makeText(getApplicationContext(), "Authentication error", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.auth_error, Toast.LENGTH_LONG).show();
                 login.setEnabled(true);
                 password.setEnabled(true);
                 submit.setEnabled(true);

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class HomeActivity extends MyActivities {
 
@@ -14,14 +13,17 @@ public class HomeActivity extends MyActivities {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Toast.makeText(getApplicationContext(), preferences.getString("token", "Token not found"), Toast.LENGTH_LONG).show();
-        Toast.makeText(getApplicationContext(), preferences.getString("login", "Login not found"), Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), preferences.getString(getString(R.string.token), getString(R.string.token_not_found)), Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), preferences.getString(getString(R.string.login), getString(R.string.login_not_found)), Toast.LENGTH_LONG).show();
 
         String[] menus = new String[]
                 {
-                        "Home",
-                        "Modules",
-                        "Projects"
+                        getString(R.string.home),
+                        getString(R.string.modules),
+                        getString(R.string.planning),
+                        getString(R.string.trombi),
+                        getString(R.string.activities),
+                        getString(R.string.projects)
                 };
 
         ListView listView = (ListView) findViewById(R.id.menu_elements);

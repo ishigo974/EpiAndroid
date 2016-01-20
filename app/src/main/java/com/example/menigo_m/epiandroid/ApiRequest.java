@@ -22,11 +22,10 @@ public class ApiRequest {
     }
 
     private Map<String, String> params = null;
-    private String url = "https://epitech-api.herokuapp.com/";
 
     protected void doPost(Map<String, String> args, String action, Integer method, RequestQueue queue, final INetworkCallback callback) {
         params = args;
-        StringRequest request = new StringRequest(method, url.concat(action),
+        StringRequest request = new StringRequest(method, String.valueOf(R.string.api_url).concat(action),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
