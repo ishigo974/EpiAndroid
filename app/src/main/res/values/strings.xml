@@ -20,5 +20,6 @@
     <string name="api_url">https://epitech-api.herokuapp.com/</string>
     <string name="password">password</string>
     <string name="auth_error">Authentication error</string>
+    <string name="logout">Logout</string>
 
 </resources>
