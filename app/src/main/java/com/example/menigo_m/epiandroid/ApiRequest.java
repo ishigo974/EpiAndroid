@@ -25,7 +25,7 @@ public class ApiRequest {
 
     protected void doPost(Map<String, String> args, String action, Integer method, RequestQueue queue, final INetworkCallback callback) {
         params = args;
-        StringRequest request = new StringRequest(method, String.valueOf(R.string.api_url).concat(action),
+        StringRequest request = new StringRequest(method, action,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

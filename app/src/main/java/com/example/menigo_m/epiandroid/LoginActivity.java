@@ -47,7 +47,7 @@ public class LoginActivity extends MyActivities {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.login), login.getText().toString());
         params.put(getString(R.string.password), password.getText().toString());
-        apiConnection.doPost(params, getString(R.string.api_url), Request.Method.POST, queue, new ApiRequest.INetworkCallback() {
+        apiConnection.doPost(params, getString(R.string.api_url).concat(getString(R.string.login)), Request.Method.POST, queue, new ApiRequest.INetworkCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
@@ -66,7 +66,7 @@ public class LoginActivity extends MyActivities {
 
             @Override
             public void onError() {
-                Toast.makeText(getApplicationContext(), R.string.auth_error, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.auth_error), Toast.LENGTH_LONG).show();
                 login.setEnabled(true);
                 password.setEnabled(true);
                 submit.setEnabled(true);
