@@ -3,20 +3,19 @@ package com.example.menigo_m.epiandroid;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class HomeActivity extends MyActivities {
 
     private Fragment[] fragments = new Fragment[] {
             new HomeFragment(),
-            new ModuleFragment()
+            new ModuleFragment(),
+            new LogoutFragment()
     };
 
     DrawerLayout drawer = null;
@@ -34,6 +33,7 @@ public class HomeActivity extends MyActivities {
         menus.add(getString(R.string.trombi));
         menus.add(getString(R.string.activities));
         menus.add(getString(R.string.projects));
+        menus.add(getString(R.string.logout));
 
         final ListView listView = (ListView) findViewById(R.id.menu_elements);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(HomeActivity.this, R.layout.my_list_item, menus);
