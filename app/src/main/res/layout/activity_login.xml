@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/login_text"
         android:hint="@string/login_text"
-        android:inputType="text" />
+        android:inputType="text"/>
 
     <TextView
         android:id="@+id/password_text"

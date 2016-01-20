@@ -12,9 +12,13 @@ import java.util.LinkedList;
 
 public class HomeActivity extends MyActivities {
 
-    private Fragment[] fragments = new Fragment[] {
+    private Fragment[] fragments = new Fragment[]{
             new HomeFragment(),
             new ModuleFragment(),
+            new PlanningFragment(),
+            new YearbookFragment(),
+            new ActivitiesFragment(),
+            new ProjectsFragment(),
             new LogoutFragment()
     };
 
@@ -41,7 +45,7 @@ public class HomeActivity extends MyActivities {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getFragmentManager().beginTransaction().replace(R.id.frame_layout, fragments[position % fragments.length]).commit();
+                getFragmentManager().beginTransaction().replace(R.id.frame_layout, fragments[position]).commit();
                 drawer.closeDrawer(listView);
             }
         });
