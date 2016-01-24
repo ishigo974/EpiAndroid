@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,13 +53,10 @@ public class ModuleFragment extends Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Success request", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onError() {
-                        Log.d("request", getString(R.string.api_url).concat(getString(R.string.modules_url)));
-                        Log.d("token", ((HomeActivity) getActivity()).getToken());
                         Toast.makeText(getActivity().getApplicationContext(), ((HomeActivity)getActivity()).getToken(), Toast.LENGTH_LONG).show();
                     }
                 });

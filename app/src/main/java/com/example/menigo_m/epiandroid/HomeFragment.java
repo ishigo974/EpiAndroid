@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -26,6 +28,11 @@ import java.util.Map;
  */
 public class HomeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
+    private TextView login_text = null;
+    private TextView city_promo = null;
+    private TextView credits = null;
+    private TextView gpa = null;
+    private TextView logTime = null;
 
     public HomeFragment() {
     }
@@ -39,15 +46,60 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
-        params.put("user", ((HomeActivity) getActivity()).getLogin());
+        params.put(getString(R.string.user), ((HomeActivity) getActivity()).getLogin());
         // TODO rajouter les éléments supplémentaires à envoyer pour /user, ajouter les requêtes /alerts et /messages
         ((MyActivities) getActivity()).getApiConnection().doPost(params,
-                getString(R.string.api_url).concat("user"),
+                getString(R.string.api_url).concat(getString(R.string.user_url)),
                 Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Success request", Toast.LENGTH_LONG).show();
+                        login_text = (TextView) getActivity().findViewById(R.id.login_home);
+                        city_promo = (TextView) getActivity().findViewById(R.id.cityPromo);
+                        credits = (TextView) getActivity().findViewById(R.id.credits);
+                        gpa = (TextView) getActivity().findViewById(R.id.gpa);
+                        logTime = (TextView) getActivity().findViewById(R.id.logTime);
+                        try {
+                            login_text.setText(response.getString(getString(R.string.login)));
+                            city_promo.setText("Epitech ");
+                            city_promo.append(response.getString("promo"));
+                            city_promo.append(" ");
+                            city_promo.append(response.getString("location"));
+
+                            credits.setText(response.getString("credits"));
+                            credits.append(" credits and ");
+                            credits.append(response.getJSONObject("spice").getString("available_spice"));
+                            credits.append(" spices");
+                            JSONObject gpaObj = (JSONObject) response.getJSONArray("gpa").get(0);
+                            gpa.setText("GPA : ");
+                            gpa.append(gpaObj.getString("gpa"));
+                            Double logs = Double.valueOf(response.getJSONObject("nsstat").getString("active"));
+                            Double minLog = Double.valueOf(response.getJSONObject("nsstat").getString("nslog_norm"));
+                            logTime.setText(logs.toString());
+                            logTime.append(" active hours. Minimum required : ");
+                            logTime.append(minLog.toString());
+                            if (logs < minLog)
+                                logTime.setTextColor(getResources().getColor(R.color.red));
+                            else
+                                logTime.setTextColor(getResources().getColor(R.color.darkGreen));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(getActivity().getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        ((MyActivities) getActivity()).getApiConnection().doPost(params,
+                getString(R.string.api_url).concat(getString(R.string.messages_url)),
+                Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
+                new ApiRequest.INetworkCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        // TODO afficher les notifications
                     }
 
                     @Override

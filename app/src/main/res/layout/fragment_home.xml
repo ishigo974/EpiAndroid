@@ -1,13 +1,69 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_fragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".HomeFragment">
 
-    <TextView
+    <ImageView
+        android:id="@+id/profilePicture"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/home" />
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside" />
+
+    <TextView
+        android:id="@+id/login_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profilePicture"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/cityPromo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_home"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/credits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cityPromo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/gpa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/credits"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/logTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gpa"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <View
+        android:id="@+id/split1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/logTime"
+        android:layout_marginTop="16dp"
+        android:background="#999999" />
+
+    <ListView
+        android:id="@+id/notif_element"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:clickable="false" />
 
 </RelativeLayout>

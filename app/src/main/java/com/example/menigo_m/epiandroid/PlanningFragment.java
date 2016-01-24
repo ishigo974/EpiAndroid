@@ -56,7 +56,6 @@ public class PlanningFragment extends Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Success request", Toast.LENGTH_LONG).show();
                     }
 
                     @Override

@@ -33,5 +33,7 @@
     <string name="network_error">A network error has occured. Retry later</string>
     <string name="user_url">user</string>
     <string name="event_url">event</string>
+    <string name="user">user</string>
+    <string name="messages_url">messages</string>
 
 </resources>
