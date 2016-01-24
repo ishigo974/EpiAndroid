@@ -41,7 +41,6 @@ public class LoginActivity extends MyActivities {
     }
 
     public void submit_button_clicked(View view) {
-        ApiRequest apiConnection = new ApiRequest();
         final EditText login = (EditText) findViewById(R.id.login_input);
         final EditText password = (EditText) findViewById(R.id.password_input);
         Map<String, String> params = new HashMap<>();

@@ -49,6 +49,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_below="@id/password_input"
         android:onClick="submit_button_clicked"
         android:text="@string/submit_text" />

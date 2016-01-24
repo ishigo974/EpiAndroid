@@ -7,6 +7,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -37,7 +45,25 @@ public class PlanningFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        Map<String, String> params = new HashMap<>();
+        params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
+        // TODO Rajouter Start date et end date par rapport à des formulaires de date
+//        params.put(getString(R.string.start), ((HomeActivity) getActivity()).getToken());
+//        params.put(getString(R.string.end), ((HomeActivity) getActivity()).getToken());
+        ((MyActivities) getActivity()).getApiConnection().doPost(params,
+                getString(R.string.api_url).concat(getString(R.string.planning_url)),
+                Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
+                new ApiRequest.INetworkCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Success request", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(getActivity().getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
+                    }
+                });
         return inflater.inflate(R.layout.fragment_planning, container, false);
     }
 

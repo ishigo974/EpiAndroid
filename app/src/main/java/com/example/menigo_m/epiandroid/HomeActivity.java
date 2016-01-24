@@ -1,16 +1,21 @@
 package com.example.menigo_m.epiandroid;
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.android.volley.RequestQueue;
+
 import java.util.LinkedList;
 
 public class HomeActivity extends MyActivities {
+    private ApiRequest apiConnection = new ApiRequest();
 
     private Fragment[] fragments = new Fragment[]{
             new HomeFragment(),
@@ -49,5 +54,14 @@ public class HomeActivity extends MyActivities {
                 drawer.closeDrawer(listView);
             }
         });
+    }
+
+    public String getToken() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+        return preferences.getString(getString(R.string.token), null);
+    }
+
+    public RequestQueue getQueue() {
+        return queue;
     }
 }

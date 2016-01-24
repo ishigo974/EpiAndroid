@@ -4,9 +4,18 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -28,8 +37,6 @@ public class ModuleFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment ModuleFragment.
      */
     public static ModuleFragment newInstance() {
@@ -39,6 +46,24 @@ public class ModuleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Map<String, String> params = new HashMap<>();
+        params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
+        ((MyActivities) getActivity()).getApiConnection().doPost(params,
+                getString(R.string.api_url).concat(getString(R.string.modules_url)),
+                Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
+                new ApiRequest.INetworkCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Success request", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.d("request", getString(R.string.api_url).concat(getString(R.string.modules_url)));
+                        Log.d("token", ((HomeActivity) getActivity()).getToken());
+                        Toast.makeText(getActivity().getApplicationContext(), ((HomeActivity)getActivity()).getToken(), Toast.LENGTH_LONG).show();
+                    }
+                });
         return inflater.inflate(R.layout.fragment_module, container, false);
     }
 

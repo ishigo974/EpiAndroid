@@ -13,16 +13,25 @@
     <string name="login_not_found">Login not found</string>
     <string name="home">Home</string>
     <string name="modules">Modules</string>
+    <string name="modules_url">modules</string>
     <string name="planning">Planning</string>
+    <string name="planning_url">planning</string>
     <string name="trombi">Yearbook</string>
+    <string name="trombi_url">trombi</string>
     <string name="activities">Activities</string>
     <string name="projects">Projects</string>
+    <string name="projects_url">projects</string>
     <string name="api_url">https://epitech-api.herokuapp.com/</string>
     <string name="password">password</string>
     <string name="auth_error">Authentication error</string>
     <string name="logout">Logout</string>
+    <string name="start">start</string>
+    <string name="end">end</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="network_error">A network error has occured. Retry later</string>
+    <string name="user_url">user</string>
+    <string name="event_url">event</string>
 
 </resources>

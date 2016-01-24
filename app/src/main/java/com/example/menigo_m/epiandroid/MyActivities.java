@@ -9,4 +9,9 @@ import com.android.volley.RequestQueue;
  */
 public abstract class MyActivities extends AppCompatActivity {
     static protected RequestQueue queue = null;
+    static protected ApiRequest apiConnection = new ApiRequest();
+
+    public ApiRequest getApiConnection() {
+        return apiConnection;
+    }
 }
