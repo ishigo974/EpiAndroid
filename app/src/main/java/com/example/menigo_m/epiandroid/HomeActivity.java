@@ -61,6 +61,11 @@ public class HomeActivity extends MyActivities {
         return preferences.getString(getString(R.string.token), null);
     }
 
+    public String getLogin() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+        return preferences.getString(getString(R.string.login), null);
+    }
+
     public RequestQueue getQueue() {
         return queue;
     }

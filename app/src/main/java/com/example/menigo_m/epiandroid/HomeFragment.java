@@ -39,6 +39,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
+        params.put("user", ((HomeActivity) getActivity()).getLogin());
         // TODO rajouter les éléments supplémentaires à envoyer pour /user, ajouter les requêtes /alerts et /messages
         ((MyActivities) getActivity()).getApiConnection().doPost(params,
                 getString(R.string.api_url).concat("user"),

@@ -1,5 +1,8 @@
 package com.example.menigo_m.epiandroid;
 
+import android.util.Log;
+
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -23,8 +26,27 @@ public class ApiRequest {
 
     private Map<String, String> params = null;
 
+    private String setGetParams(String action)
+    {
+        if (!params.isEmpty()) {
+            action = action.concat("?");
+            while (!params.isEmpty()) {
+                String tmp = (String) params.keySet().toArray()[0];
+                action = action.concat("&");
+                action = action.concat(tmp);
+                action = action.concat("=");
+                action = action.concat(params.get(tmp));
+                params.remove(tmp);
+            }
+        }
+        params = null;
+        return action;
+    }
+
     protected void doPost(Map<String, String> args, String action, Integer method, RequestQueue queue, final INetworkCallback callback) {
         params = args;
+        if (method == Request.Method.GET)
+            action = setGetParams(action);
         StringRequest request = new StringRequest(method, action,
                 new Response.Listener<String>() {
                     @Override
