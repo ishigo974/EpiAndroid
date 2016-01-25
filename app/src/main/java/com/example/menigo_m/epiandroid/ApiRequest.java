@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,7 +20,9 @@ import java.util.Map;
 public class ApiRequest {
 
     public interface INetworkCallback {
-        void onSuccess(JSONObject response);
+        void onSuccess(JSONObject response) throws JSONException;
+
+        void onSuccess(JSONArray response) throws JSONException;
 
         void onError();
     }
@@ -54,7 +57,11 @@ public class ApiRequest {
                         try {
                             callback.onSuccess(new JSONObject(response));
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            try {
+                                callback.onSuccess(new JSONArray(response));
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
                         }
                     }
                 },

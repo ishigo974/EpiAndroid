@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -61,6 +62,10 @@ public class LoginActivity extends MyActivities {
                 Intent homeActivity = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(homeActivity);
                 finish();
+            }
+
+            @Override
+            public void onSuccess(JSONArray response) throws JSONException {
             }
 
             @Override

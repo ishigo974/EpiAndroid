@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -56,6 +58,10 @@ public class PlanningFragment extends Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
+                    }
+
+                    @Override
+                    public void onSuccess(JSONArray response) throws JSONException {
                     }
 
                     @Override
