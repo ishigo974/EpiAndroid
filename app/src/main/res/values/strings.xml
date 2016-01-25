@@ -35,5 +35,6 @@
     <string name="event_url">event</string>
     <string name="user">user</string>
     <string name="messages_url">messages</string>
+    <string name="images_url">https://cdn.local.epitech.eu/userprofil/profilview/</string>
 
 </resources>

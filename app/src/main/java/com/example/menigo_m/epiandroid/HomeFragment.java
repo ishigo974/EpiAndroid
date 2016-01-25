@@ -56,6 +56,8 @@ public class HomeFragment extends Fragment {
     }
 
     public void displayUserInformation(JSONObject response) {
+        new ImageIntra((ImageView) getActivity().findViewById(R.id.profilePicture))
+                .execute(getActivity().getString(R.string.images_url).concat(((HomeActivity) getActivity()).getLogin()).concat(".jpg"));
         login_text = (TextView) getActivity().findViewById(R.id.login_home);
         city_promo = (TextView) getActivity().findViewById(R.id.cityPromo);
         credits = (TextView) getActivity().findViewById(R.id.credits);
@@ -102,9 +104,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // TODO rajouter les éléments supplémentaires à envoyer pour /user, ajouter les requêtes /alerts et /messages
-
-        new DownloadImageTask((ImageView) getActivity().findViewById(R.id.profilePicture))
-                .execute("http://cdn.local.epitech.eu/userprofil/profilview/lopes_n.jpg");
 
         ((MyActivities) getActivity()).getApiConnection().doPost(getParams(),
                 getString(R.string.api_url).concat(getString(R.string.user_url)),
@@ -175,43 +174,8 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
     }
 }
