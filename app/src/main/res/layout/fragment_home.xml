@@ -60,6 +60,7 @@
         android:background="#999999" />
 
     <ListView
+        android:layout_below="@id/split1"
         android:id="@+id/notif_element"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
