@@ -4,9 +4,12 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -15,7 +18,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 
@@ -30,7 +37,24 @@ import java.util.Map;
 public class PlanningFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    private Date date = new Date();
+
+    private void prevDay() {
+        date.setTime(date.getTime() - 86400000);
+    }
+
+    private void nextDay() {
+        date.setTime(date.getTime() + 86400000);
+    }
+
+    private String getDate() {
+        return dateFormat.format(date);
+    }
+
     public PlanningFragment() {
+
     }
 
     /**
@@ -49,9 +73,9 @@ public class PlanningFragment extends Fragment {
                              Bundle savedInstanceState) {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
-        // TODO Rajouter Start date et end date par rapport à des formulaires de date
-//        params.put(getString(R.string.start), ((HomeActivity) getActivity()).getToken());
-//        params.put(getString(R.string.end), ((HomeActivity) getActivity()).getToken());
+        params.put("start", getDate());
+        params.put("end", getDate());
+
         ((MyActivities) getActivity()).getApiConnection().doPost(params,
                 getString(R.string.api_url).concat(getString(R.string.planning_url)),
                 Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
@@ -62,6 +86,14 @@ public class PlanningFragment extends Fragment {
 
                     @Override
                     public void onSuccess(JSONArray response) throws JSONException {
+                        ((TextView) (getActivity().findViewById(R.id.date))).setText(getDate());
+                        LinkedList<JSONObject> objects = new LinkedList<>();
+                        for (int i = 0; i < response.length(); i++)
+                            if (response.getJSONObject(i).getString("module_registered").equals("true"))
+                                objects.add(response.getJSONObject(i));
+                        final ListView listView = (ListView) getActivity().findViewById(R.id.planning_element);
+                        PlanningAdapter adapter = new PlanningAdapter(getActivity(), objects);
+                        listView.setAdapter(adapter);
                     }
 
                     @Override
@@ -96,16 +128,6 @@ public class PlanningFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

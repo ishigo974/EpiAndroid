@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,7 +18,7 @@ import java.util.List;
  * Created by lopes_n on 1/25/16.
  */
 
-public class NotifAdapter extends BaseAdapter {
+public class PlanningAdapter extends BaseAdapter {
 
     private List<JSONObject> _list;
 
@@ -27,7 +26,7 @@ public class NotifAdapter extends BaseAdapter {
 
     private LayoutInflater _inflater;
 
-    public NotifAdapter(Context context, List<JSONObject> list) {
+    public PlanningAdapter(Context context, List<JSONObject> list) {
         _context = context;
         _list = list;
         _inflater = LayoutInflater.from(context);
@@ -49,21 +48,21 @@ public class NotifAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         RelativeLayout layoutItem;
         if (convertView == null) {
-            layoutItem = (RelativeLayout) _inflater.inflate(R.layout.my_notif_item, parent, false);
+            layoutItem = (RelativeLayout) _inflater.inflate(R.layout.my_planning_item, parent, false);
         } else {
             layoutItem = (RelativeLayout) convertView;
         }
 
-        TextView my_notif_title = (TextView)layoutItem.findViewById(R.id.my_notif_title);
-        TextView my_notif_content = (TextView)layoutItem.findViewById(R.id.my_notif_content);
-        TextView my_notif_user = (TextView)layoutItem.findViewById(R.id.my_notif_user);
-        TextView my_notif_time = (TextView)layoutItem.findViewById(R.id.my_notif_time);
+        TextView my_activity_title = (TextView)layoutItem.findViewById(R.id.my_activity_title);
 
         try {
-            my_notif_title.setText(Html.fromHtml(_list.get(position).getString("title")));
-            my_notif_content.setText(Html.fromHtml(_list.get(position).getString("content")));
-            my_notif_user.setText(Html.fromHtml(_list.get(position).getJSONObject("user").getString("title")));
-            my_notif_time.setText(Html.fromHtml(_list.get(position).getString("date")));
+            JSONObject room = _list.get(position).getJSONObject("room");
+            String content = _list.get(position).getString("titlemodule");
+            content = content.concat(" - ");
+            content = content.concat(_list.get(position).getString("acti_title"));
+            content = content.concat("|");
+            content = content.concat(room.getString("code"));
+            my_activity_title.setText(content);
 
         } catch (JSONException e) {
             e.printStackTrace();
