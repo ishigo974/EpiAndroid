@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.zip.Inflater;
+
+import static com.example.menigo_m.epiandroid.R.array.semester_array;
 
 
 /**
@@ -37,7 +42,11 @@ import java.util.Map;
 public class PlanningFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private DateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private DateFormat displayFormat = new SimpleDateFormat("EEEE yyyy-MM-dd");
+    private boolean registeredOnly = false;
+
+    private String semester = "Semester";
 
     private Date date = new Date();
 
@@ -49,12 +58,54 @@ public class PlanningFragment extends Fragment {
         date.setTime(date.getTime() + 86400000);
     }
 
-    private String getDate() {
+    private String getDate(DateFormat dateFormat) {
         return dateFormat.format(date);
     }
 
-    public PlanningFragment() {
+    private void changeRegistered() {
+        registeredOnly = !registeredOnly;
+        if (registeredOnly)
+            ((TextView) (getActivity().findViewById(R.id.registeredButton))).setText("All activities");
+        else
+            ((TextView) (getActivity().findViewById(R.id.registeredButton))).setText("Where i'm registered only");
+    }
 
+    public PlanningFragment() {
+    }
+
+    private void fillPlanning() {
+        Map<String, String> params = new HashMap<>();
+        params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
+        params.put("start", getDate(apiFormat));
+        params.put("end", getDate(apiFormat));
+
+        ((MyActivities) getActivity()).getApiConnection().doPost(params,
+                getString(R.string.api_url).concat(getString(R.string.planning_url)),
+                Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
+                new ApiRequest.INetworkCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                    }
+
+                    @Override
+                    public void onSuccess(JSONArray response) throws JSONException {
+                        ((TextView) (getActivity().findViewById(R.id.date))).setText(getDate(displayFormat));
+                        LinkedList<JSONObject> objects = new LinkedList<>();
+                        for (int i = 0; i < response.length(); i++)
+                            if (response.getJSONObject(i).getString("module_registered").equals("true") &&
+                                    (!registeredOnly || (registeredOnly && response.getJSONObject(i).getString("event_registered").equals("registered"))) &&
+                                    (semester.equals("Semester") || semester.equals(response.getJSONObject(i).getString("semester"))))
+                                objects.add(response.getJSONObject(i));
+                        final ListView listView = (ListView) getActivity().findViewById(R.id.planning_element);
+                        PlanningAdapter adapter = new PlanningAdapter(getActivity(), objects);
+                        listView.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(getActivity().getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     /**
@@ -71,37 +122,37 @@ public class PlanningFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Map<String, String> params = new HashMap<>();
-        params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
-        params.put("start", getDate());
-        params.put("end", getDate());
+        final View view = inflater.inflate(R.layout.fragment_planning, container, false);
+        fillPlanning();
+        ((Spinner)(view.findViewById(R.id.planets_spinner))).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                semester = getResources().getStringArray(R.array.semester_array)[position];
+                fillPlanning();
+            }
 
-        ((MyActivities) getActivity()).getApiConnection().doPost(params,
-                getString(R.string.api_url).concat(getString(R.string.planning_url)),
-                Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
-                new ApiRequest.INetworkCallback() {
-                    @Override
-                    public void onSuccess(JSONObject response) {
-                    }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                semester = "Semester";
+                fillPlanning();
+            }
+        });
+        return view;
+    }
 
-                    @Override
-                    public void onSuccess(JSONArray response) throws JSONException {
-                        ((TextView) (getActivity().findViewById(R.id.date))).setText(getDate());
-                        LinkedList<JSONObject> objects = new LinkedList<>();
-                        for (int i = 0; i < response.length(); i++)
-                            if (response.getJSONObject(i).getString("module_registered").equals("true"))
-                                objects.add(response.getJSONObject(i));
-                        final ListView listView = (ListView) getActivity().findViewById(R.id.planning_element);
-                        PlanningAdapter adapter = new PlanningAdapter(getActivity(), objects);
-                        listView.setAdapter(adapter);
-                    }
+    public void prev_button_clicked(View view) {
+        prevDay();
+        fillPlanning();
+    }
 
-                    @Override
-                    public void onError() {
-                        Toast.makeText(getActivity().getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
-                    }
-                });
-        return inflater.inflate(R.layout.fragment_planning, container, false);
+    public void next_button_clicked(View view) {
+        nextDay();
+        fillPlanning();
+    }
+
+    public void registered_button_clicked(View view) {
+        changeRegistered();
+        fillPlanning();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -24,6 +24,7 @@ public class HomeActivity extends MyActivities {
             new YearbookFragment(),
             new ActivitiesFragment(),
             new ProjectsFragment(),
+            new MarkFragment(),
             new LogoutFragment()
     };
 
@@ -42,6 +43,7 @@ public class HomeActivity extends MyActivities {
         menus.add(getString(R.string.trombi));
         menus.add(getString(R.string.activities));
         menus.add(getString(R.string.projects));
+        menus.add(getString(R.string.marks));
         menus.add(getString(R.string.logout));
 
         final ListView listView = (ListView) findViewById(R.id.menu_elements);
@@ -68,5 +70,17 @@ public class HomeActivity extends MyActivities {
 
     public RequestQueue getQueue() {
         return queue;
+    }
+
+    public void prev_button_clicked(View view) {
+        ((PlanningFragment) fragments[2]).prev_button_clicked(view);
+    }
+
+    public void next_button_clicked(View view) {
+        ((PlanningFragment) fragments[2]).next_button_clicked(view);
+    }
+
+    public void registered_button_clicked(View view) {
+        ((PlanningFragment) fragments[2]).registered_button_clicked(view);
     }
 }

@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="prev_button_clicked"
             android:text="Previous Day" />
 
         <Button
@@ -24,41 +25,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="next_button_clicked"
             android:text="Next day" />
     </LinearLayout>
+
+    <Spinner
+        android:id="@+id/planets_spinner"
+        android:layout_below="@id/day"
+        android:entries="@array/semester_array"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/registeredButton"
+        android:layout_below="@+id/planets_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="registered_button_clicked"
+        android:text="Where i'm registered only" />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/day"
+        android:layout_below="@id/registeredButton"
         android:layout_marginTop="10dp"
-        android:text="DATE DU JOUR"
-        android:textStyle="bold" />
-
-    // Répéter View et TextView qui suivent pour chaque activité
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/date"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/view"
-        android:layout_marginTop="10dp"
-        android:background="#999999" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view"
-        android:text="Heure - Heure : B6 - ACTIVITY | SALLE"
         android:textStyle="bold" />
 
     <ListView
-        android:layout_below="@id/view"
+        android:layout_below="@id/date"
         android:id="@+id/planning_element"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:layout_gravity="start"
         android:clickable="false" />
 
