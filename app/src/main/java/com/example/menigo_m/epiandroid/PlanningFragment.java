@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +22,8 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -41,6 +44,9 @@ public class PlanningFragment extends Fragment {
     private DateFormat displayFormat = new SimpleDateFormat("EEEE yyyy-MM-dd");
     private boolean registeredOnly = false;
     private String semester = "Semester";
+    private String year = "Year";
+    ArrayList<String> spinnerArray = new ArrayList<>();
+
     private Date date = new Date();
 
     private void prevDay() {
@@ -85,7 +91,8 @@ public class PlanningFragment extends Fragment {
                         for (int i = 0; i < response.length(); i++)
                             if (response.getJSONObject(i).getString("module_registered").equals("true") &&
                                     (!registeredOnly || (registeredOnly && response.getJSONObject(i).getString("event_registered").equals("registered"))) &&
-                                    (semester.equals("Semester") || semester.equals(response.getJSONObject(i).getString("semester"))))
+                                    (semester.equals("Semester") || semester.equals(response.getJSONObject(i).getString("semester"))) &&
+                                    (year.equals("Year") || year.equals(response.getJSONObject(i).getString("scolaryear"))))
                                 objects.add(response.getJSONObject(i));
                         final ListView listView = (ListView) getActivity().findViewById(R.id.planning_element);
                         PlanningAdapter adapter = new PlanningAdapter(getActivity(), objects);
@@ -114,8 +121,18 @@ public class PlanningFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_planning, container, false);
+
+
+        spinnerArray.add("Year");
+        for (int i = 1999; i <= Calendar.getInstance().get(Calendar.YEAR); i++)
+            spinnerArray.add(String.valueOf(i));
+        Spinner yearSpinner = ((Spinner) view.findViewById(R.id.yearSpinner));
+        yearSpinner.setAdapter(new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_dropdown_item,
+                spinnerArray));
+
         fillPlanning();
-        ((Spinner)(view.findViewById(R.id.planets_spinner))).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        ((Spinner)(view.findViewById(R.id.semestersSpinner))).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 semester = getResources().getStringArray(R.array.semester_array)[position];
@@ -125,6 +142,19 @@ public class PlanningFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 semester = "Semester";
+                fillPlanning();
+            }
+        });
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                year = spinnerArray.get(position);
+                fillPlanning();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                year = "Year";
                 fillPlanning();
             }
         });
