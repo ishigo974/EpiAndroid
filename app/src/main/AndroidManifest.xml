@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomeActivity" />
-        <activity android:name=".UserActivity"/>
+        <activity android:name=".UserActivity" />
+        <activity android:name=".ModuleActivity" />
     </application>
 
 </manifest>

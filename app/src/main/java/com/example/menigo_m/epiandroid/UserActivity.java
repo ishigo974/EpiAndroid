@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +68,7 @@ public class UserActivity extends MyActivities {
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), getToken());
-        params.put(getString(R.string.user), "lopes_n");
+        params.put(getString(R.string.user), "lopes_n"); // changer les trucs en dur
         return params;
     }
 
@@ -80,11 +77,9 @@ public class UserActivity extends MyActivities {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        queue = Volley.newRequestQueue(getApplicationContext());
-        Log.d("res", getParams().toString());
         getApiConnection().doPost(getParams(),
                 getString(R.string.api_url).concat(getString(R.string.user_url)),
-                Request.Method.GET, getQueue(),
+                Request.Method.GET, queue,
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
@@ -137,10 +132,6 @@ public class UserActivity extends MyActivities {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 getString(R.string.mailto_intent), mail, null));
         startActivity(Intent.createChooser(emailIntent, getString(R.string.send_email)));
-    }
-
-    public RequestQueue getQueue() {
-        return queue;
     }
 
     public void add_contact(View view) {
