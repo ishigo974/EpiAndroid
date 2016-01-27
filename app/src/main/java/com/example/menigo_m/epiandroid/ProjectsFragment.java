@@ -55,6 +55,7 @@ public class ProjectsFragment extends Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
+
                     }
 
                     @Override

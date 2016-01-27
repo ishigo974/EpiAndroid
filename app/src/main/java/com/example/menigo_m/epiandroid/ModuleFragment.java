@@ -32,7 +32,7 @@ import java.util.Map;
  */
 public class ModuleFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
-    private Spinner semestersSpinner;
+//    private Spinner semestersSpinner;
 
     public ModuleFragment() {
         // Required empty public constructor
