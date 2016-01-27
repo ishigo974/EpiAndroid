@@ -52,6 +52,7 @@
     <string name="single_module_url">module</string>
     <string name="description">DESCRIPTION</string>
     <string name="skills">SKILLS</string>
+    <string name="project_url">project</string>
 
 
     <string-array name="semester_array">

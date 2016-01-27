@@ -3,7 +3,6 @@ package com.example.menigo_m.epiandroid;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,61 +18,60 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ModuleActivity extends MyActivities {
-    private TextView name = null;
-    private TextView description = null;
-    private TextView skills = null;
-    private TextView credits = null;
-    private TextView semester = null;
+public class ProjectActivity extends MyActivities {
     private Button register_button = null;
     private Date today = new Date();
     private DateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd");
-    private boolean registered = false;
     private String scolaryear = null;
     private String codemodule = null;
     private String codeinstance = null;
+    private String codeacti = null;
+    private boolean registered = false;
 
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), getToken());
-        params.put("scolaryear", scolaryear); // changer les trucs en dur
-        params.put("codemodule", codemodule); // changer les trucs en dur
-        params.put("codeinstance", codeinstance); // changer les trucs en dur
+        params.put("scolaryear", scolaryear); //TODO changer les trucs en dur
+        params.put("codemodule", codemodule); //TODO changer les trucs en dur
+        params.put("codeinstance", codeinstance); //TODO changer les trucs en dur
+        params.put("codeacti", codeacti); //TODO changer les trucs en dur
         return params;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_module);
+        setContentView(R.layout.activity_event);
 
         scolaryear = "2015";
         codemodule = "G-EPI-050";
         codeinstance = "FR-0-1";
+        codeacti = "TOTO";
+        // TODO get registered par les extra
 
         display_informations();
     }
 
     private void display_informations() {
         getApiConnection().doPost(getParams(),
-                getString(R.string.api_url).concat(getString(R.string.single_module_url)),
+                getString(R.string.api_url).concat(getString(R.string.project_url)),
                 Request.Method.GET, queue,
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
-                        name = (TextView) findViewById(R.id.module_name);
-                        description = (TextView) findViewById(R.id.module_description);
-                        skills = (TextView) findViewById(R.id.module_skills);
-                        credits = (TextView) findViewById(R.id.module_credits);
-                        semester = (TextView) findViewById(R.id.module_semester);
-                        register_button = (Button) findViewById(R.id.register_button);
+//                        name = (TextView) findViewById(R.id.module_name);
+//                        description = (TextView) findViewById(R.id.module_description);
+//                        skills = (TextView) findViewById(R.id.module_skills);
+//                        credits = (TextView) findViewById(R.id.module_credits);
+//                        semester = (TextView) findViewById(R.id.module_semester);
+//                        register_button = (Button) findViewById(R.id.register_button);
 
                         try {
-                            name.setText(response.getString("title"));
-                            description.setText(response.getString("description"));
-                            skills.setText(response.getString("competence"));
-                            credits.setText("Credits : " + response.getString("credits"));
-                            semester.setText("Semester : " + response.getString("semester"));
+//                            name.setText(response.getString("title"));
+//                            description.setText(response.getString("description"));
+//                            skills.setText(response.getString("competence"));
+//                            credits.setText("Credits : " + response.getString("credits"));
+//                            semester.setText("Semester : " + response.getString("semester"));
                             Date end_date = null;
                             try {
                                 end_date = apiFormat.parse(response.getString("end_register"));
@@ -84,7 +82,7 @@ public class ModuleActivity extends MyActivities {
                                 if (end_date.before(today))
                                     register_button.setEnabled(false);
                             }
-                            if (registered) {
+                            if (response.getString("instance_registered").equals("1")) {
                                 register_button.setText("Unregister");
                                 registered = true;
                             } else {
@@ -114,7 +112,7 @@ public class ModuleActivity extends MyActivities {
         else
             method = Request.Method.POST;
         getApiConnection().doPost(getParams(),
-                getString(R.string.api_url).concat(getString(R.string.single_module_url)),
+                getString(R.string.api_url).concat(getString(R.string.project_url)),
                 method, queue,
                 new ApiRequest.INetworkCallback() {
                     @Override
