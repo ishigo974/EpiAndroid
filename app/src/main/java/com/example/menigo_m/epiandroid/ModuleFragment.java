@@ -59,12 +59,7 @@ public class ModuleFragment extends Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
-//                        semestersSpinner = (Spinner) getActivity().findViewById(R.id.semesterSpinner);
-//                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.semester_array, android.R.layout.simple_spinner_item);
-//                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                        semestersSpinner.setAdapter(adapter);
-
-                        JSONArray array = null;
+                        JSONArray array;
                         try {
                             array = new JSONArray(response.getString("modules"));
                             LinkedList<JSONObject> objects = new LinkedList<>();

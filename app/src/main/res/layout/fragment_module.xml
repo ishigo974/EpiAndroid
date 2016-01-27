@@ -5,29 +5,6 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:gravity="right"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--&lt;!&ndash;<EditText&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="200dp"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_marginTop="10dp" />&ndash;&gt;-->
-
-        <!--<Spinner-->
-            <!--android:id="@+id/semesterSpinner"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content" />-->
-
-    <!--</LinearLayout>-->
-
-    <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Search" />-->
-
     <ListView
         android:id="@+id/modulesList"
         android:layout_width="fill_parent"
