@@ -49,7 +49,7 @@
     <string name="add_contact">Add contact</string>
     <string name="send_email">Send email...</string>
     <string name="mailto_intent">mailto</string>
-    <string name="module_url">module</string>
+    <string name="single_module_url">module</string>
     <string name="description">DESCRIPTION</string>
     <string name="skills">SKILLS</string>
 
