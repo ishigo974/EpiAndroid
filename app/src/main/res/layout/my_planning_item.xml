@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/view"
         android:textStyle="bold" />
+
     <TextView
         android:id="@+id/my_activity_time"
         android:layout_width="wrap_content"

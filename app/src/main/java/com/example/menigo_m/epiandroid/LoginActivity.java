@@ -50,15 +50,12 @@ public class LoginActivity extends MyActivities {
         apiConnection.doPost(params, getString(R.string.api_url).concat(getString(R.string.login)), Request.Method.POST, queue, new ApiRequest.INetworkCallback() {
             @Override
             public void onSuccess(JSONObject response) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-                SharedPreferences.Editor editor = preferences.edit();
+                storeValue(getString(R.string.login), login.getText().toString());
                 try {
-                    editor.putString(getString(R.string.token), response.getString(getString(R.string.token)));
-                    editor.putString(getString(R.string.login), login.getText().toString());
+                    storeValue(getString(R.string.token), response.getString(getString(R.string.token)));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                editor.apply();
                 Intent homeActivity = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(homeActivity);
                 finish();

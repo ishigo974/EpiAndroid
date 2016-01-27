@@ -42,6 +42,12 @@
     <string name="prev_day">Previous Day</string>
     <string name="next_day">Next day</string>
     <string name="registered_activities">Where i\'m registered only</string>
+    <string name="photo">Photo</string>
+    <string name="call_user">Call him</string>
+    <string name="mail_user">Mail him</string>
+    <string name="add_contact">Add contact</string>
+    <string name="send_email">Send email...</string>
+    <string name="mailto_intent">mailto</string>
 
     <string-array name="semester_array">
         <item>Semester</item>
