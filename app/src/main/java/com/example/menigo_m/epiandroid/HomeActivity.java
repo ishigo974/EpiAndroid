@@ -20,7 +20,6 @@ public class HomeActivity extends MyActivities {
             new ModuleFragment(),
             new PlanningFragment(),
             new YearbookFragment(),
-            new ActivitiesFragment(),
             new ProjectsFragment(),
             new MarkFragment(),
             new LogoutFragment()
@@ -39,7 +38,6 @@ public class HomeActivity extends MyActivities {
         menus.add(getString(R.string.modules));
         menus.add(getString(R.string.planning));
         menus.add(getString(R.string.trombi));
-        menus.add(getString(R.string.activities));
         menus.add(getString(R.string.projects));
         menus.add(getString(R.string.marks));
         menus.add(getString(R.string.logout));
@@ -70,5 +68,9 @@ public class HomeActivity extends MyActivities {
 
     public void registered_button_clicked(View view) {
         ((PlanningFragment) fragments[2]).registered_button_clicked(view);
+    }
+
+    public void registered_module_clicked(View view) {
+        ((ModuleFragment) fragments[1]).registered_module_clicked(view);
     }
 }

@@ -34,4 +34,14 @@ public abstract class MyActivities extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         return preferences.getString(getString(R.string.login), null);
     }
+
+    public String getCourse() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString("course_code", null);
+    }
+
+    public String getLocation() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString("location", null);
+    }
 }

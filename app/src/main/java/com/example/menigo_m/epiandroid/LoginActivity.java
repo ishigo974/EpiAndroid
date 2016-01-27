@@ -56,6 +56,33 @@ public class LoginActivity extends MyActivities {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Map<String, String> params = new HashMap<>();
+                try {
+                    params.put(getString(R.string.token), response.getString(getString(R.string.token)));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                params.put("user", login.getText().toString());
+                apiConnection.doPost(params, getString(R.string.api_url).concat("user"), Request.Method.GET, queue, new ApiRequest.INetworkCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        try {
+                            storeValue("location", response.getString("location"));
+                            storeValue("course_code", response.getString("course_code"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(JSONArray response) throws JSONException {
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+                });
+
                 Intent homeActivity = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(homeActivity);
                 finish();
