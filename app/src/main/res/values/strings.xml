@@ -39,6 +39,9 @@
     <string name="mark_url">marks</string>
     <string name="marks">Marks</string>
     <string name="semesters">Semesters</string>
+    <string name="prev_day">Previous Day</string>
+    <string name="next_day">Next day</string>
+    <string name="registered_activities">Where i\'m registered only</string>
 
     <string-array name="semester_array">
         <item>Semester</item>

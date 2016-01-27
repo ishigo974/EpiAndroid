@@ -4,14 +4,12 @@
     android:layout_height="wrap_content"
     tools:context=".MarkFragment">
 
-
     <ListView
         android:id="@+id/mark_element"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
         android:layout_gravity="start"
-        android:clickable="false" />
-
+        android:clickable="false"
+        android:textStyle="bold" />
 
 </RelativeLayout>
