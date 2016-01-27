@@ -29,6 +29,7 @@ public class LoginActivity extends MyActivities {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        queue = Volley.newRequestQueue(getApplicationContext());
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (preferences.contains(getString(R.string.token))) {
             Intent homeActivity = new Intent(LoginActivity.this, HomeActivity.class);
@@ -36,7 +37,6 @@ public class LoginActivity extends MyActivities {
             finish();
         }
 
-        queue = Volley.newRequestQueue(getApplicationContext());
         submit = (Button) findViewById(R.id.submit_button);
         loading_progress = (ProgressBar) findViewById(R.id.loading_progress);
     }
