@@ -38,6 +38,7 @@ import java.util.Map;
  */
 public class ModuleFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
+//    private Spinner semestersSpinner;
 
     private boolean registeredOnly = false;
 

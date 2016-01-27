@@ -1,9 +1,7 @@
 package com.example.menigo_m.epiandroid;
 
 import android.app.Fragment;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
@@ -56,26 +54,6 @@ public class HomeActivity extends MyActivities {
                 drawer.closeDrawer(listView);
             }
         });
-    }
-
-    public String getToken() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-        return preferences.getString(getString(R.string.token), null);
-    }
-
-    public String getLogin() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-        return preferences.getString(getString(R.string.login), null);
-    }
-
-    public String getCourse() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-        return preferences.getString("course_code", null);
-    }
-
-    public String getLocation() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-        return preferences.getString("location", null);
     }
 
     public RequestQueue getQueue() {

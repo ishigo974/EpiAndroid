@@ -2,16 +2,11 @@ package com.example.menigo_m.epiandroid;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,13 +18,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -102,9 +92,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        // TODO rajouter les éléments supplémentaires à envoyer pour /user, ajouter les requêtes /alerts et /messages
-
         ((MyActivities) getActivity()).getApiConnection().doPost(getParams(),
                 getString(R.string.api_url).concat(getString(R.string.user_url)),
                 Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
@@ -122,7 +109,6 @@ public class HomeFragment extends Fragment {
 
                                     @Override
                                     public void onSuccess(JSONArray response) throws JSONException {
-                                        // TODO afficher les notifications
                                         LinkedList<JSONObject> objects = new LinkedList<>();
                                         for (int i = 0; i < response.length(); i++)
                                             objects.add(response.getJSONObject(i));

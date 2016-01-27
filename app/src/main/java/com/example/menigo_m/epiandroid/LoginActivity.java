@@ -50,45 +50,38 @@ public class LoginActivity extends MyActivities {
         apiConnection.doPost(params, getString(R.string.api_url).concat(getString(R.string.login)), Request.Method.POST, queue, new ApiRequest.INetworkCallback() {
             @Override
             public void onSuccess(JSONObject response) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-                SharedPreferences.Editor editor = preferences.edit();
+                storeValue(getString(R.string.login), login.getText().toString());
                 try {
-                    editor.putString(getString(R.string.token), response.getString(getString(R.string.token)));
-                    editor.putString(getString(R.string.login), login.getText().toString());
+                    storeValue(getString(R.string.token), response.getString(getString(R.string.token)));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                editor.apply();
-                    Map<String, String> params = new HashMap<>();
+                Map<String, String> params = new HashMap<>();
                 try {
                     params.put(getString(R.string.token), response.getString(getString(R.string.token)));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 params.put("user", login.getText().toString());
-                    apiConnection.doPost(params, getString(R.string.api_url).concat("user"), Request.Method.GET, queue, new ApiRequest.INetworkCallback() {
-                        @Override
-                        public void onSuccess(JSONObject response) {
-                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            try {
-                                editor.putString("location", response.getString("location"));
-                                editor.putString("course_code", response.getString("course_code"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            editor.putString(getString(R.string.login), login.getText().toString());
-                            editor.apply();
+                apiConnection.doPost(params, getString(R.string.api_url).concat("user"), Request.Method.GET, queue, new ApiRequest.INetworkCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        try {
+                            storeValue("location", response.getString("location"));
+                            storeValue("course_code", response.getString("course_code"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                    }
 
-                        @Override
-                        public void onSuccess(JSONArray response) throws JSONException {
-                        }
+                    @Override
+                    public void onSuccess(JSONArray response) throws JSONException {
+                    }
 
-                        @Override
-                        public void onError() {
-                        }
-                    });
+                    @Override
+                    public void onError() {
+                    }
+                });
 
                 Intent homeActivity = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(homeActivity);

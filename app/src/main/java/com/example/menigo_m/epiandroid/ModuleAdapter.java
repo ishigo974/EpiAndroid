@@ -30,14 +30,18 @@ public class ModuleAdapter extends BaseAdapter {
         _inflater = LayoutInflater.from(context);
     }
 
+
+    @Override
     public int getCount() {
         return _list.size();
     }
 
+    @Override
     public Object getItem(int position) {
         return _list.get(position);
     }
 
+    @Override
     public long getItemId(int position) {
         return position;
     }
@@ -63,5 +67,4 @@ public class ModuleAdapter extends BaseAdapter {
         }
         return layoutItem;
     }
-
 }
