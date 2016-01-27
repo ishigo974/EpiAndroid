@@ -1,7 +1,6 @@
 package com.example.menigo_m.epiandroid;
 
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,8 +21,6 @@ public class EventActivity extends MyActivities {
     private TextView name = null;
     private TextView description = null;
     private TextView module = null;
-    private Button register_button = null;
-    private Date today = new Date();
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private DateFormat displayDateFormat = new SimpleDateFormat("dd-MM-yyyy");
     private DateFormat displayHourFormat = new SimpleDateFormat("HH:mm:ss");
@@ -100,17 +97,6 @@ public class EventActivity extends MyActivities {
                                 description.append(" - " + getDate(displayHourFormat, end));
                                 description.append("\n" + getDate(displayDateFormat, begin));
                             }
-//                            if (begin_date != null) {
-//                                if (today.getTime() + 86400000 > begin_date.getTime())
-//                                    register_button.setEnabled(false);
-//                            }
-//                            if (response.getString("student_registered").equals("1")) {
-//                                register_button.setText("Unregister");
-//                                registered = true;
-//                            } else {
-//                                register_button.setText("Register");
-//                                registered = false;
-//                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -126,37 +112,4 @@ public class EventActivity extends MyActivities {
                     }
                 });
     }
-
-//    public void register_button_clicked(View view) {
-//        Integer method;
-//        if (registered)
-//            method = Request.Method.DELETE;
-//        else
-//            method = Request.Method.POST;
-//        getApiConnection().doPost(getParams(),
-//                getString(R.string.api_url).concat(getString(R.string.event_url)),
-//                method, queue,
-//                new ApiRequest.INetworkCallback() {
-//                    @Override
-//                    public void onSuccess(JSONObject response) {
-//                        if (registered) {
-//                            Toast.makeText(getApplicationContext(), "You have been successfully unsubscribed", Toast.LENGTH_SHORT).show();
-//                            register_button.setText("Register");
-//                        } else {
-//                            Toast.makeText(getApplicationContext(), "You have been successfully subscribed", Toast.LENGTH_SHORT).show();
-//                            register_button.setText("Unregister");
-//                        }
-//                        registered = !registered;
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(JSONArray response) throws JSONException {
-//                    }
-//
-//                    @Override
-//                    public void onError() {
-//                        Toast.makeText(getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//    }
 }
