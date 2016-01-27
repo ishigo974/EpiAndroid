@@ -3,8 +3,6 @@ package com.example.menigo_m.epiandroid;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +69,7 @@ public class MarkFragment extends android.app.Fragment {
 
                     @Override
                     public void onError() {
-                        Toast.makeText(getActivity().getApplicationContext(), ((HomeActivity) getActivity()).getToken(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.auth_error), Toast.LENGTH_LONG).show();
                     }
                 });
         return inflater.inflate(R.layout.fragment_mark, container, false);

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -16,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 
@@ -29,6 +32,7 @@ import java.util.Map;
  */
 public class ModuleFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
+    private Spinner semestersSpinner;
 
     public ModuleFragment() {
         // Required empty public constructor
@@ -55,6 +59,24 @@ public class ModuleFragment extends Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
+//                        semestersSpinner = (Spinner) getActivity().findViewById(R.id.semesterSpinner);
+//                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.semester_array, android.R.layout.simple_spinner_item);
+//                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                        semestersSpinner.setAdapter(adapter);
+
+                        JSONArray array = null;
+                        try {
+                            array = new JSONArray(response.getString("modules"));
+                            LinkedList<JSONObject> objects = new LinkedList<>();
+                            objects.add(new JSONObject("{title: \"Name\", grade: \"Grade\", credits : \"Credits\"}"));
+                            for (int i = 0; i < array.length(); i++)
+                                objects.add((JSONObject) array.get(i));
+                            final ListView listView = (ListView) getActivity().findViewById(R.id.modulesList);
+                            ModuleAdapter moduleAdapter = new ModuleAdapter(getActivity(), objects);
+                            listView.setAdapter(moduleAdapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
@@ -63,7 +85,7 @@ public class ModuleFragment extends Fragment {
 
                     @Override
                     public void onError() {
-                        Toast.makeText(getActivity().getApplicationContext(), ((HomeActivity)getActivity()).getToken(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.auth_error), Toast.LENGTH_LONG).show();
                     }
                 });
         return inflater.inflate(R.layout.fragment_module, container, false);
