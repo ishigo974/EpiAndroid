@@ -32,7 +32,7 @@ public class LoginActivity extends MyActivities {
         queue = Volley.newRequestQueue(getApplicationContext());
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (preferences.contains(getString(R.string.token))) {
-            Intent homeActivity = new Intent(LoginActivity.this, HomeActivity.class);
+            Intent homeActivity = new Intent(LoginActivity.this, ModuleActivity.class);
             startActivity(homeActivity);
             finish();
         }

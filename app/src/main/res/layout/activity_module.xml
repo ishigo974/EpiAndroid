@@ -66,10 +66,12 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/register_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="REGISTER / UNREGISTER" />
+            android:onClick="register_button_clicked"
+            android:text="Register" />
     </LinearLayout>
 
 </ScrollView>

@@ -1,7 +1,5 @@
 package com.example.menigo_m.epiandroid;
 
-import android.util.Log;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -48,7 +46,7 @@ public class ApiRequest {
 
     protected void doPost(Map<String, String> args, String action, Integer method, RequestQueue queue, final INetworkCallback callback) {
         params = args;
-        if (method == Request.Method.GET)
+        if (method == Request.Method.GET || method == Request.Method.DELETE)
             action = setGetParams(action);
         StringRequest request = new StringRequest(method, action,
                 new Response.Listener<String>() {

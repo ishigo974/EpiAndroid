@@ -13,7 +13,6 @@ import com.android.volley.RequestQueue;
 import java.util.LinkedList;
 
 public class HomeActivity extends MyActivities {
-    private ApiRequest apiConnection = new ApiRequest();
 
     private Fragment[] fragments = new Fragment[]{
             new HomeFragment(),

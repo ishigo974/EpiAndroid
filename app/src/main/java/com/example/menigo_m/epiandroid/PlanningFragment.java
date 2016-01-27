@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +25,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.zip.Inflater;
-
-import static com.example.menigo_m.epiandroid.R.array.semester_array;
 
 
 /**
@@ -41,23 +37,18 @@ import static com.example.menigo_m.epiandroid.R.array.semester_array;
  */
 public class PlanningFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
-
     private DateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd");
     private DateFormat displayFormat = new SimpleDateFormat("EEEE yyyy-MM-dd");
     private boolean registeredOnly = false;
-
     private String semester = "Semester";
-
     private Date date = new Date();
 
     private void prevDay() {
         date.setTime(date.getTime() - 86400000);
     }
-
     private void nextDay() {
         date.setTime(date.getTime() + 86400000);
     }
-
     private String getDate(DateFormat dateFormat) {
         return dateFormat.format(date);
     }
