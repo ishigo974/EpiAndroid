@@ -68,6 +68,16 @@ public class HomeActivity extends MyActivities {
         return preferences.getString(getString(R.string.login), null);
     }
 
+    public String getCourse() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+        return preferences.getString("course_code", null);
+    }
+
+    public String getLocation() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+        return preferences.getString("location", null);
+    }
+
     public RequestQueue getQueue() {
         return queue;
     }
@@ -82,5 +92,9 @@ public class HomeActivity extends MyActivities {
 
     public void registered_button_clicked(View view) {
         ((PlanningFragment) fragments[2]).registered_button_clicked(view);
+    }
+
+    public void registered_module_clicked(View view) {
+        ((ModuleFragment) fragments[1]).registered_module_clicked(view);
     }
 }

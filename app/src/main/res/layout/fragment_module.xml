@@ -1,12 +1,33 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.menigo_m.epiandroid.ModuleFragment">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <TextView
+    <Spinner
+        android:id="@+id/semestersSpinner"
+        android:entries="@array/semester_array"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/yearSpinner"
+        android:entries="@array/semester_array"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/registeredButton"
+        android:layout_below="@+id/semestersSpinner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/modules" />
+        android:layout_height="wrap_content"
+        android:onClick="registered_module_clicked"
+        android:text="Where i'm registered only" />
 
-</RelativeLayout>
+    <ListView
+        android:id="@+id/module_element"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

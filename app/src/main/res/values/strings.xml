@@ -39,6 +39,7 @@
     <string name="mark_url">marks</string>
     <string name="marks">Marks</string>
     <string name="semesters">Semesters</string>
+    <string name="module_url">allmodules</string>
 
     <string-array name="semester_array">
         <item>Semester</item>
