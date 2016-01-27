@@ -3,6 +3,7 @@ package com.example.menigo_m.epiandroid;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,10 +30,11 @@ public class UserActivity extends MyActivities {
     private TextView logTime = null;
     private String tel = null;
     private String mail = null;
+    private String name = null;
 
     public void displayUserInformation(JSONObject response, String login) {
         new ImageIntra((ImageView) findViewById(R.id.profilePicture))
-                .execute(getString(R.string.images_url).concat("ballot_g".concat(".jpg")));
+                .execute(getString(R.string.images_url).concat("lopes_n".concat(".jpg")));
         login_text = (TextView) findViewById(R.id.login_home);
         city_promo = (TextView) findViewById(R.id.cityPromo);
         credits = (TextView) findViewById(R.id.credits);
@@ -69,7 +71,7 @@ public class UserActivity extends MyActivities {
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), getToken());
-        params.put(getString(R.string.user), "ballot_g");
+        params.put(getString(R.string.user), "lopes_n");
         return params;
     }
 
@@ -91,6 +93,15 @@ public class UserActivity extends MyActivities {
                             tel = response.getJSONObject("userinfo").getJSONObject("telephone").getString("value");
                         } catch (JSONException e) {
                             tel = null;
+                        }
+                        try {
+                            String firstname = response.getString("firstname");
+                            firstname = Character.toUpperCase(firstname.charAt(0)) + firstname.substring(1);
+                            String lastname = response.getString("lastname");;
+                            lastname = Character.toUpperCase(lastname.charAt(0)) + lastname.substring(1);
+                            name = firstname + " " + lastname;
+                        } catch (JSONException e) {
+                            name = null;
                         }
                         try {
                             mail = response.getString("internal_email");
@@ -130,5 +141,17 @@ public class UserActivity extends MyActivities {
 
     public RequestQueue getQueue() {
         return queue;
+    }
+
+    public void add_contact(View view) {
+        Intent contactIntent = new Intent(Intent.ACTION_INSERT);
+        contactIntent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        if (name != null)
+            contactIntent.putExtra(ContactsContract.Intents.Insert.NAME, name);
+        if (tel != mail)
+            contactIntent.putExtra(ContactsContract.Intents.Insert.EMAIL, mail);
+        if (tel != null)
+            contactIntent.putExtra(ContactsContract.Intents.Insert.PHONE, tel);
+        startActivity(contactIntent);
     }
 }
