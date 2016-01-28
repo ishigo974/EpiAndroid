@@ -4,9 +4,14 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -15,7 +20,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 
@@ -30,6 +40,14 @@ import java.util.Map;
 public class ProjectsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
+    private String semester = "Semester";
+
+    private boolean progress = false;
+
+    private Date currentDate = new Date();
+
+    private DateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     public ProjectsFragment() {
     }
 
@@ -39,14 +57,28 @@ public class ProjectsFragment extends Fragment {
      *
      * @return A new instance of fragment ProjectsFragment.
      */
+
+    private boolean isProgress(JSONObject obj)
+    {
+        try {
+            if (currentDate.before(apiFormat.parse(obj.getString("end_acti").split(" ")[0])) &&
+                    currentDate.after(apiFormat.parse(obj.getString("begin_acti").split(" ")[0])))
+                return true;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     // TODO: Rename and change types and number of parameters
     public static ProjectsFragment newInstance() {
         return new ProjectsFragment();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    private void fillProjects() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
         ((MyActivities) getActivity()).getApiConnection().doPost(params,
@@ -55,11 +87,19 @@ public class ProjectsFragment extends Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
-
                     }
 
                     @Override
                     public void onSuccess(JSONArray response) throws JSONException {
+                        LinkedList<JSONObject> objects = new LinkedList<>();
+                        for (int i = 0; i < response.length(); i++)
+                                if (!response.getJSONObject(i).getString("project").equals("null") &&
+                                        ((semester.equals("Semester") || semester.equals(response.getJSONObject(i).getString("codeinstance").split("-")[1]))) &&
+                                        (!progress || isProgress(response.getJSONObject(i))))
+                                    objects.add(response.getJSONObject(i));
+                        final ListView listView = (ListView) getActivity().findViewById(R.id.projects_element);
+                        ProjectsAdapter adapter = new ProjectsAdapter(getActivity(), objects);
+                        listView.setAdapter(adapter);
                     }
 
                     @Override
@@ -67,7 +107,28 @@ public class ProjectsFragment extends Fragment {
                         Toast.makeText(getActivity().getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
                     }
                 });
-        return inflater.inflate(R.layout.fragment_projects, container, false);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_projects, container, false);
+
+        fillProjects();
+        ((Spinner)(view.findViewById(R.id.semestersSpinner))).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                semester = getResources().getStringArray(R.array.semester_array)[position];
+                fillProjects();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                semester = "Semester";
+                fillProjects();
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,6 +153,15 @@ public class ProjectsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void progress_button_clicked(View view) {
+        progress = !progress;
+        if (progress)
+            ((Button)getActivity().findViewById(R.id.progressButton)).setText("All projects");
+        else
+            ((Button)getActivity().findViewById(R.id.progressButton)).setText("In progress projects");
+        fillProjects();
     }
 
     /**

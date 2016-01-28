@@ -45,7 +45,7 @@
 
     <Button
         android:id="@+id/registeredButton"
-        android:layout_below="@+id/semestersSpinner"
+        android:layout_below="@+id/yearSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="registered_button_clicked"

@@ -2,6 +2,7 @@ package com.example.menigo_m.epiandroid;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,8 @@ import java.util.Map;
 public class ModuleFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 //    private Spinner semestersSpinner;
+
+    LinkedList<JSONObject> objects = new LinkedList<>();
 
     private boolean registeredOnly = false;
 
@@ -83,18 +86,27 @@ public class ModuleFragment extends Fragment {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
                         JSONArray jsonarray = response.getJSONArray("items");
-                        LinkedList<JSONObject> objects = new LinkedList<>();
+                        objects.clear();
                         for (int i = 0; i < jsonarray.length(); i++) {
                             try {
                                 if ((!registeredOnly || !jsonarray.getJSONObject(i).getString("status").equals("notregistered")) &&
                                         (semester.equals("Semester") || semester.equals(jsonarray.getJSONObject(i).getString("semester"))) &&
                                         (year.equals("Year") || year.equals(jsonarray.getJSONObject(i).getString("scolaryear"))))
                                     objects.add(jsonarray.getJSONObject(i));
-                            } catch (JSONException e) {}
+                            } catch (JSONException e) {
+                            }
                         }
                         final ListView listView = (ListView) getActivity().findViewById(R.id.module_element);
                         ModuleAdapter adapter = new ModuleAdapter(getActivity(), objects);
                         listView.setAdapter(adapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent moduleActivity = new Intent(getActivity(), ModuleActivity.class);
+                                moduleActivity.putExtra("object", objects.get(position).toString());
+                                getActivity().startActivity(moduleActivity);
+                            }
+                        });
                     }
 
                     @Override
@@ -173,16 +185,6 @@ public class ModuleFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

@@ -1,12 +1,30 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProjectsFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/projects" />
+    <Spinner
+        android:id="@+id/semestersSpinner"
+        android:entries="@array/semester_array"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/progressButton"
+        android:layout_below="@+id/semestersSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="progress_button_clicked"
+        android:text="In progress projects" />
+
+    <ListView
+        android:layout_below="@id/progressButton"
+        android:id="@+id/projects_element"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_gravity="start"
+        android:clickable="false" />
+
+</RelativeLayout>

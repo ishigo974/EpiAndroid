@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -20,7 +21,7 @@ public class ApiRequest {
     public interface INetworkCallback {
         void onSuccess(JSONObject response) throws JSONException;
 
-        void onSuccess(JSONArray response) throws JSONException;
+        void onSuccess(JSONArray response) throws JSONException, ParseException;
 
         void onError();
     }
@@ -58,6 +59,8 @@ public class ApiRequest {
                             try {
                                 callback.onSuccess(new JSONArray(response));
                             } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            } catch (ParseException e1) {
                                 e1.printStackTrace();
                             }
                         }

@@ -72,4 +72,8 @@ public class HomeActivity extends MyActivities {
     public void registered_module_clicked(View view) {
         ((ModuleFragment) fragments[1]).registered_module_clicked(view);
     }
+
+    public void progress_button_clicked(View view) {
+        ((ProjectsFragment) fragments[4]).progress_button_clicked(view);
+    }
 }

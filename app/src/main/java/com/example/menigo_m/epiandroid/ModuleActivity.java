@@ -1,6 +1,8 @@
 package com.example.menigo_m.epiandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -36,9 +38,9 @@ public class ModuleActivity extends MyActivities {
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), getToken());
-        params.put("scolaryear", scolaryear); // changer les trucs en dur
-        params.put("codemodule", codemodule); // changer les trucs en dur
-        params.put("codeinstance", codeinstance); // changer les trucs en dur
+        params.put("scolaryear", scolaryear);
+        params.put("codemodule", codemodule);
+        params.put("codeinstance", codeinstance);
         return params;
     }
 
@@ -47,10 +49,15 @@ public class ModuleActivity extends MyActivities {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_module);
 
-        scolaryear = "2015";
-        codemodule = "G-EPI-050";
-        codeinstance = "FR-0-1";
-
+        Intent intent = getIntent();
+        try {
+            JSONObject object = new JSONObject(intent.getStringExtra("object"));
+            scolaryear = object.getString("scolaryear");
+            codemodule = object.getString("code");
+            codeinstance = object.getString("codeinstance");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         display_informations();
     }
 
