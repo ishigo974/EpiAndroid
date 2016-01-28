@@ -59,6 +59,9 @@ public class NotifAdapter extends BaseAdapter {
         TextView my_notif_user = (TextView)layoutItem.findViewById(R.id.my_notif_user);
         TextView my_notif_time = (TextView)layoutItem.findViewById(R.id.my_notif_time);
 
+        if (my_notif_title == null || my_notif_content == null || my_notif_user == null || my_notif_time == null)
+            return layoutItem;
+
         try {
             my_notif_title.setText(Html.fromHtml(_list.get(position).getString("title")));
             my_notif_content.setText(Html.fromHtml(_list.get(position).getString("content")));

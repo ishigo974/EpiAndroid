@@ -59,6 +59,8 @@
     <string name="validate">Validate</string>
     <string name="status">Status</string>
     <string name="places">places</string>
+    <string name="my_module">modules</string>
+    <string name="grades">Grades</string>
 
 
     <string-array name="semester_array">

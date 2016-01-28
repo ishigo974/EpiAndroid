@@ -58,6 +58,9 @@ public class ModuleAdapter extends BaseAdapter {
         TextView module_name = (TextView)layoutItem.findViewById(R.id.module_name);
         TextView module_credits = (TextView)layoutItem.findViewById(R.id.module_credits);
 
+        if (module_credits == null || module_name == null)
+            return layoutItem;
+
         try {
             module_name.setText(_list.get(position).getString("title").concat(" - ").concat(_list.get(position).getString("code")));
             module_credits.setText(_list.get(position).getString("credits"));

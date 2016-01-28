@@ -21,6 +21,7 @@ public class HomeActivity extends MyActivities {
             new YearbookFragment(),
             new ProjectsFragment(),
             new MarkFragment(),
+            new GradeFragment(),
             new LogoutFragment()
     };
 
@@ -39,6 +40,7 @@ public class HomeActivity extends MyActivities {
         menus.add(getString(R.string.trombi));
         menus.add(getString(R.string.projects));
         menus.add(getString(R.string.marks));
+        menus.add(getString(R.string.grades));
         menus.add(getString(R.string.logout));
 
         final ListView listView = (ListView) findViewById(R.id.menu_elements);

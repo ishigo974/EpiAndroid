@@ -1,5 +1,6 @@
 package com.example.menigo_m.epiandroid;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
@@ -97,14 +98,20 @@ public class ProjectsFragment extends Fragment {
                                         ((semester.equals("Semester") || semester.equals(response.getJSONObject(i).getString("codeinstance").split("-")[1]))) &&
                                         (!progress || isProgress(response.getJSONObject(i))))
                                     objects.add(response.getJSONObject(i));
-                        final ListView listView = (ListView) getActivity().findViewById(R.id.projects_element);
-                        ProjectsAdapter adapter = new ProjectsAdapter(getActivity(), objects);
+                        Activity activity = getActivity();
+                        if (activity == null)
+                            return;
+                        final ListView listView = (ListView) activity.findViewById(R.id.projects_element);
+                        ProjectsAdapter adapter = new ProjectsAdapter(activity, objects);
                         listView.setAdapter(adapter);
                     }
 
                     @Override
                     public void onError() {
-                        Toast.makeText(getActivity().getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
+                        Activity activity = getActivity();
+                        if (activity == null)
+                            return;
+                        Toast.makeText(activity.getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
                     }
                 });
     }

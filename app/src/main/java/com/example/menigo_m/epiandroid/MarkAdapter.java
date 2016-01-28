@@ -55,6 +55,8 @@ public class MarkAdapter extends BaseAdapter {
         TextView my_mark_title = (TextView)layoutItem.findViewById(R.id.my_mark_title);
         TextView my_mark_date = (TextView)layoutItem.findViewById(R.id.my_mark_date);
 
+        if (my_mark_date == null || my_mark_final == null || my_mark_title == null)
+            return layoutItem;
 
         try {
             my_mark_final.setText(_list.get(position).getString("final_note"));

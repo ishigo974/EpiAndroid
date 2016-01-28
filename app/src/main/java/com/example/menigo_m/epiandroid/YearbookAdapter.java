@@ -59,6 +59,9 @@ public class YearbookAdapter extends BaseAdapter {
         TextView login = (TextView)layoutItem.findViewById(R.id.login);
         ImageView image = (ImageView)layoutItem.findViewById(R.id.profilePicture);
 
+        if (login == null || image == null)
+            return layoutItem;
+
         try {
             login.setText(_list.get(position).getString("login"));
             new ImageIntra(image).execute(_list.get(position).getString("picture"));

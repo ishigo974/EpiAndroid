@@ -1,5 +1,6 @@
 package com.example.menigo_m.epiandroid;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
@@ -98,10 +99,13 @@ public class HomeFragment extends Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
+                        Activity activity = getActivity();
+                        if (activity == null)
+                            return;
                         displayUserInformation(response);
-                        ((MyActivities) getActivity()).getApiConnection().doPost(getParams(),
+                        ((MyActivities) activity).getApiConnection().doPost(getParams(),
                                 getString(R.string.api_url).concat(getString(R.string.messages_url)),
-                                Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
+                                Request.Method.GET, ((HomeActivity) activity).getQueue(),
                                 new ApiRequest.INetworkCallback() {
                                     @Override
                                     public void onSuccess(JSONObject response) throws JSONException {
@@ -112,14 +116,20 @@ public class HomeFragment extends Fragment {
                                         LinkedList<JSONObject> objects = new LinkedList<>();
                                         for (int i = 0; i < response.length(); i++)
                                             objects.add(response.getJSONObject(i));
-                                        final ListView listView = (ListView) getActivity().findViewById(R.id.notif_element);
-                                        NotifAdapter adapter = new NotifAdapter(getActivity(), objects);
+                                        Activity activity = getActivity();
+                                        if (activity == null)
+                                            return;
+                                        final ListView listView = (ListView) activity.findViewById(R.id.notif_element);
+                                        NotifAdapter adapter = new NotifAdapter(activity, objects);
                                         listView.setAdapter(adapter);
                                     }
 
                                     @Override
                                     public void onError() {
-                                        Toast.makeText(getActivity().getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
+                                        Activity activity = getActivity();
+                                        if (activity == null)
+                                            return;
+                                        Toast.makeText(activity.getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
                                     }
                                 });
                     }
@@ -130,7 +140,10 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onError() {
-                        Toast.makeText(getActivity().getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
+                        Activity activity = getActivity();
+                        if (activity == null)
+                            return;
+                        Toast.makeText(activity.getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
                     }
                 });
         return inflater.inflate(R.layout.fragment_home, container, false);

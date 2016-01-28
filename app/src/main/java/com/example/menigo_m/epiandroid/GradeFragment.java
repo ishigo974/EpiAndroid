@@ -1,13 +1,20 @@
 package com.example.menigo_m.epiandroid;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -16,9 +23,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+
 
 /**
  * A simple {@link android.app.Fragment} subclass.
@@ -28,20 +38,14 @@ import java.util.Map;
  * Use the {@link ModuleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MarkFragment extends android.app.Fragment {
+public class GradeFragment extends android.app.Fragment {
     private OnFragmentInteractionListener mListener;
 
-    public MarkFragment() {
+    public GradeFragment() {
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment ModuleFragment.
-     */
-    public static MarkFragment newInstance() {
-        return new MarkFragment();
+    public static GradeFragment newInstance() {
+        return new GradeFragment();
     }
 
     @Override
@@ -50,20 +54,20 @@ public class MarkFragment extends android.app.Fragment {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
         ((MyActivities) getActivity()).getApiConnection().doPost(params,
-                getString(R.string.api_url).concat(getActivity().getString(R.string.mark_url)),
+                getString(R.string.api_url).concat(getActivity().getString(R.string.my_module)),
                 Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
-                        JSONArray jsonArray = response.getJSONArray("notes");
+                        JSONArray jsonarray = response.getJSONArray("modules");
                         LinkedList<JSONObject> objects = new LinkedList<>();
-                        for (int i = 0; i < jsonArray.length(); i++)
-                            objects.add(jsonArray.getJSONObject(i));
+                        for (int i = 0; i < jsonarray.length(); i++)
+                            objects.add(jsonarray.getJSONObject(i));
                         Activity activity = getActivity();
                         if (activity == null)
                             return;
-                        final ListView listView = (ListView) activity.findViewById(R.id.mark_element);
-                        MarkAdapter adapter = new MarkAdapter(activity, objects);
+                        final ListView listView = (ListView) activity.findViewById(R.id.grade_element);
+                        GradeAdapter adapter = new GradeAdapter(activity, objects);
                         listView.setAdapter(adapter);
                     }
 
@@ -76,10 +80,10 @@ public class MarkFragment extends android.app.Fragment {
                         Activity activity = getActivity();
                         if (activity == null)
                             return;
-                        Toast.makeText(activity.getApplicationContext(), getString(R.string.auth_error), Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity.getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
                     }
                 });
-        return inflater.inflate(R.layout.fragment_mark, container, false);
+        return inflater.inflate(R.layout.fragment_grade, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

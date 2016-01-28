@@ -1,5 +1,6 @@
 package com.example.menigo_m.epiandroid;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -77,19 +78,22 @@ public class YearbookFragment extends Fragment {
                         objects.clear();
                         for (int i = 0; i < jsonArray.length(); i++)
                             objects.add(jsonArray.getJSONObject(i));
-                        final ListView listView = (ListView) getActivity().findViewById(R.id.yearbook_element);
-                        YearbookAdapter adapter = new YearbookAdapter(getActivity(), objects);
+                        final Activity activity = getActivity();
+                        if (activity == null)
+                            return;
+                        final ListView listView = (ListView) activity.findViewById(R.id.yearbook_element);
+                        YearbookAdapter adapter = new YearbookAdapter(activity, objects);
                         listView.setAdapter(adapter);
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Intent userActivity = new Intent(getActivity(), UserActivity.class);
+                                Intent userActivity = new Intent(activity, UserActivity.class);
                                 userActivity.putExtra("object", objects.get(position).toString());
-                                getActivity().startActivity(userActivity);
+                                activity.startActivity(userActivity);
                             }
                         });
-                        getActivity().findViewById(R.id.prevButton).setEnabled(page > 0);
-                        getActivity().findViewById(R.id.nextButton).setEnabled((page + 1) * 48 < total);
+                        activity.findViewById(R.id.prevButton).setEnabled(page > 0);
+                        activity.findViewById(R.id.nextButton).setEnabled((page + 1) * 48 < total);
                     }
 
                     @Override
@@ -98,7 +102,10 @@ public class YearbookFragment extends Fragment {
 
                     @Override
                     public void onError() {
-                        Toast.makeText(getActivity().getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
+                        Activity activity = getActivity();
+                        if (activity == null)
+                            return;
+                        Toast.makeText(activity.getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
                     }
                 });
     }

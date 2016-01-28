@@ -57,6 +57,9 @@ public class ProjectsAdapter extends BaseAdapter {
 
         TextView project_name = (TextView)layoutItem.findViewById(R.id.project_name);
 
+        if (project_name == null)
+            return layoutItem;
+
         try {
             project_name.setText(_list.get(position).getString("project"));
 

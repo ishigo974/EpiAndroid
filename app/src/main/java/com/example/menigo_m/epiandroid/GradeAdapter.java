@@ -1,7 +1,6 @@
 package com.example.menigo_m.epiandroid;
 
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,9 @@ import org.json.JSONObject;
 import java.util.List;
 
 /**
- * Created by lopes_n on 1/25/16.
+ * Created by lopes_n on 1/28/16.
  */
-
-public class PlanningAdapter extends BaseAdapter {
+public class GradeAdapter extends BaseAdapter {
 
     private List<JSONObject> _list;
 
@@ -26,20 +24,24 @@ public class PlanningAdapter extends BaseAdapter {
 
     private LayoutInflater _inflater;
 
-    public PlanningAdapter(Context context, List<JSONObject> list) {
+    public GradeAdapter(Context context, List<JSONObject> list) {
         _context = context;
         _list = list;
         _inflater = LayoutInflater.from(context);
     }
 
+
+    @Override
     public int getCount() {
         return _list.size();
     }
 
+    @Override
     public Object getItem(int position) {
         return _list.get(position);
     }
 
+    @Override
     public long getItemId(int position) {
         return position;
     }
@@ -48,31 +50,24 @@ public class PlanningAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         RelativeLayout layoutItem;
         if (convertView == null) {
-            layoutItem = (RelativeLayout) _inflater.inflate(R.layout.my_planning_item, parent, false);
+            layoutItem = (RelativeLayout) _inflater.inflate(R.layout.my_grade_item, parent, false);
         } else {
             layoutItem = (RelativeLayout) convertView;
         }
 
-        TextView my_activity_title = (TextView)layoutItem.findViewById(R.id.my_activity_title);
-        TextView my_activity_time = (TextView)layoutItem.findViewById(R.id.my_activity_time);
+        TextView module_name = (TextView)layoutItem.findViewById(R.id.module_name);
+        TextView module_credits = (TextView)layoutItem.findViewById(R.id.module_grade);
 
-        if (my_activity_title == null || my_activity_time == null)
+        if (module_name == null || module_credits == null)
             return layoutItem;
 
         try {
-            JSONObject room = _list.get(position).getJSONObject("room");
-            String content = _list.get(position).getString("titlemodule");
-            content = content.concat(" - ");
-            content = content.concat(_list.get(position).getString("acti_title"));
-            content = content.concat("|");
-            content = content.concat(room.getString("code"));
-            my_activity_title.setText(content);
-            my_activity_time.setText(_list.get(position).getString("start").split(" ")[1]);
+            module_name.setText(_list.get(position).getString("title"));
+            module_credits.setText(_list.get(position).getString("grade"));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return layoutItem;
     }
-
 }

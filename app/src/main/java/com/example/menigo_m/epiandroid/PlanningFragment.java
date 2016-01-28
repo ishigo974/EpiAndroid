@@ -1,5 +1,6 @@
 package com.example.menigo_m.epiandroid;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
@@ -86,7 +87,10 @@ public class PlanningFragment extends Fragment {
 
                     @Override
                     public void onSuccess(JSONArray response) throws JSONException {
-                        ((TextView) (getActivity().findViewById(R.id.date))).setText(getDate(displayFormat));
+                        Activity activity = getActivity();
+                        if (activity == null)
+                            return;
+                        ((TextView) (activity.findViewById(R.id.date))).setText(getDate(displayFormat));
                         LinkedList<JSONObject> objects = new LinkedList<>();
                         for (int i = 0; i < response.length(); i++)
                             if (response.getJSONObject(i).getString("module_registered").equals("true") &&
@@ -94,14 +98,17 @@ public class PlanningFragment extends Fragment {
                                     (semester.equals("Semester") || semester.equals(response.getJSONObject(i).getString("semester"))) &&
                                     (year.equals("Year") || year.equals(response.getJSONObject(i).getString("scolaryear"))))
                                 objects.add(response.getJSONObject(i));
-                        final ListView listView = (ListView) getActivity().findViewById(R.id.planning_element);
-                        PlanningAdapter adapter = new PlanningAdapter(getActivity(), objects);
+                        final ListView listView = (ListView) activity.findViewById(R.id.planning_element);
+                        PlanningAdapter adapter = new PlanningAdapter(activity, objects);
                         listView.setAdapter(adapter);
                     }
 
                     @Override
                     public void onError() {
-                        Toast.makeText(getActivity().getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
+                        Activity activity = getActivity();
+                        if (activity == null)
+                            return;
+                        Toast.makeText(activity.getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
                     }
                 });
     }

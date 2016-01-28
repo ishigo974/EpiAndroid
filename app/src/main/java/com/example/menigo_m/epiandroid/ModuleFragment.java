@@ -1,5 +1,6 @@
 package com.example.menigo_m.epiandroid;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -96,15 +97,18 @@ public class ModuleFragment extends Fragment {
                             } catch (JSONException e) {
                             }
                         }
-                        final ListView listView = (ListView) getActivity().findViewById(R.id.module_element);
-                        ModuleAdapter adapter = new ModuleAdapter(getActivity(), objects);
+                        final Activity activity = getActivity();
+                        if (activity == null)
+                            return;
+                        final ListView listView = (ListView) activity.findViewById(R.id.module_element);
+                        ModuleAdapter adapter = new ModuleAdapter(activity, objects);
                         listView.setAdapter(adapter);
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Intent moduleActivity = new Intent(getActivity(), ModuleActivity.class);
+                                Intent moduleActivity = new Intent(activity, ModuleActivity.class);
                                 moduleActivity.putExtra("object", objects.get(position).toString());
-                                getActivity().startActivity(moduleActivity);
+                                activity.startActivity(moduleActivity);
                             }
                         });
                     }
@@ -115,7 +119,10 @@ public class ModuleFragment extends Fragment {
 
                     @Override
                     public void onError() {
-                        Toast.makeText(getActivity().getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
+                        Activity activity = getActivity();
+                        if (activity == null)
+                            return;
+                        Toast.makeText(activity.getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
                     }
                 });
     }
