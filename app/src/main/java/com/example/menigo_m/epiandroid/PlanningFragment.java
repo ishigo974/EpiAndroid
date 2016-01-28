@@ -3,6 +3,7 @@ package com.example.menigo_m.epiandroid;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -47,6 +48,7 @@ public class PlanningFragment extends Fragment {
     private String semester = "Semester";
     private String year = "Year";
     ArrayList<String> spinnerArray = new ArrayList<>();
+    LinkedList<JSONObject> objects = new LinkedList<>();
 
     private Date date = new Date();
 
@@ -87,11 +89,11 @@ public class PlanningFragment extends Fragment {
 
                     @Override
                     public void onSuccess(JSONArray response) throws JSONException {
-                        Activity activity = getActivity();
+                        final Activity activity = getActivity();
                         if (activity == null)
                             return;
                         ((TextView) (activity.findViewById(R.id.date))).setText(getDate(displayFormat));
-                        LinkedList<JSONObject> objects = new LinkedList<>();
+                        objects.clear();
                         for (int i = 0; i < response.length(); i++)
                             if (response.getJSONObject(i).getString("module_registered").equals("true") &&
                                     (!registeredOnly || (registeredOnly && response.getJSONObject(i).getString("event_registered").equals("registered"))) &&
@@ -101,6 +103,14 @@ public class PlanningFragment extends Fragment {
                         final ListView listView = (ListView) activity.findViewById(R.id.planning_element);
                         PlanningAdapter adapter = new PlanningAdapter(activity, objects);
                         listView.setAdapter(adapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent eventActivity = new Intent(activity, EventActivity.class);
+                                eventActivity.putExtra("object", objects.get(position).toString());
+                                activity.startActivity(eventActivity);
+                            }
+                        });
                     }
 
                     @Override

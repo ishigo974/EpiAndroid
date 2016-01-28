@@ -1,5 +1,6 @@
 package com.example.menigo_m.epiandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,11 +39,11 @@ public class EventActivity extends MyActivities {
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), getToken());
-        params.put("scolaryear", scolaryear); //TODO changer les trucs en dur
-        params.put("codemodule", codemodule); //TODO changer les trucs en dur
-        params.put("codeinstance", codeinstance); //TODO changer les trucs en dur
-        params.put("codeacti", codeacti); //TODO changer les trucs en dur
-        params.put("codeevent", codeevent); //TODO changer les trucs en dur
+        params.put("scolaryear", scolaryear);
+        params.put("codemodule", codemodule);
+        params.put("codeinstance", codeinstance);
+        params.put("codeacti", codeacti);
+        params.put("codeevent", codeevent);
         return params;
     }
 
@@ -51,13 +52,17 @@ public class EventActivity extends MyActivities {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        scolaryear = "2015";
-        codemodule = "G-EPI-007";
-        codeinstance = "PAR-0-1";
-        codeacti = "acti-192900";
-        codeevent = "event-206964";
-        // TODO get registered par les paramètres
-
+        Intent intent = getIntent();
+        try {
+            JSONObject object = new JSONObject(intent.getStringExtra("object"));
+            scolaryear = object.getString("scolaryear");
+            codemodule = object.getString("codemodule");
+            codeinstance = object.getString("codeinstance");
+            codeacti = object.getString("codeacti");
+            codeevent = object.getString("codeevent");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         display_informations();
     }
 
