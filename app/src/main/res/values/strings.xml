@@ -50,8 +50,15 @@
     <string name="send_email">Send email...</string>
     <string name="mailto_intent">mailto</string>
     <string name="single_module_url">module</string>
-    <string name="description">DESCRIPTION</string>
+    <string name="description">Description</string>
     <string name="skills">SKILLS</string>
+    <string name="project_url">project</string>
+    <string name="module">Module</string>
+    <string name="token_done">Token validated</string>
+    <string name="validate_token">Validate your token</string>
+    <string name="validate">Validate</string>
+    <string name="status">Status</string>
+    <string name="places">places</string>
 
 
     <string-array name="semester_array">
