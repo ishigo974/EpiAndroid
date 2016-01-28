@@ -12,18 +12,24 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".UserActivity" />
-        <activity android:name=".ModuleActivity" />
-        <activity android:name=".EventActivity" />
-        <activity android:name=".ProjectActivity" />
+        <activity android:name=".HomeActivity"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".UserActivity"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ModuleActivity"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".EventActivity"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ProjectActivity"
+            android:configChanges="orientation|screenSize"/>
     </application>
 
 </manifest>
