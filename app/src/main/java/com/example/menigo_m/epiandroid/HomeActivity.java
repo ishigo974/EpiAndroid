@@ -76,4 +76,12 @@ public class HomeActivity extends MyActivities {
     public void progress_button_clicked(View view) {
         ((ProjectsFragment) fragments[4]).progress_button_clicked(view);
     }
+
+    public void prev_trombi_clicked(View view) {
+        ((YearbookFragment) fragments[3]).prev_trombi_clicked(view);
+    }
+
+    public void next_trombi_clicked(View view) {
+        ((YearbookFragment) fragments[3]).next_trombi_clicked(view);
+    }
 }

@@ -9,8 +9,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        >
+        android:gravity="center" >
 
         <EditText
             android:layout_width="200dp"
@@ -21,41 +20,39 @@
             android:layout_marginLeft="50dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
-            />
+            android:text="Search" />
     </LinearLayout>
 
-    // A REPETER
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:background="#999999"/>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:clickable="true"
-        >
+        android:id="@+id/button"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
-        <ImageView
+        <Button
+            android:id="@+id/prevButton"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_menu_send"
-            android:id="@+id/profilePicture" />
-
-        <TextView
-            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:text="LOGIN"
-            />
+            android:layout_weight="1"
+            android:onClick="prev_trombi_clicked"
+            android:text="prev" />
 
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="next_trombi_clicked"
+            android:text="next" />
     </LinearLayout>
-    // FIN DE REPETITION
+
+    <ListView
+        android:id="@+id/yearbook_element"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_gravity="start" />
+
 </LinearLayout>

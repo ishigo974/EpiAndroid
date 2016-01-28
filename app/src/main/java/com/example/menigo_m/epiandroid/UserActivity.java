@@ -28,10 +28,11 @@ public class UserActivity extends MyActivities {
     private String tel = null;
     private String mail = null;
     private String name = null;
+    private String login = null;
 
     public void displayUserInformation(JSONObject response, String login) {
         new ImageIntra((ImageView) findViewById(R.id.profilePicture))
-                .execute(getString(R.string.images_url).concat("lopes_n".concat(".jpg")));
+                .execute(getString(R.string.images_url).concat(login.concat(".jpg")));
         login_text = (TextView) findViewById(R.id.login_home);
         city_promo = (TextView) findViewById(R.id.cityPromo);
         credits = (TextView) findViewById(R.id.credits);
@@ -68,7 +69,7 @@ public class UserActivity extends MyActivities {
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), getToken());
-        params.put(getString(R.string.user), "lopes_n"); // changer les trucs en dur
+        params.put(getString(R.string.user), login);
         return params;
     }
 
@@ -77,13 +78,21 @@ public class UserActivity extends MyActivities {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
+        Intent intent = getIntent();
+        try {
+            JSONObject object = new JSONObject(intent.getStringExtra("object"));
+            login = object.getString("login");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         getApiConnection().doPost(getParams(),
                 getString(R.string.api_url).concat(getString(R.string.user_url)),
                 Request.Method.GET, queue,
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
-                        displayUserInformation(response, "lopes_n");
+                        displayUserInformation(response, login);
                         try {
                             tel = response.getJSONObject("userinfo").getJSONObject("telephone").getString("value");
                         } catch (JSONException e) {
