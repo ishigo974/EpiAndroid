@@ -76,5 +76,21 @@
         <item>10</item>
     </string-array>
 
+    <string-array name="course_array">
+        <item>Course</item>
+        <item>bachelor/classic</item>
+        <item>bachelor/tek1ed</item>
+        <item>bachelor/tek2ed</item>
+        <item>bachelor/tek3s</item>
+    </string-array>
+
+    <string-array name="promo_array">
+        <item>Promo</item>
+        <item>tek1</item>
+        <item>tek2</item>
+        <item>tek3</item>
+        <item>tek4</item>
+        <item>tek5</item>
+    </string-array>
 
 </resources>

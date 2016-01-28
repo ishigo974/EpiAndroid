@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -38,6 +39,8 @@ public class YearbookFragment extends Fragment {
     LinkedList<JSONObject> objects = new LinkedList<>();
     private int total = 0;
     private int page = 0;
+    private String course = "Course";
+    private String promo = "Promo";
 
     public YearbookFragment() {
     }
@@ -59,6 +62,10 @@ public class YearbookFragment extends Fragment {
         params.put("year", "2014");
         params.put("location", ((HomeActivity) getActivity()).getLocation());
         params.put("offset", Integer.toString(page * 48));
+        if (!course.equals("Course"))
+            params.put("course", course);
+        if (!promo.equals("Promo"))
+            params.put("promo", promo);
         ((MyActivities) getActivity()).getApiConnection().doPost(params,
                 getString(R.string.api_url).concat(getString(R.string.trombi_url)),
                 Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
@@ -103,6 +110,32 @@ public class YearbookFragment extends Fragment {
         view.findViewById(R.id.prevButton).setEnabled(page > 0);
         view.findViewById(R.id.nextButton).setEnabled((page + 1) * 48 < total);
         fillYearbook();
+        ((Spinner)(view.findViewById(R.id.courseSpinner))).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                course = getResources().getStringArray(R.array.course_array)[position];
+                fillYearbook();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                course = "Course";
+                fillYearbook();
+            }
+        });
+        ((Spinner)(view.findViewById(R.id.promoSpinner))).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                promo = getResources().getStringArray(R.array.promo_array)[position];
+                fillYearbook();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                promo = "Promo";
+                fillYearbook();
+            }
+        });
         return view;
     }
 
