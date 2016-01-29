@@ -2,7 +2,6 @@ package com.example.menigo_m.epiandroid;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -55,6 +54,7 @@ public class ModuleActivity extends MyActivities {
             scolaryear = object.getString("scolaryear");
             codemodule = object.getString("code");
             codeinstance = object.getString("codeinstance");
+            registered = !object.getString("status").equals("notregistered");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -83,7 +83,9 @@ public class ModuleActivity extends MyActivities {
                             semester.setText("Semester : " + response.getString("semester"));
                             Date end_date = null;
                             try {
-                                end_date = apiFormat.parse(response.getString("end_register"));
+                                String date = response.getString("end_register");
+                                if (!date.equals("null"))
+                                    end_date = apiFormat.parse(date);
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -93,10 +95,8 @@ public class ModuleActivity extends MyActivities {
                             }
                             if (registered) {
                                 register_button.setText("Unregister");
-                                registered = true;
                             } else {
                                 register_button.setText("Register");
-                                registered = false;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
