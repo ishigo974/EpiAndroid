@@ -1,6 +1,8 @@
 package com.example.menigo_m.epiandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -31,10 +33,10 @@ public class ProjectActivity extends MyActivities {
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), getToken());
-        params.put("scolaryear", scolaryear); //TODO changer les trucs en dur
-        params.put("codemodule", codemodule); //TODO changer les trucs en dur
-        params.put("codeinstance", codeinstance); //TODO changer les trucs en dur
-        params.put("codeacti", codeacti); //TODO changer les trucs en dur
+        params.put("scolaryear", scolaryear);
+        params.put("codemodule", codemodule);
+        params.put("codeinstance", codeinstance);
+        params.put("codeacti", codeacti);
         return params;
     }
 
@@ -42,13 +44,17 @@ public class ProjectActivity extends MyActivities {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
-
-        scolaryear = "2015";
-        codemodule = "G-EPI-050";
-        codeinstance = "FR-0-1";
-        codeacti = "TOTO";
-        // TODO get registered par les extra
-
+        
+        Intent intent = getIntent();
+        try {
+            JSONObject object = new JSONObject(intent.getStringExtra("object"));
+            scolaryear = object.getString("scolaryear");
+            codemodule = object.getString("codemodule");
+            codeinstance = object.getString("codeinstance");
+            codeacti = object.getString("codeacti");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         display_informations();
     }
 
@@ -66,32 +72,32 @@ public class ProjectActivity extends MyActivities {
 //                        semester = (TextView) findViewById(R.id.module_semester);
 //                        register_button = (Button) findViewById(R.id.register_button);
 
-                        try {
-//                            name.setText(response.getString("title"));
-//                            description.setText(response.getString("description"));
-//                            skills.setText(response.getString("competence"));
-//                            credits.setText("Credits : " + response.getString("credits"));
-//                            semester.setText("Semester : " + response.getString("semester"));
-                            Date end_date = null;
-                            try {
-                                end_date = apiFormat.parse(response.getString("end_register"));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            if (end_date != null) {
-                                if (end_date.before(today))
-                                    register_button.setEnabled(false);
-                            }
-                            if (response.getString("instance_registered").equals("1")) {
-                                register_button.setText("Unregister");
-                                registered = true;
-                            } else {
-                                register_button.setText("Register");
-                                registered = false;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+//                        try {
+////                            name.setText(response.getString("title"));
+////                            description.setText(response.getString("description"));
+////                            skills.setText(response.getString("competence"));
+////                            credits.setText("Credits : " + response.getString("credits"));
+////                            semester.setText("Semester : " + response.getString("semester"));
+//                            Date end_date = null;
+//                            try {
+//                                end_date = apiFormat.parse(response.getString("end_register"));
+//                            } catch (ParseException e) {
+//                                e.printStackTrace();
+//                            }
+//                            if (end_date != null) {
+//                                if (end_date.before(today))
+//                                    register_button.setEnabled(false);
+//                            }
+//                            if (response.getString("instance_registered").equals("1")) {
+//                                register_button.setText("Unregister");
+//                                registered = true;
+//                            } else {
+//                                register_button.setText("Register");
+//                                registered = false;
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
                     }
 
                     @Override

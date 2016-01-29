@@ -3,6 +3,7 @@ package com.example.menigo_m.epiandroid;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +41,8 @@ import java.util.Map;
  */
 public class ProjectsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
+
+    LinkedList<JSONObject> objects = new LinkedList<>();
 
     private String semester = "Semester";
 
@@ -92,18 +95,26 @@ public class ProjectsFragment extends Fragment {
 
                     @Override
                     public void onSuccess(JSONArray response) throws JSONException {
-                        LinkedList<JSONObject> objects = new LinkedList<>();
+                        objects.clear();
                         for (int i = 0; i < response.length(); i++)
                                 if (!response.getJSONObject(i).getString("project").equals("null") &&
                                         ((semester.equals("Semester") || semester.equals(response.getJSONObject(i).getString("codeinstance").split("-")[1]))) &&
                                         (!progress || isProgress(response.getJSONObject(i))))
                                     objects.add(response.getJSONObject(i));
-                        Activity activity = getActivity();
+                        final Activity activity = getActivity();
                         if (activity == null)
                             return;
                         final ListView listView = (ListView) activity.findViewById(R.id.projects_element);
                         ProjectsAdapter adapter = new ProjectsAdapter(activity, objects);
                         listView.setAdapter(adapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent projectActivity = new Intent(activity, ProjectActivity.class);
+                                projectActivity.putExtra("object", objects.get(position).toString());
+                                activity.startActivity(projectActivity);
+                            }
+                        });
                     }
 
                     @Override
