@@ -65,8 +65,7 @@ public class ModuleAdapter extends BaseAdapter {
             module_name.setText(_list.get(position).getString("title").concat(" - ").concat(_list.get(position).getString("code")));
             module_credits.setText(_list.get(position).getString("credits"));
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
         return layoutItem;
     }

@@ -61,8 +61,7 @@ public class UserActivity extends MyActivities {
                 logTime.setTextColor(getResources().getColor(R.color.red));
             else
                 logTime.setTextColor(getResources().getColor(R.color.darkGreen));
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
     }
 
@@ -82,8 +81,7 @@ public class UserActivity extends MyActivities {
         try {
             JSONObject object = new JSONObject(intent.getStringExtra("object"));
             login = object.getString("login");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
 
         getApiConnection().doPost(getParams(),

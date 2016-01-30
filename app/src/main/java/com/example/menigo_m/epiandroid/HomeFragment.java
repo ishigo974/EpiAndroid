@@ -77,8 +77,7 @@ public class HomeFragment extends Fragment {
                 logTime.setTextColor(getResources().getColor(R.color.red));
             else
                 logTime.setTextColor(getResources().getColor(R.color.darkGreen));
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
     }
 

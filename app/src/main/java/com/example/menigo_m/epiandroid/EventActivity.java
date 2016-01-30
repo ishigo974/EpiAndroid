@@ -62,8 +62,7 @@ public class EventActivity extends MyActivities {
             codeinstance = object.getString("codeinstance");
             codeacti = object.getString("codeacti");
             codeevent = object.getString("codeevent");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
         display_informations();
     }
@@ -85,8 +84,7 @@ public class EventActivity extends MyActivities {
                                 String desc = response.getString("acti_description");
                                 if (!desc.equals("null"))
                                     description.setText(desc);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            } catch (JSONException ignored) {
                             }
                             description.append(response.getJSONObject("room").getString("code"));
                             module.setText(response.getString("module_title"));
@@ -96,16 +94,14 @@ public class EventActivity extends MyActivities {
                             try {
                                 begin = dateFormat.parse(response.getString("start"));
                                 end = dateFormat.parse(response.getString("end"));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                            } catch (ParseException ignored) {
                             }
                             if (begin != null && end != null) {
                                 description.append("\n" + getDate(displayHourFormat, begin));
                                 description.append(" - " + getDate(displayHourFormat, end));
                                 description.append("\n" + getDate(displayDateFormat, begin));
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (JSONException ignored) {
                         }
                     }
 

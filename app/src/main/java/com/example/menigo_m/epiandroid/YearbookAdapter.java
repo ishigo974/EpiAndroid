@@ -66,8 +66,7 @@ public class YearbookAdapter extends BaseAdapter {
             login.setText(_list.get(position).getString("login"));
             new ImageIntra(image).execute(_list.get(position).getString("picture"));
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
         return layoutItem;
     }

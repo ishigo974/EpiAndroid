@@ -68,10 +68,7 @@ public class ProjectsFragment extends Fragment {
                     currentDate.after(apiFormat.parse(obj.getString("begin_acti").split(" ")[0])))
                 return true;
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (ParseException | JSONException ignored) {
         }
         return false;
     }

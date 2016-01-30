@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -68,8 +67,7 @@ public class NotifAdapter extends BaseAdapter {
             my_notif_user.setText(Html.fromHtml(_list.get(position).getJSONObject("user").getString("title")));
             my_notif_time.setText(Html.fromHtml(_list.get(position).getString("date")));
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
         return layoutItem;
     }

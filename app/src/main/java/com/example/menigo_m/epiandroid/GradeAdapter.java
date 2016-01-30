@@ -65,8 +65,7 @@ public class GradeAdapter extends BaseAdapter {
             module_name.setText(_list.get(position).getString("title"));
             module_credits.setText(_list.get(position).getString("grade"));
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
         return layoutItem;
     }

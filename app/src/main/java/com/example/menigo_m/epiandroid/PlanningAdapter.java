@@ -1,7 +1,6 @@
 package com.example.menigo_m.epiandroid;
 
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,8 +68,7 @@ public class PlanningAdapter extends BaseAdapter {
             my_activity_title.setText(content);
             my_activity_time.setText(_list.get(position).getString("start").split(" ")[1]);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
         return layoutItem;
     }

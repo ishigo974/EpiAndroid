@@ -66,8 +66,7 @@ public class ProjectActivity extends MyActivities {
             codeinstance = object.getString("codeinstance");
             codeacti = object.getString("codeacti");
             registered = object.getInt("registered") == 1;
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
         display_informations();
     }
@@ -113,8 +112,7 @@ public class ProjectActivity extends MyActivities {
                             }
                             begin.setText(getDate(displayFormat, begin_date));
                             end.setText(getDate(displayEndFormat, end_date));
-                        } catch (JSONException | ParseException e) {
-                            e.printStackTrace();
+                        } catch (JSONException | ParseException ignored) {
                         }
                     }
 

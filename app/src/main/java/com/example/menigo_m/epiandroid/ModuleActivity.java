@@ -55,8 +55,7 @@ public class ModuleActivity extends MyActivities {
             codemodule = object.getString("code");
             codeinstance = object.getString("codeinstance");
             registered = !object.getString("status").equals("notregistered");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
         display_informations();
     }
@@ -86,8 +85,7 @@ public class ModuleActivity extends MyActivities {
                                 String date = response.getString("end_register");
                                 if (!date.equals("null"))
                                     end_date = apiFormat.parse(date);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                            } catch (ParseException ignored) {
                             }
                             if (end_date != null) {
                                 if (end_date.before(today))
@@ -98,8 +96,7 @@ public class ModuleActivity extends MyActivities {
                             } else {
                                 register_button.setText("Register");
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (JSONException ignored) {
                         }
                     }
 
