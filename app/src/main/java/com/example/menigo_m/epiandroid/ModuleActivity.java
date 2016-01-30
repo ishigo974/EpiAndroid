@@ -55,6 +55,10 @@ public class ModuleActivity extends MyActivities {
             scolaryear = object.getString("scolaryear");
             codemodule = object.getString("code");
             codeinstance = object.getString("codeinstance");
+            if (object.getString("status").equals("notregistered"))
+                registered = false;
+            else
+                registered = true;
         } catch (JSONException e) {
             e.printStackTrace();
         }

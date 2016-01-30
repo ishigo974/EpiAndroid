@@ -44,7 +44,7 @@ public class ProjectActivity extends MyActivities {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
-        
+
         Intent intent = getIntent();
         try {
             JSONObject object = new JSONObject(intent.getStringExtra("object"));
