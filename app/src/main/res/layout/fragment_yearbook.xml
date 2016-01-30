@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="prev_trombi_clicked"
-            android:text="prev" />
+            android:text="@string/prev" />
 
         <Button
             android:id="@+id/nextButton"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="next_trombi_clicked"
-            android:text="next" />
+            android:text="@string/next" />
     </LinearLayout>
 
     <ListView

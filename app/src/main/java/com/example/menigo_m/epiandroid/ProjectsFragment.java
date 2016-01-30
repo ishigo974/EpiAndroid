@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,10 +68,7 @@ public class ProjectsFragment extends Fragment {
                     currentDate.after(apiFormat.parse(obj.getString("begin_acti").split(" ")[0])))
                 return true;
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (ParseException | JSONException ignored) {
         }
         return false;
     }
@@ -85,6 +81,9 @@ public class ProjectsFragment extends Fragment {
     private void fillProjects() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
+        final Activity activity = getActivity();
+        if (activity == null)
+            return;
         ((MyActivities) getActivity()).getApiConnection().doPost(params,
                 getString(R.string.api_url).concat(getString(R.string.projects_url)),
                 Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
@@ -97,10 +96,10 @@ public class ProjectsFragment extends Fragment {
                     public void onSuccess(JSONArray response) throws JSONException {
                         objects.clear();
                         for (int i = 0; i < response.length(); i++)
-                                if (!response.getJSONObject(i).getString("project").equals("null") &&
-                                        ((semester.equals("Semester") || semester.equals(response.getJSONObject(i).getString("codeinstance").split("-")[1]))) &&
-                                        (!progress || isProgress(response.getJSONObject(i))))
-                                    objects.add(response.getJSONObject(i));
+                            if (!response.getJSONObject(i).getString("project").equals("null") &&
+                                    ((semester.equals("Semester") || semester.equals(response.getJSONObject(i).getString("codeinstance").split("-")[1]))) &&
+                                    (!progress || isProgress(response.getJSONObject(i))))
+                                objects.add(response.getJSONObject(i));
                         final Activity activity = getActivity();
                         if (activity == null)
                             return;

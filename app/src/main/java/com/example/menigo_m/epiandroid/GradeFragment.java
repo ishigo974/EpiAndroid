@@ -41,6 +41,8 @@ import java.util.Map;
 public class GradeFragment extends android.app.Fragment {
     private OnFragmentInteractionListener mListener;
 
+    private String mail_content = "My Grades\n\n";
+
     public GradeFragment() {
     }
 
@@ -61,8 +63,12 @@ public class GradeFragment extends android.app.Fragment {
                     public void onSuccess(JSONObject response) throws JSONException {
                         JSONArray jsonarray = response.getJSONArray("modules");
                         LinkedList<JSONObject> objects = new LinkedList<>();
-                        for (int i = 0; i < jsonarray.length(); i++)
+                        for (int i = 0; i < jsonarray.length(); i++) {
                             objects.add(jsonarray.getJSONObject(i));
+                            mail_content = mail_content.concat(jsonarray.getJSONObject(i).getString("title"));
+                            mail_content = mail_content.concat(" : ".concat(jsonarray.getJSONObject(i).getString("grade")));
+                            mail_content = mail_content.concat("\n");
+                        }
                         Activity activity = getActivity();
                         if (activity == null)
                             return;
@@ -108,6 +114,15 @@ public class GradeFragment extends android.app.Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void send_mail() {
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{""});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My grades");
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mail_content);
+        startActivity(Intent.createChooser(emailIntent, getString(R.string.send_email)));
     }
 
     public interface OnFragmentInteractionListener {

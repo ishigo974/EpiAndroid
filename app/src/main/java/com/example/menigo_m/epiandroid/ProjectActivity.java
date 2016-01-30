@@ -2,9 +2,9 @@ package com.example.menigo_m.epiandroid;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -21,14 +21,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProjectActivity extends MyActivities {
-    private Button register_button = null;
-    private Date today = new Date();
-    private DateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd");
     private String scolaryear = null;
     private String codemodule = null;
     private String codeinstance = null;
     private String codeacti = null;
+    private Date today = new Date();
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private DateFormat displayFormat = new SimpleDateFormat("dd-MM-yyyy");
+    private DateFormat displayEndFormat = new SimpleDateFormat("dd-MM-yyyy, HH:mm:ss");
+    private TextView name = null;
+    private TextView description = null;
+    private TextView size = null;
+    private TextView module = null;
+    private TextView begin = null;
+    private TextView end = null;
+    private Button register = null;
+    private TextView note = null;
     private boolean registered = false;
+
+    private String getDate(DateFormat displayFormat, Date date) {
+        return displayFormat.format(date);
+    }
 
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
@@ -43,7 +56,7 @@ public class ProjectActivity extends MyActivities {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
+        setContentView(R.layout.activity_project);
 
         Intent intent = getIntent();
         try {
@@ -52,8 +65,11 @@ public class ProjectActivity extends MyActivities {
             codemodule = object.getString("codemodule");
             codeinstance = object.getString("codeinstance");
             codeacti = object.getString("codeacti");
-        } catch (JSONException e) {
-            e.printStackTrace();
+            if (object.getString("registered").equals("1"))
+                registered = true;
+            else
+                registered = false;
+        } catch (JSONException ignored) {
         }
         display_informations();
     }
@@ -65,53 +81,59 @@ public class ProjectActivity extends MyActivities {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
-//                        name = (TextView) findViewById(R.id.module_name);
-//                        description = (TextView) findViewById(R.id.module_description);
-//                        skills = (TextView) findViewById(R.id.module_skills);
-//                        credits = (TextView) findViewById(R.id.module_credits);
-//                        semester = (TextView) findViewById(R.id.module_semester);
-//                        register_button = (Button) findViewById(R.id.register_button);
+                        register = (Button) findViewById(R.id.subscribeButton);
+                        module = (TextView) findViewById(R.id.projectModule);
+                        name = (TextView) findViewById(R.id.projectName);
+                        description = (TextView) findViewById(R.id.projectDescription);
+                        begin = (TextView) findViewById(R.id.projectBegin);
+                        end = (TextView) findViewById(R.id.projectEnd);
+                        note = (TextView) findViewById(R.id.projectNote);
+                        size = (TextView) findViewById(R.id.groupSize);
+                        try {
+                            name.setText(response.getString("project_title"));
+                            description.setText(response.getString("description"));
+                            module.setText(response.getString("module_title"));
+                            String nb_min = response.getString("nb_min");
+                            String nb_max = response.getString("nb_max");
+                            size.append(nb_min);
+                            if (!nb_min.equals(nb_max)) {
+                                size.append("-");
+                                size.append(nb_max);
+                            }
+                            String project_note = response.getString("note");
+                            if (!project_note.equals("null")) {
+                                note.setText("Note : ");
+                                note.append(project_note);
+                            }
+                            Date begin_date = dateFormat.parse(response.getString("begin"));
+                            Date end_date = dateFormat.parse(response.getString("end_register"));
 
-//                        try {
-////                            name.setText(response.getString("title"));
-////                            description.setText(response.getString("description"));
-////                            skills.setText(response.getString("competence"));
-////                            credits.setText("Credits : " + response.getString("credits"));
-////                            semester.setText("Semester : " + response.getString("semester"));
-//                            Date end_date = null;
-//                            try {
-//                                end_date = apiFormat.parse(response.getString("end_register"));
-//                            } catch (ParseException e) {
-//                                e.printStackTrace();
-//                            }
-//                            if (end_date != null) {
-//                                if (end_date.before(today))
-//                                    register_button.setEnabled(false);
-//                            }
-//                            if (response.getString("instance_registered").equals("1")) {
-//                                register_button.setText("Unregister");
-//                                registered = true;
-//                            } else {
-//                                register_button.setText("Register");
-//                                registered = false;
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
+                            if (end_date.before(today))
+                                register.setEnabled(false);
+                            if (registered) {
+                                register.setText("Unregister");
+                            } else {
+                                register.setText("Register");
+                            }
+                            begin.setText(getDate(displayFormat, begin_date));
+                            end.setText(getDate(displayEndFormat, end_date));
+                        } catch (JSONException | ParseException ignored) {
+                        }
                     }
 
                     @Override
-                    public void onSuccess(JSONArray response) throws JSONException {
+                    public void onSuccess(JSONArray response) throws JSONException, ParseException {
+
                     }
 
                     @Override
                     public void onError() {
-                        Toast.makeText(getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "You have been successfully subscribed", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    public void register_button_clicked(View view) {
+    public void project_register_button_clicked(View view) {
         Integer method;
         if (registered)
             method = Request.Method.DELETE;
@@ -125,10 +147,10 @@ public class ProjectActivity extends MyActivities {
                     public void onSuccess(JSONObject response) {
                         if (registered) {
                             Toast.makeText(getApplicationContext(), "You have been successfully unsubscribed", Toast.LENGTH_SHORT).show();
-                            register_button.setText("Register");
+                            register.setText("Register");
                         } else {
                             Toast.makeText(getApplicationContext(), "You have been successfully subscribed", Toast.LENGTH_SHORT).show();
-                            register_button.setText("Unregister");
+                            register.setText("Unregister");
                         }
                         registered = !registered;
                     }

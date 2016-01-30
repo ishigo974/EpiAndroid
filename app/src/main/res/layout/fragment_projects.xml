@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="progress_button_clicked"
-        android:text="In progress projects" />
+        android:text="@string/in_progress_projects" />
 
     <ListView
         android:layout_below="@id/progressButton"

@@ -63,8 +63,7 @@ public class MarkAdapter extends BaseAdapter {
             my_mark_title.setText(_list.get(position).getString("title").concat(" - ").concat(_list.get(position).getString("titlemodule")));
             my_mark_date.setText(_list.get(position).getString("scolaryear"));
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
         return layoutItem;
     }

@@ -53,14 +53,12 @@ public class LoginActivity extends MyActivities {
                 storeValue(getString(R.string.login), login.getText().toString());
                 try {
                     storeValue(getString(R.string.token), response.getString(getString(R.string.token)));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (JSONException ignored) {
                 }
                 Map<String, String> params = new HashMap<>();
                 try {
                     params.put(getString(R.string.token), response.getString(getString(R.string.token)));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (JSONException ignored) {
                 }
                 params.put("user", login.getText().toString());
                 apiConnection.doPost(params, getString(R.string.api_url).concat("user"), Request.Method.GET, queue, new ApiRequest.INetworkCallback() {
@@ -69,8 +67,7 @@ public class LoginActivity extends MyActivities {
                         try {
                             storeValue("location", response.getString("location"));
                             storeValue("course_code", response.getString("course_code"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (JSONException ignored) {
                         }
                     }
 

@@ -3,7 +3,6 @@ package com.example.menigo_m.epiandroid;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.InputStream;
@@ -24,8 +23,7 @@ public class ImageIntra extends AsyncTask<String, Void, Bitmap> {
         try {
             InputStream in = new java.net.URL(img).openStream();
             bitmap = BitmapFactory.decodeStream(in);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         return bitmap;
     }

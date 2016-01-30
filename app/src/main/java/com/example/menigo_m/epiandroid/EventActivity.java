@@ -2,6 +2,7 @@ package com.example.menigo_m.epiandroid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,6 @@ public class EventActivity extends MyActivities {
     private String codeinstance = null;
     private String codeacti = null;
     private String codeevent = null;
-    private boolean registered = false;
 
     private String getDate(DateFormat dateFormat, Date date) {
         return dateFormat.format(date);
@@ -60,8 +60,7 @@ public class EventActivity extends MyActivities {
             codeinstance = object.getString("codeinstance");
             codeacti = object.getString("codeacti");
             codeevent = object.getString("codeevent");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ignored) {
         }
         display_informations();
     }
@@ -78,13 +77,14 @@ public class EventActivity extends MyActivities {
                         module = (TextView) findViewById(R.id.activityModule);
 
                         try {
-                            name.setText(response.getString("type_title") + "\n" + response.getString("acti_title"));
+                            name.setText(response.getString("type_title"));
+                            name.append("\n");
+                            name.append(response.getString("acti_title"));
                             try {
                                 String desc = response.getString("acti_description");
                                 if (!desc.equals("null"))
                                     description.setText(desc);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            } catch (JSONException ignored) {
                             }
                             description.append(response.getJSONObject("room").getString("code"));
                             module.setText(response.getString("module_title"));
@@ -94,17 +94,44 @@ public class EventActivity extends MyActivities {
                             try {
                                 begin = dateFormat.parse(response.getString("start"));
                                 end = dateFormat.parse(response.getString("end"));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                            } catch (ParseException ignored) {
                             }
                             if (begin != null && end != null) {
                                 description.append("\n" + getDate(displayHourFormat, begin));
                                 description.append(" - " + getDate(displayHourFormat, end));
                                 description.append("\n" + getDate(displayDateFormat, begin));
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (JSONException ignored) {
                         }
+                    }
+
+                    @Override
+                    public void onSuccess(JSONArray response) throws JSONException {
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    public void validate_token(View view) {
+        TextView token_field = (TextView) findViewById(R.id.tokenField);
+        if (token_field.getText().toString().length() != 8)
+        {
+            Toast.makeText(getApplicationContext(), R.string.bad_token_size, Toast.LENGTH_LONG).show();
+            return ;
+        }
+        Map<String, String> params = getParams();
+        params.put("tokenvalidationcode", token_field.getText().toString());
+        getApiConnection().doPost(params,
+                getString(R.string.api_url).concat(getString(R.string.token_url)),
+                Request.Method.POST, queue,
+                new ApiRequest.INetworkCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        Toast.makeText(getApplicationContext(), "Token successfully validated", Toast.LENGTH_LONG).show();
                     }
 
                     @Override

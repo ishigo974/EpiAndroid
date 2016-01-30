@@ -58,10 +58,7 @@ public class ApiRequest {
                         } catch (JSONException e) {
                             try {
                                 callback.onSuccess(new JSONArray(response));
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
-                            } catch (ParseException e1) {
-                                e1.printStackTrace();
+                            } catch (JSONException | ParseException ignored) {
                             }
                         }
                     }

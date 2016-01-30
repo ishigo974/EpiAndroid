@@ -19,11 +19,10 @@
 
     <Button
         android:id="@+id/registeredButton"
-        android:layout_below="@+id/semestersSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="registered_module_clicked"
-        android:text="Where i'm registered only" />
+        android:text="@string/registered_only" />
 
     <ListView
         android:id="@+id/module_element"

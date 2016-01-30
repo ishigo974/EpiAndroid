@@ -2,6 +2,7 @@ package com.example.menigo_m.epiandroid;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,6 +32,8 @@ import java.util.Map;
 public class MarkFragment extends android.app.Fragment {
     private OnFragmentInteractionListener mListener;
 
+    private String mail_content = "My Marks\n\n";
+
     public MarkFragment() {
     }
 
@@ -57,8 +60,13 @@ public class MarkFragment extends android.app.Fragment {
                     public void onSuccess(JSONObject response) throws JSONException {
                         JSONArray jsonArray = response.getJSONArray("notes");
                         LinkedList<JSONObject> objects = new LinkedList<>();
-                        for (int i = 0; i < jsonArray.length(); i++)
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             objects.add(jsonArray.getJSONObject(i));
+                            mail_content = mail_content.concat(jsonArray.getJSONObject(i).getString("title").concat(" - "));
+                            mail_content = mail_content.concat(jsonArray.getJSONObject(i).getString("titlemodule"));
+                            mail_content = mail_content.concat(" : ".concat(jsonArray.getJSONObject(i).getString("final_note")));
+                            mail_content = mail_content.concat("\n");
+                        }
                         Activity activity = getActivity();
                         if (activity == null)
                             return;
@@ -87,6 +95,15 @@ public class MarkFragment extends android.app.Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    public void send_mail() {
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{""});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My marks");
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mail_content);
+        startActivity(Intent.createChooser(emailIntent, getString(R.string.send_email)));
     }
 
     @Override

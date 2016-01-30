@@ -2,7 +2,6 @@ package com.example.menigo_m.epiandroid;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -55,6 +54,7 @@ public class ModuleActivity extends MyActivities {
             scolaryear = object.getString("scolaryear");
             codemodule = object.getString("code");
             codeinstance = object.getString("codeinstance");
+
             if (object.getString("status").equals("notregistered"))
                 registered = false;
             else
@@ -83,13 +83,16 @@ public class ModuleActivity extends MyActivities {
                             name.setText(response.getString("title"));
                             description.setText(response.getString("description"));
                             skills.setText(response.getString("competence"));
-                            credits.setText("Credits : " + response.getString("credits"));
-                            semester.setText("Semester : " + response.getString("semester"));
+                            credits.setText("Credits : ");
+                            credits.append(response.getString("credits"));
+                            semester.setText("Semester : ");
+                            semester.append(response.getString("semester"));
                             Date end_date = null;
                             try {
-                                end_date = apiFormat.parse(response.getString("end_register"));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                                String date = response.getString("end_register");
+                                if (!date.equals("null"))
+                                    end_date = apiFormat.parse(date);
+                            } catch (ParseException ignored) {
                             }
                             if (end_date != null) {
                                 if (end_date.before(today))
@@ -97,13 +100,10 @@ public class ModuleActivity extends MyActivities {
                             }
                             if (registered) {
                                 register_button.setText("Unregister");
-                                registered = true;
                             } else {
                                 register_button.setText("Register");
-                                registered = false;
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (JSONException ignored) {
                         }
                     }
 

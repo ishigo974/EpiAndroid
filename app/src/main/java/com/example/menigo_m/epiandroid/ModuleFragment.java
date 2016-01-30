@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +93,7 @@ public class ModuleFragment extends Fragment {
                                         (semester.equals("Semester") || semester.equals(jsonarray.getJSONObject(i).getString("semester"))) &&
                                         (year.equals("Year") || year.equals(jsonarray.getJSONObject(i).getString("scolaryear"))))
                                     objects.add(jsonarray.getJSONObject(i));
-                            } catch (JSONException e) {
+                            } catch (JSONException ignored) {
                             }
                         }
                         final Activity activity = getActivity();

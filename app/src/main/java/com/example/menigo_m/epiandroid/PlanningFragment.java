@@ -49,6 +49,7 @@ public class PlanningFragment extends Fragment {
     private String year = "Year";
     ArrayList<String> spinnerArray = new ArrayList<>();
     LinkedList<JSONObject> objects = new LinkedList<>();
+    private String mail_content = "";
 
     private Date date = new Date();
 
@@ -92,14 +93,21 @@ public class PlanningFragment extends Fragment {
                         final Activity activity = getActivity();
                         if (activity == null)
                             return;
+                        mail_content = "My Planning\n\n";
+                        mail_content = mail_content.concat(getDate(displayFormat).concat("\n\n"));
                         ((TextView) (activity.findViewById(R.id.date))).setText(getDate(displayFormat));
                         objects.clear();
                         for (int i = 0; i < response.length(); i++)
                             if (response.getJSONObject(i).getString("module_registered").equals("true") &&
                                     (!registeredOnly || (registeredOnly && response.getJSONObject(i).getString("event_registered").equals("registered"))) &&
                                     (semester.equals("Semester") || semester.equals(response.getJSONObject(i).getString("semester"))) &&
-                                    (year.equals("Year") || year.equals(response.getJSONObject(i).getString("scolaryear"))))
+                                    (year.equals("Year") || year.equals(response.getJSONObject(i).getString("scolaryear")))) {
                                 objects.add(response.getJSONObject(i));
+                                mail_content = mail_content.concat(response.getJSONObject(i).getString("acti_title"));
+                                mail_content = mail_content.concat(" : ");
+                                mail_content = mail_content.concat(response.getJSONObject(i).getString("start").split(" ")[1]);
+                                mail_content = mail_content.concat("\n\n");
+                            }
                         final ListView listView = (ListView) activity.findViewById(R.id.planning_element);
                         PlanningAdapter adapter = new PlanningAdapter(activity, objects);
                         listView.setAdapter(adapter);
@@ -191,6 +199,15 @@ public class PlanningFragment extends Fragment {
     public void registered_button_clicked(View view) {
         changeRegistered();
         fillPlanning();
+    }
+
+    public void send_mail() {
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{""});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My planning");
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mail_content);
+        startActivity(Intent.createChooser(emailIntent, getString(R.string.send_email)));
     }
 
     // TODO: Rename method, update argument and hook method into UI event

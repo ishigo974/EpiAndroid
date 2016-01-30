@@ -51,11 +51,19 @@
         android:onClick="registered_button_clicked"
         android:text="@string/registered_activities" />
 
+    <Button
+        android:id="@+id/planningButton"
+        android:layout_below="@id/registeredButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="planning_button_clicked"
+        android:text="Share my planning" />
+
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/registeredButton"
+        android:layout_below="@id/planningButton"
         android:layout_marginTop="10dp"
         android:textStyle="bold" />
 
@@ -67,5 +75,6 @@
         android:textStyle="bold"
         android:layout_gravity="start"
         android:clickable="false" />
+
 
 </RelativeLayout>

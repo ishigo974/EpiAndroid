@@ -86,4 +86,16 @@ public class HomeActivity extends MyActivities {
     public void next_trombi_clicked(View view) {
         ((YearbookFragment) fragments[3]).next_trombi_clicked(view);
     }
+
+    public void marks_button_clicked(View view) {
+        ((MarkFragment) fragments[5]).send_mail();
+    }
+
+    public void grades_button_clicked(View view) {
+        ((GradeFragment) fragments[6]).send_mail();
+    }
+
+    public void planning_button_clicked(View view) {
+        ((PlanningFragment) fragments[2]).send_mail();
+    }
 }
