@@ -53,35 +53,6 @@
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/status"
-            android:textStyle="bold" />
-
-        // Si le token est déjà validé
-
-        <TextView
-            android:id="@+id/validatedToken"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/token_done"
-            android:textColor="@color/darkGreen" />
-
-        // Si le token n'est plus validable
-
-        <TextView
-            android:id="@+id/noToken"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/validate_token"
-            android:textColor="@color/red" />
-
-        // Si le token n'est pas validé
-
         <EditText
             android:id="@+id/tokenField"
             android:layout_width="200dp"
@@ -92,7 +63,8 @@
             android:id="@+id/validateToken"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/validate" />
+            android:text="@string/validate"
+            android:onClick="validate_token" />
 
     </LinearLayout>
 </ScrollView>

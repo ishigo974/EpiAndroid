@@ -2,6 +2,8 @@ package com.example.menigo_m.epiandroid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -105,6 +107,36 @@ public class EventActivity extends MyActivities {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }
+
+                    @Override
+                    public void onSuccess(JSONArray response) throws JSONException {
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    public void validate_token(View view) {
+        TextView token_field = (TextView) findViewById(R.id.tokenField);
+        if (token_field.getText().toString().length() != 8)
+        {
+            Toast.makeText(getApplicationContext(), R.string.bad_token_size, Toast.LENGTH_LONG).show();
+            return ;
+        }
+        Map<String, String> params = getParams();
+        params.put("tokenvalidationcode", token_field.getText().toString());
+        getApiConnection().doPost(params,
+                getString(R.string.api_url).concat(getString(R.string.token_url)),
+                Request.Method.POST, queue,
+                new ApiRequest.INetworkCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        Toast.makeText(getApplicationContext(), "Token successfully validated", Toast.LENGTH_LONG).show();
+                        Log.d("response", response.toString());
                     }
 
                     @Override
