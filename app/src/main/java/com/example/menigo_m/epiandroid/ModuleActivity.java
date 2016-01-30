@@ -78,8 +78,10 @@ public class ModuleActivity extends MyActivities {
                             name.setText(response.getString("title"));
                             description.setText(response.getString("description"));
                             skills.setText(response.getString("competence"));
-                            credits.setText("Credits : " + response.getString("credits"));
-                            semester.setText("Semester : " + response.getString("semester"));
+                            credits.setText("Credits : ");
+                            credits.append(response.getString("credits"));
+                            semester.setText("Semester : ");
+                            semester.append(response.getString("semester"));
                             Date end_date = null;
                             try {
                                 String date = response.getString("end_register");

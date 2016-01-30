@@ -98,8 +98,10 @@ public class ProjectActivity extends MyActivities {
                                 size.append(nb_max);
                             }
                             String project_note = response.getString("note");
-                            if (!project_note.equals("null"))
-                                note.setText("Note : " + project_note);
+                            if (!project_note.equals("null")) {
+                                note.setText("Note : ");
+                                note.append(project_note);
+                            }
                             Date begin_date = dateFormat.parse(response.getString("begin"));
                             Date end_date = dateFormat.parse(response.getString("end_register"));
 

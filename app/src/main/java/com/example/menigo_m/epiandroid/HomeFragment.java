@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment {
             gpa.append(gpaObj.getString("gpa"));
             Double logs = Double.valueOf(response.getJSONObject("nsstat").getString("active"));
             Double minLog = Double.valueOf(response.getJSONObject("nsstat").getString("nslog_norm"));
-            logTime.setText(logs.toString());
+            logTime.setText(String.valueOf(logs));
             logTime.append(" active hours. Minimum required : ");
             logTime.append(minLog.toString());
             if (logs < minLog)

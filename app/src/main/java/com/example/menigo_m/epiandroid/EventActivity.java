@@ -2,7 +2,6 @@ package com.example.menigo_m.epiandroid;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +31,6 @@ public class EventActivity extends MyActivities {
     private String codeinstance = null;
     private String codeacti = null;
     private String codeevent = null;
-    private boolean registered = false;
 
     private String getDate(DateFormat dateFormat, Date date) {
         return dateFormat.format(date);
@@ -79,7 +77,9 @@ public class EventActivity extends MyActivities {
                         module = (TextView) findViewById(R.id.activityModule);
 
                         try {
-                            name.setText(response.getString("type_title") + "\n" + response.getString("acti_title"));
+                            name.setText(response.getString("type_title"));
+                            name.append("\n");
+                            name.append(response.getString("acti_title"));
                             try {
                                 String desc = response.getString("acti_description");
                                 if (!desc.equals("null"))
@@ -132,7 +132,6 @@ public class EventActivity extends MyActivities {
                     @Override
                     public void onSuccess(JSONObject response) {
                         Toast.makeText(getApplicationContext(), "Token successfully validated", Toast.LENGTH_LONG).show();
-                        Log.d("response", response.toString());
                     }
 
                     @Override

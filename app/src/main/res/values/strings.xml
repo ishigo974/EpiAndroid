@@ -63,6 +63,13 @@
     <string name="grades">Grades</string>
     <string name="token_url">token</string>
     <string name="bad_token_size">Bad token size</string>
+    <string name="project_description">Project description</string>
+    <string name="dash">-</string>
+    <string name="registered_only">Where i\'m registered only</string>
+    <string name="in_progress_projects">In progress projects</string>
+    <string name="next">next</string>
+    <string name="prev">prev</string>
+    <string name="profile">profile</string>
 
 
     <string-array name="semester_array">
