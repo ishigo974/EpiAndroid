@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="marks_button_clicked"
-        android:text="Share my marks" />
+        android:text="@string/share_marks" />
 
     <ListView
         android:id="@+id/mark_element"

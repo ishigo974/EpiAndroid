@@ -169,6 +169,8 @@
     <string name="projectApiFormat">yyyy-MM-dd</string>
     <string name="tel">tel:</string>
     <string name="moduleApiFormat">yyyy-MM-dd</string>
+    <string name="share_grades">Share my grades</string>
+    <string name="share_marks">Share my marks</string>
 
     <string-array name="semester_array">
         <item>Semester</item>
