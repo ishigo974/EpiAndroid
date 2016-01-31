@@ -23,9 +23,9 @@ public class EventActivity extends MyActivities {
     private TextView name = null;
     private TextView description = null;
     private TextView module = null;
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private DateFormat displayDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-    private DateFormat displayHourFormat = new SimpleDateFormat("HH:mm:ss");
+    private DateFormat dateFormat;
+    private DateFormat displayDateFormat;
+    private DateFormat displayHourFormat;
     private String scolaryear = null;
     private String codemodule = null;
     private String codeinstance = null;
@@ -52,9 +52,13 @@ public class EventActivity extends MyActivities {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
+        dateFormat = new SimpleDateFormat(getString(R.string.dateFormat));
+        displayDateFormat = new SimpleDateFormat(getString(R.string.displayDate));
+        displayHourFormat = new SimpleDateFormat(getString(R.string.displayHour));
+
         Intent intent = getIntent();
         try {
-            JSONObject object = new JSONObject(intent.getStringExtra("object"));
+            JSONObject object = new JSONObject(intent.getStringExtra(getString(R.string.objectString)));
             scolaryear = object.getString(getString(R.string.scolaryear));
             codemodule = object.getString(getString(R.string.codemodule));
             codeinstance = object.getString(getString(R.string.codeinstance));
@@ -82,7 +86,7 @@ public class EventActivity extends MyActivities {
                             name.append(response.getString(getString(R.string.acti_title)));
                             try {
                                 String desc = response.getString(getString(R.string.acti_description));
-                                if (!desc.equals("null"))
+                                if (!desc.equals(getString(R.string.nullString)))
                                     description.setText(desc);
                             } catch (JSONException ignored) {
                             }

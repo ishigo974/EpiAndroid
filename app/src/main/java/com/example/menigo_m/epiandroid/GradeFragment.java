@@ -22,18 +22,10 @@ import java.util.LinkedList;
 import java.util.Map;
 
 
-/**
- * A simple {@link android.app.Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ModuleFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ModuleFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class GradeFragment extends android.app.Fragment {
     private OnFragmentInteractionListener mListener;
 
-    private String mail_content = getString(R.string.my_grades);
+    private String mail_content;
 
     public GradeFragment() {
     }
@@ -45,6 +37,8 @@ public class GradeFragment extends android.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_grade, container, false);
+        mail_content = getString(R.string.my_grades);
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
         ((MyActivities) getActivity()).getApiConnection().doPost(params,
@@ -53,6 +47,9 @@ public class GradeFragment extends android.app.Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
+                        Activity activity = getActivity();
+                        if (activity == null)
+                            return;
                         JSONArray jsonarray = response.getJSONArray(getString(R.string.modules_array));
                         LinkedList<JSONObject> objects = new LinkedList<>();
                         for (int i = 0; i < jsonarray.length(); i++) {
@@ -61,9 +58,6 @@ public class GradeFragment extends android.app.Fragment {
                             mail_content = mail_content.concat(" : ".concat(jsonarray.getJSONObject(i).getString(getString(R.string.grade))));
                             mail_content = mail_content.concat("\n");
                         }
-                        Activity activity = getActivity();
-                        if (activity == null)
-                            return;
                         final ListView listView = (ListView) activity.findViewById(R.id.grade_element);
                         GradeAdapter adapter = new GradeAdapter(activity, objects);
                         listView.setAdapter(adapter);
@@ -81,10 +75,9 @@ public class GradeFragment extends android.app.Fragment {
                         Toast.makeText(activity.getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
                     }
                 });
-        return inflater.inflate(R.layout.fragment_grade, container, false);
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -110,7 +103,7 @@ public class GradeFragment extends android.app.Fragment {
 
     public void send_mail() {
         final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-        emailIntent.setType("plain/text");
+        emailIntent.setType(getActivity().getString(R.string.typeText));
         emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{""});
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.my_grades_mail));
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mail_content);
@@ -118,7 +111,6 @@ public class GradeFragment extends android.app.Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

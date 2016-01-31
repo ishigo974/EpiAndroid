@@ -32,7 +32,7 @@ public class UserActivity extends MyActivities {
 
     public void displayUserInformation(JSONObject response, String login) {
         new ImageIntra((ImageView) findViewById(R.id.profilePicture))
-                .execute(getString(R.string.images_url).concat(login.concat(".jpg")));
+                .execute(getString(R.string.images_url).concat(login.concat(getString(R.string.jpgExtension))));
         login_text = (TextView) findViewById(R.id.login_home);
         city_promo = (TextView) findViewById(R.id.cityPromo);
         credits = (TextView) findViewById(R.id.credits);
@@ -79,7 +79,7 @@ public class UserActivity extends MyActivities {
 
         Intent intent = getIntent();
         try {
-            JSONObject object = new JSONObject(intent.getStringExtra("object"));
+            JSONObject object = new JSONObject(intent.getStringExtra(getString(R.string.objectString)));
             login = object.getString(getString(R.string.login));
         } catch (JSONException ignored) {
         }
@@ -131,7 +131,7 @@ public class UserActivity extends MyActivities {
 
     public void call_user(View view) {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:" + tel));
+        callIntent.setData(Uri.parse(getString(R.string.tel) + tel));
         startActivity(callIntent);
     }
 

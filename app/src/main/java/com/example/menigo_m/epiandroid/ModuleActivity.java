@@ -28,7 +28,7 @@ public class ModuleActivity extends MyActivities {
     private TextView semester = null;
     private Button register_button = null;
     private Date today = new Date();
-    private DateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private DateFormat apiFormat;
     private boolean registered = false;
     private String scolaryear = null;
     private String codemodule = null;
@@ -48,9 +48,11 @@ public class ModuleActivity extends MyActivities {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_module);
 
+        apiFormat = new SimpleDateFormat(getString(R.string.moduleApiFormat));
+
         Intent intent = getIntent();
         try {
-            JSONObject object = new JSONObject(intent.getStringExtra("object"));
+            JSONObject object = new JSONObject(intent.getStringExtra(getString(R.string.objectString)));
             scolaryear = object.getString(getString(R.string.scolaryear));
             codemodule = object.getString(getString(R.string.code));
             codeinstance = object.getString(getString(R.string.codeinstance));
@@ -87,7 +89,7 @@ public class ModuleActivity extends MyActivities {
                             Date end_date = null;
                             try {
                                 String date = response.getString(getString(R.string.end_register_api));
-                                if (!date.equals("null"))
+                                if (!date.equals(getApplication().getString(R.string.nullString)))
                                     end_date = apiFormat.parse(date);
                             } catch (ParseException ignored) {
                             }

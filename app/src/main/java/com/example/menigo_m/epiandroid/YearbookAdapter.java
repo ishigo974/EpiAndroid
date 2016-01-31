@@ -31,7 +31,6 @@ public class YearbookAdapter extends BaseAdapter {
         _inflater = LayoutInflater.from(context);
     }
 
-
     @Override
     public int getCount() {
         return _list.size();

@@ -28,39 +28,22 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ModuleFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ModuleFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ModuleFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
-//    private Spinner semestersSpinner;
 
     LinkedList<JSONObject> objects = new LinkedList<>();
 
     private boolean registeredOnly = false;
 
-    private String year = getString(R.string.year);
+    private String year = null;
 
-    private String semester = getString(R.string.semester);
+    private String semester = null;
 
     ArrayList<String> spinnerArray = new ArrayList<>();
 
     public ModuleFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment ModuleFragment.
-     */
     public static ModuleFragment newInstance() {
         return new ModuleFragment();
     }
@@ -85,6 +68,9 @@ public class ModuleFragment extends Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
+                        final Activity activity = getActivity();
+                        if (activity == null)
+                            return;
                         JSONArray jsonarray = response.getJSONArray(getString(R.string.items_api));
                         objects.clear();
                         for (int i = 0; i < jsonarray.length(); i++) {
@@ -96,9 +82,6 @@ public class ModuleFragment extends Fragment {
                             } catch (JSONException ignored) {
                             }
                         }
-                        final Activity activity = getActivity();
-                        if (activity == null)
-                            return;
                         final ListView listView = (ListView) activity.findViewById(R.id.module_element);
                         ModuleAdapter adapter = new ModuleAdapter(activity, objects);
                         listView.setAdapter(adapter);
@@ -106,7 +89,7 @@ public class ModuleFragment extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent moduleActivity = new Intent(activity, ModuleActivity.class);
-                                moduleActivity.putExtra("object", objects.get(position).toString());
+                                moduleActivity.putExtra(activity.getString(R.string.objectString), objects.get(position).toString());
                                 activity.startActivity(moduleActivity);
                             }
                         });
@@ -130,6 +113,9 @@ public class ModuleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_module, container, false);
+        year = getActivity().getString(R.string.year);
+        semester = getActivity().getString(R.string.semester);
+        spinnerArray.clear();
         spinnerArray.add(getString(R.string.year));
         for (int i = 1999; i <= Calendar.getInstance().get(Calendar.YEAR); i++)
             spinnerArray.add(String.valueOf(i));
@@ -167,7 +153,6 @@ public class ModuleFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -192,7 +177,6 @@ public class ModuleFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 

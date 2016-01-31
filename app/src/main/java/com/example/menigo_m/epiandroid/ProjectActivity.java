@@ -26,9 +26,9 @@ public class ProjectActivity extends MyActivities {
     private String codeinstance = null;
     private String codeacti = null;
     private Date today = new Date();
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private DateFormat displayFormat = new SimpleDateFormat("dd-MM-yyyy");
-    private DateFormat displayEndFormat = new SimpleDateFormat("dd-MM-yyyy, HH:mm:ss");
+    private DateFormat dateFormat;
+    private DateFormat displayFormat;
+    private DateFormat displayEndFormat;
     private TextView name = null;
     private TextView description = null;
     private TextView size = null;
@@ -58,14 +58,18 @@ public class ProjectActivity extends MyActivities {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
+        dateFormat = new SimpleDateFormat(getString(R.string.activityDateFormat));
+        displayFormat = new SimpleDateFormat(getString(R.string.activityDisplayFormat));
+        displayEndFormat = new SimpleDateFormat(getString(R.string.activityEndFormat));
+
         Intent intent = getIntent();
         try {
-            JSONObject object = new JSONObject(intent.getStringExtra("object"));
+            JSONObject object = new JSONObject(intent.getStringExtra(getString(R.string.objectString)));
             scolaryear = object.getString(getString(R.string.scolaryear));
             codemodule = object.getString(getString(R.string.codemodule));
             codeinstance = object.getString(getString(R.string.codeinstance));
             codeacti = object.getString(getString(R.string.codeacti));
-            registered = object.getString(getString(R.string.registered_api)).equals("1");
+            registered = object.getString(getString(R.string.registered_api)).equals(getString(R.string.oneString));
         } catch (JSONException ignored) {
         }
         display_informations();
@@ -98,7 +102,7 @@ public class ProjectActivity extends MyActivities {
                                 size.append(nb_max);
                             }
                             String project_note = response.getString(getString(R.string.note_api));
-                            if (!project_note.equals("null")) {
+                            if (!project_note.equals(getString(R.string.nullString))) {
                                 note.setText(R.string.note_info);
                                 note.append(project_note);
                             }

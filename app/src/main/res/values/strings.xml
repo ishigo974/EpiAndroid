@@ -151,6 +151,24 @@
     <string name="year_api_date">2014</string>
     <string name="offset_api">offset</string>
     <string name="total_api">total</string>
+    <string name="dateFormat">yyyy-MM-dd HH:mm:ss</string>
+    <string name="displayDate">dd-MM-yyyy</string>
+    <string name="displayHour">HH:mm:ss</string>
+    <string name="objectString">object</string>
+    <string name="nullString">null</string>
+    <string name="typeText">plain/text</string>
+    <string name="jpgExtension">.jpg</string>
+    <string name="marksMailContent">My Marks\n\n</string>
+    <string name="dateApiFormat">yyyy-MM-dd</string>
+    <string name="dateDisplayFormat">EEEE yyyy-MM-dd</string>
+    <string name="trueString">true</string>
+    <string name="oneString">1</string>
+    <string name="activityDateFormat">yyyy-MM-dd HH:mm:ss</string>
+    <string name="activityDisplayFormat">dd-MM-yyyy</string>
+    <string name="activityEndFormat">dd-MM-yyyy, HH:mm:ss</string>
+    <string name="projectApiFormat">yyyy-MM-dd</string>
+    <string name="tel">tel:</string>
+    <string name="moduleApiFormat">yyyy-MM-dd</string>
 
     <string-array name="semester_array">
         <item>Semester</item>

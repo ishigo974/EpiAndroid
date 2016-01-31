@@ -21,28 +21,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-/**
- * A simple {@link android.app.Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ModuleFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ModuleFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MarkFragment extends android.app.Fragment {
     private OnFragmentInteractionListener mListener;
 
-    private String mail_content = "My Marks\n\n";
+    private String mail_content;
 
     public MarkFragment() {
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment ModuleFragment.
-     */
     public static MarkFragment newInstance() {
         return new MarkFragment();
     }
@@ -50,6 +36,8 @@ public class MarkFragment extends android.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_mark, container, false);
+        mail_content = getActivity().getString(R.string.marksMailContent);
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
         ((MyActivities) getActivity()).getApiConnection().doPost(params,
@@ -58,6 +46,9 @@ public class MarkFragment extends android.app.Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
+                        Activity activity = getActivity();
+                        if (activity == null)
+                            return;
                         JSONArray jsonArray = response.getJSONArray(getString(R.string.notes_api));
                         LinkedList<JSONObject> objects = new LinkedList<>();
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -67,9 +58,6 @@ public class MarkFragment extends android.app.Fragment {
                             mail_content = mail_content.concat(" : ".concat(jsonArray.getJSONObject(i).getString(getString(R.string.final_note_api))));
                             mail_content = mail_content.concat("\n");
                         }
-                        Activity activity = getActivity();
-                        if (activity == null)
-                            return;
                         final ListView listView = (ListView) activity.findViewById(R.id.mark_element);
                         MarkAdapter adapter = new MarkAdapter(activity, objects);
                         listView.setAdapter(adapter);
@@ -87,10 +75,9 @@ public class MarkFragment extends android.app.Fragment {
                         Toast.makeText(activity.getApplicationContext(), getString(R.string.auth_error), Toast.LENGTH_LONG).show();
                     }
                 });
-        return inflater.inflate(R.layout.fragment_mark, container, false);
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -99,7 +86,7 @@ public class MarkFragment extends android.app.Fragment {
 
     public void send_mail() {
         final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-        emailIntent.setType("plain/text");
+        emailIntent.setType(getActivity().getString(R.string.typeText));
         emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{""});
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.my_marks));
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mail_content);
@@ -124,7 +111,6 @@ public class MarkFragment extends android.app.Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

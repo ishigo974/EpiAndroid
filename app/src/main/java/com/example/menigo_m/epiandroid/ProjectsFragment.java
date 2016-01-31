@@ -29,37 +29,21 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ProjectsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ProjectsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ProjectsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     LinkedList<JSONObject> objects = new LinkedList<>();
 
-    private String semester = getString(R.string.semester);
+    private String semester;
 
     private boolean progress = false;
 
     private Date currentDate = new Date();
 
-    private DateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private DateFormat apiFormat;
 
     public ProjectsFragment() {
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment ProjectsFragment.
-     */
 
     private boolean isProgress(JSONObject obj)
     {
@@ -73,7 +57,6 @@ public class ProjectsFragment extends Fragment {
         return false;
     }
 
-    // TODO: Rename and change types and number of parameters
     public static ProjectsFragment newInstance() {
         return new ProjectsFragment();
     }
@@ -95,14 +78,14 @@ public class ProjectsFragment extends Fragment {
                     @Override
                     public void onSuccess(JSONArray response) throws JSONException {
                         objects.clear();
-                        for (int i = 0; i < response.length(); i++)
-                            if (!response.getJSONObject(i).getString(getString(R.string.project_api)).equals("null") &&
-                                    ((semester.equals(getString(R.string.semester)) || semester.equals(response.getJSONObject(i).getString(getString(R.string.codeinstance)).split("-")[1]))) &&
-                                    (!progress || isProgress(response.getJSONObject(i))))
-                                objects.add(response.getJSONObject(i));
                         final Activity activity = getActivity();
                         if (activity == null)
                             return;
+                        for (int i = 0; i < response.length(); i++)
+                            if (!response.getJSONObject(i).getString(getString(R.string.project_api)).equals(activity.getString(R.string.nullString)) &&
+                                    ((semester.equals(getString(R.string.semester)) || semester.equals(response.getJSONObject(i).getString(getString(R.string.codeinstance)).split("-")[1]))) &&
+                                    (!progress || isProgress(response.getJSONObject(i))))
+                                objects.add(response.getJSONObject(i));
                         final ListView listView = (ListView) activity.findViewById(R.id.projects_element);
                         ProjectsAdapter adapter = new ProjectsAdapter(activity, objects);
                         listView.setAdapter(adapter);
@@ -110,7 +93,7 @@ public class ProjectsFragment extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent projectActivity = new Intent(activity, ProjectActivity.class);
-                                projectActivity.putExtra("object", objects.get(position).toString());
+                                projectActivity.putExtra(activity.getString(R.string.objectString), objects.get(position).toString());
                                 activity.startActivity(projectActivity);
                             }
                         });
@@ -131,6 +114,9 @@ public class ProjectsFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_projects, container, false);
 
+        semester = getString(R.string.semester);
+        apiFormat = new SimpleDateFormat(getActivity().getString(R.string.projectApiFormat));
+
         fillProjects();
         ((Spinner)(view.findViewById(R.id.semestersSpinner))).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -148,7 +134,6 @@ public class ProjectsFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -181,18 +166,7 @@ public class ProjectsFragment extends Fragment {
         fillProjects();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

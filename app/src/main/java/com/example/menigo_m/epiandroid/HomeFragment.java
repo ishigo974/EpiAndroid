@@ -23,14 +23,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HomeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private TextView login_text = null;
@@ -48,7 +40,7 @@ public class HomeFragment extends Fragment {
 
     public void displayUserInformation(JSONObject response) {
         new ImageIntra((ImageView) getActivity().findViewById(R.id.profilePicture))
-                .execute(getActivity().getString(R.string.images_url).concat(((HomeActivity) getActivity()).getLogin()).concat(".jpg"));
+                .execute(getActivity().getString(R.string.images_url).concat(((HomeActivity) getActivity()).getLogin()).concat(getActivity().getString(R.string.jpgExtension)));
         login_text = (TextView) getActivity().findViewById(R.id.login_home);
         city_promo = (TextView) getActivity().findViewById(R.id.cityPromo);
         credits = (TextView) getActivity().findViewById(R.id.credits);
@@ -147,7 +139,6 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -172,7 +163,6 @@ public class HomeFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

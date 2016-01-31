@@ -24,34 +24,18 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link YearbookFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link YearbookFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class YearbookFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     LinkedList<JSONObject> objects = new LinkedList<>();
     private int total = 0;
     private int page = 0;
-    private String course = getString(R.string.course);
-    private String promo = getString(R.string.promo);
+    private String course;
+    private String promo;
 
     public YearbookFragment() {
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment YearbookFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static YearbookFragment newInstance() {
         return new YearbookFragment();
     }
@@ -72,14 +56,14 @@ public class YearbookFragment extends Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
+                        final Activity activity = getActivity();
+                        if (activity == null)
+                            return;
                         total = response.getInt(getString(R.string.total_api));
                         JSONArray jsonArray = response.getJSONArray(getString(R.string.items_api));
                         objects.clear();
                         for (int i = 0; i < jsonArray.length(); i++)
                             objects.add(jsonArray.getJSONObject(i));
-                        final Activity activity = getActivity();
-                        if (activity == null)
-                            return;
                         final ListView listView = (ListView) activity.findViewById(R.id.yearbook_element);
                         YearbookAdapter adapter = new YearbookAdapter(activity, objects);
                         listView.setAdapter(adapter);
@@ -87,7 +71,7 @@ public class YearbookFragment extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent userActivity = new Intent(activity, UserActivity.class);
-                                userActivity.putExtra("object", objects.get(position).toString());
+                                userActivity.putExtra(activity.getString(R.string.objectString), objects.get(position).toString());
                                 activity.startActivity(userActivity);
                             }
                         });
@@ -113,6 +97,8 @@ public class YearbookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_yearbook, container, false);
+        course = getString(R.string.course);
+        promo = getString(R.string.promo);
         view.findViewById(R.id.prevButton).setEnabled(page > 0);
         view.findViewById(R.id.nextButton).setEnabled((page + 1) * 48 < total);
         fillYearbook();
@@ -145,7 +131,6 @@ public class YearbookFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -185,18 +170,7 @@ public class YearbookFragment extends Fragment {
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
