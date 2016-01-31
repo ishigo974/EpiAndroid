@@ -10,11 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="grades_button_clicked"
-        android:text="Share my grades" />
+        android:text="@string/share_grades" />
 
     <ListView
         android:id="@+id/grade_element"
-        android:layout_below="@id/gradesButton"
         android:layout_width="fill_parent"
         android:layout_height="match_parent" />
 

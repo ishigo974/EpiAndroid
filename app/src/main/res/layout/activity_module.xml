@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:onClick="register_button_clicked"
-            android:text="Register" />
+            android:text="@string/register" />
     </LinearLayout>
 
 </ScrollView>
