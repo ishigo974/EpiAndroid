@@ -56,22 +56,22 @@ public class HomeFragment extends Fragment {
         logTime = (TextView) getActivity().findViewById(R.id.logTime);
         try {
             login_text.setText(response.getString(getString(R.string.login)));
-            city_promo.setText("Epitech ");
-            city_promo.append(response.getString("promo"));
+            city_promo.setText(R.string.epitech);
+            city_promo.append(response.getString(getString(R.string.promo_api)));
             city_promo.append(" ");
-            city_promo.append(response.getString("location"));
+            city_promo.append(response.getString(getString(R.string.location_api)));
 
-            credits.setText(response.getString("credits"));
-            credits.append(" credits and ");
-            credits.append(response.getJSONObject("spice").getString("available_spice"));
-            credits.append(" spices");
-            JSONObject gpaObj = (JSONObject) response.getJSONArray("gpa").get(0);
-            gpa.setText("GPA : ");
-            gpa.append(gpaObj.getString("gpa"));
-            Double logs = Double.valueOf(response.getJSONObject("nsstat").getString("active"));
-            Double minLog = Double.valueOf(response.getJSONObject("nsstat").getString("nslog_norm"));
+            credits.setText(response.getString(getString(R.string.credits_api)));
+            credits.append(getString(R.string.credits_and));
+            credits.append(response.getJSONObject(getString(R.string.spice_api)).getString(getString(R.string.available_spice)));
+            credits.append(getString(R.string.spices));
+            JSONObject gpaObj = (JSONObject) response.getJSONArray(getString(R.string.gpa_api)).get(0);
+            gpa.setText(R.string.gpa);
+            gpa.append(gpaObj.getString(getString(R.string.gpa_api)));
+            Double logs = Double.valueOf(response.getJSONObject(getString(R.string.nsstat_api)).getString(getString(R.string.active)));
+            Double minLog = Double.valueOf(response.getJSONObject(getString(R.string.nsstat_api)).getString(getString(R.string.nslog_norm)));
             logTime.setText(String.valueOf(logs));
-            logTime.append(" active hours. Minimum required : ");
+            logTime.append(getString(R.string.nslogs));
             logTime.append(minLog.toString());
             if (logs < minLog)
                 logTime.setTextColor(getResources().getColor(R.color.red));
@@ -81,8 +81,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public Map<String, String> getParams()
-    {
+    public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
         params.put(getString(R.string.user), ((HomeActivity) getActivity()).getLogin());
@@ -162,7 +161,7 @@ public class HomeFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + context.getString(R.string.fragment_attach));
         }
     }
 

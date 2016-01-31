@@ -43,7 +43,7 @@ public class ProjectsFragment extends Fragment {
 
     LinkedList<JSONObject> objects = new LinkedList<>();
 
-    private String semester = "Semester";
+    private String semester = getString(R.string.semester);
 
     private boolean progress = false;
 
@@ -64,8 +64,8 @@ public class ProjectsFragment extends Fragment {
     private boolean isProgress(JSONObject obj)
     {
         try {
-            if (currentDate.before(apiFormat.parse(obj.getString("end_acti").split(" ")[0])) &&
-                    currentDate.after(apiFormat.parse(obj.getString("begin_acti").split(" ")[0])))
+            if (currentDate.before(apiFormat.parse(obj.getString(getString(R.string.end_acti_api)).split(" ")[0])) &&
+                    currentDate.after(apiFormat.parse(obj.getString(getString(R.string.begin_acti_api)).split(" ")[0])))
                 return true;
 
         } catch (ParseException | JSONException ignored) {
@@ -96,8 +96,8 @@ public class ProjectsFragment extends Fragment {
                     public void onSuccess(JSONArray response) throws JSONException {
                         objects.clear();
                         for (int i = 0; i < response.length(); i++)
-                            if (!response.getJSONObject(i).getString("project").equals("null") &&
-                                    ((semester.equals("Semester") || semester.equals(response.getJSONObject(i).getString("codeinstance").split("-")[1]))) &&
+                            if (!response.getJSONObject(i).getString(getString(R.string.project_api)).equals("null") &&
+                                    ((semester.equals(getString(R.string.semester)) || semester.equals(response.getJSONObject(i).getString(getString(R.string.codeinstance)).split("-")[1]))) &&
                                     (!progress || isProgress(response.getJSONObject(i))))
                                 objects.add(response.getJSONObject(i));
                         final Activity activity = getActivity();
@@ -141,7 +141,7 @@ public class ProjectsFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                semester = "Semester";
+                semester = getString(R.string.semester);
                 fillProjects();
             }
         });
@@ -162,7 +162,7 @@ public class ProjectsFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + context.getString(R.string.fragment_attach));
         }
     }
 
@@ -175,9 +175,9 @@ public class ProjectsFragment extends Fragment {
     public void progress_button_clicked(View view) {
         progress = !progress;
         if (progress)
-            ((Button)getActivity().findViewById(R.id.progressButton)).setText("All projects");
+            ((Button)getActivity().findViewById(R.id.progressButton)).setText(R.string.all_projects);
         else
-            ((Button)getActivity().findViewById(R.id.progressButton)).setText("In progress projects");
+            ((Button)getActivity().findViewById(R.id.progressButton)).setText(R.string.in_progress_projects);
         fillProjects();
     }
 

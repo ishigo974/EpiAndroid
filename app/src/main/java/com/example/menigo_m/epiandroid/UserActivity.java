@@ -40,22 +40,22 @@ public class UserActivity extends MyActivities {
         logTime = (TextView) findViewById(R.id.logTime);
         try {
             login_text.setText(response.getString(getString(R.string.login)));
-            city_promo.setText("Epitech ");
-            city_promo.append(response.getString("promo"));
+            city_promo.setText(R.string.epitech);
+            city_promo.append(response.getString(getString(R.string.promo_api)));
             city_promo.append(" ");
-            city_promo.append(response.getString("location"));
+            city_promo.append(response.getString(getString(R.string.location_api)));
 
-            credits.setText(response.getString("credits"));
-            credits.append(" credits and ");
-            credits.append(response.getJSONObject("spice").getString("available_spice"));
-            credits.append(" spices");
-            JSONObject gpaObj = (JSONObject) response.getJSONArray("gpa").get(0);
-            gpa.setText("GPA : ");
-            gpa.append(gpaObj.getString("gpa"));
-            Double logs = Double.valueOf(response.getJSONObject("nsstat").getString("active"));
-            Double minLog = Double.valueOf(response.getJSONObject("nsstat").getString("nslog_norm"));
+            credits.setText(response.getString(getString(R.string.credits_api)));
+            credits.append(getString(R.string.credits_and));
+            credits.append(response.getJSONObject(getString(R.string.spice_api)).getString(getString(R.string.available_spice)));
+            credits.append(getString(R.string.spices));
+            JSONObject gpaObj = (JSONObject) response.getJSONArray(getString(R.string.gpa_api)).get(0);
+            gpa.setText(R.string.gpa);
+            gpa.append(gpaObj.getString(getString(R.string.gpa_api)));
+            Double logs = Double.valueOf(response.getJSONObject(getString(R.string.nsstat_api)).getString(getString(R.string.active)));
+            Double minLog = Double.valueOf(response.getJSONObject(getString(R.string.nsstat_api)).getString(getString(R.string.nslog_norm)));
             logTime.setText(String.valueOf(logs));
-            logTime.append(" active hours. Minimum required : ");
+            logTime.append(getString(R.string.nslogs));
             logTime.append(minLog.toString());
             if (logs < minLog)
                 logTime.setTextColor(getResources().getColor(R.color.red));
@@ -80,7 +80,7 @@ public class UserActivity extends MyActivities {
         Intent intent = getIntent();
         try {
             JSONObject object = new JSONObject(intent.getStringExtra("object"));
-            login = object.getString("login");
+            login = object.getString(getString(R.string.login));
         } catch (JSONException ignored) {
         }
 
@@ -92,21 +92,21 @@ public class UserActivity extends MyActivities {
                     public void onSuccess(JSONObject response) {
                         displayUserInformation(response, login);
                         try {
-                            tel = response.getJSONObject("userinfo").getJSONObject("telephone").getString("value");
+                            tel = response.getJSONObject(getString(R.string.userinfo_api)).getJSONObject(getString(R.string.telephone_api)).getString(getString(R.string.value_api));
                         } catch (JSONException e) {
                             tel = null;
                         }
                         try {
-                            String firstname = response.getString("firstname");
+                            String firstname = response.getString(getString(R.string.firstname_api));
                             firstname = Character.toUpperCase(firstname.charAt(0)) + firstname.substring(1);
-                            String lastname = response.getString("lastname");;
+                            String lastname = response.getString(getString(R.string.lastname_api));;
                             lastname = Character.toUpperCase(lastname.charAt(0)) + lastname.substring(1);
                             name = firstname + " " + lastname;
                         } catch (JSONException e) {
                             name = null;
                         }
                         try {
-                            mail = response.getString("internal_email");
+                            mail = response.getString(getString(R.string.internal_email_api));
                         } catch (JSONException e) {
                             mail = null;
                         }

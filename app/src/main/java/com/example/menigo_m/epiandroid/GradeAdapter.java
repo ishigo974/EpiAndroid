@@ -55,15 +55,15 @@ public class GradeAdapter extends BaseAdapter {
             layoutItem = (RelativeLayout) convertView;
         }
 
-        TextView module_name = (TextView)layoutItem.findViewById(R.id.module_name);
-        TextView module_credits = (TextView)layoutItem.findViewById(R.id.module_grade);
+        TextView module_name = (TextView) layoutItem.findViewById(R.id.module_name);
+        TextView module_credits = (TextView) layoutItem.findViewById(R.id.module_grade);
 
         if (module_name == null || module_credits == null)
             return layoutItem;
 
         try {
-            module_name.setText(_list.get(position).getString("title"));
-            module_credits.setText(_list.get(position).getString("grade"));
+            module_name.setText(_list.get(position).getString(_context.getString(R.string.title)));
+            module_credits.setText(_list.get(position).getString(_context.getString(R.string.grade)));
 
         } catch (JSONException ignored) {
         }

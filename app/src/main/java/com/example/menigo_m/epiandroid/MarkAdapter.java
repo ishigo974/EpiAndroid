@@ -51,17 +51,18 @@ public class MarkAdapter extends BaseAdapter {
             layoutItem = (RelativeLayout) convertView;
         }
 
-        TextView my_mark_final = (TextView)layoutItem.findViewById(R.id.my_mark_final);
-        TextView my_mark_title = (TextView)layoutItem.findViewById(R.id.my_mark_title);
-        TextView my_mark_date = (TextView)layoutItem.findViewById(R.id.my_mark_date);
+        TextView my_mark_final = (TextView) layoutItem.findViewById(R.id.my_mark_final);
+        TextView my_mark_title = (TextView) layoutItem.findViewById(R.id.my_mark_title);
+        TextView my_mark_date = (TextView) layoutItem.findViewById(R.id.my_mark_date);
 
         if (my_mark_date == null || my_mark_final == null || my_mark_title == null)
             return layoutItem;
 
         try {
-            my_mark_final.setText(_list.get(position).getString("final_note"));
-            my_mark_title.setText(_list.get(position).getString("title").concat(" - ").concat(_list.get(position).getString("titlemodule")));
-            my_mark_date.setText(_list.get(position).getString("scolaryear"));
+            my_mark_final.setText(_list.get(position).getString(_context.getString(R.string.final_note_api)));
+            my_mark_title.setText(_list.get(position).getString(_context.getString(R.string.title))
+                    .concat(" - ").concat(_list.get(position).getString(_context.getString(R.string.title_module_api))));
+            my_mark_date.setText(_list.get(position).getString(_context.getString(R.string.scolaryear)));
 
         } catch (JSONException ignored) {
         }

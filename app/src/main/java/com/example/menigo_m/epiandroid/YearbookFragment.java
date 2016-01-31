@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +39,8 @@ public class YearbookFragment extends Fragment {
     LinkedList<JSONObject> objects = new LinkedList<>();
     private int total = 0;
     private int page = 0;
-    private String course = "Course";
-    private String promo = "Promo";
+    private String course = getString(R.string.course);
+    private String promo = getString(R.string.promo);
 
     public YearbookFragment() {
     }
@@ -60,21 +59,21 @@ public class YearbookFragment extends Fragment {
     private void fillYearbook() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
-        params.put("year", "2014");
-        params.put("location", ((HomeActivity) getActivity()).getLocation());
-        params.put("offset", Integer.toString(page * 48));
-        if (!course.equals("Course"))
-            params.put("course", course);
-        if (!promo.equals("Promo"))
-            params.put("promo", promo);
+        params.put(getString(R.string.year_api), getString(R.string.year_api_date));
+        params.put(getString(R.string.location_api), ((HomeActivity) getActivity()).getLocation());
+        params.put(getString(R.string.offset_api), Integer.toString(page * 48));
+        if (!course.equals(getString(R.string.course)))
+            params.put(getString(R.string.course_api), course);
+        if (!promo.equals(getString(R.string.promo)))
+            params.put(getString(R.string.promo_api), promo);
         ((MyActivities) getActivity()).getApiConnection().doPost(params,
                 getString(R.string.api_url).concat(getString(R.string.trombi_url)),
                 Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
-                        total = response.getInt("total");
-                        JSONArray jsonArray = response.getJSONArray("items");
+                        total = response.getInt(getString(R.string.total_api));
+                        JSONArray jsonArray = response.getJSONArray(getString(R.string.items_api));
                         objects.clear();
                         for (int i = 0; i < jsonArray.length(); i++)
                             objects.add(jsonArray.getJSONObject(i));
@@ -126,7 +125,7 @@ public class YearbookFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                course = "Course";
+                course = getString(R.string.course);
                 fillYearbook();
             }
         });
@@ -139,7 +138,7 @@ public class YearbookFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                promo = "Promo";
+                promo = getString(R.string.promo);
                 fillYearbook();
             }
         });
@@ -160,7 +159,7 @@ public class YearbookFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + context.getString(R.string.fragment_attach));
         }
     }
 

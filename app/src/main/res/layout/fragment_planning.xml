@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="planning_button_clicked"
-        android:text="Share my planning" />
+        android:text="@string/share_planning" />
 
     <TextView
         android:id="@+id/date"

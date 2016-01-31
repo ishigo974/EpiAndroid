@@ -59,14 +59,14 @@ public class PlanningAdapter extends BaseAdapter {
             return layoutItem;
 
         try {
-            JSONObject room = _list.get(position).getJSONObject("room");
-            String content = _list.get(position).getString("titlemodule");
+            JSONObject room = _list.get(position).getJSONObject(_context.getString(R.string.room));
+            String content = _list.get(position).getString(_context.getString(R.string.title_module_api));
             content = content.concat(" - ");
-            content = content.concat(_list.get(position).getString("acti_title"));
+            content = content.concat(_list.get(position).getString(_context.getString(R.string.acti_title)));
             content = content.concat("|");
-            content = content.concat(room.getString("code"));
+            content = content.concat(room.getString(_context.getString(R.string.code)));
             my_activity_title.setText(content);
-            my_activity_time.setText(_list.get(position).getString("start").split(" ")[1]);
+            my_activity_time.setText(_list.get(position).getString(_context.getString(R.string.start)).split(" ")[1]);
 
         } catch (JSONException ignored) {
         }

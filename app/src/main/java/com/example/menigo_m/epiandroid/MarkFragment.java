@@ -58,13 +58,13 @@ public class MarkFragment extends android.app.Fragment {
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
-                        JSONArray jsonArray = response.getJSONArray("notes");
+                        JSONArray jsonArray = response.getJSONArray(getString(R.string.notes_api));
                         LinkedList<JSONObject> objects = new LinkedList<>();
                         for (int i = 0; i < jsonArray.length(); i++) {
                             objects.add(jsonArray.getJSONObject(i));
-                            mail_content = mail_content.concat(jsonArray.getJSONObject(i).getString("title").concat(" - "));
-                            mail_content = mail_content.concat(jsonArray.getJSONObject(i).getString("titlemodule"));
-                            mail_content = mail_content.concat(" : ".concat(jsonArray.getJSONObject(i).getString("final_note")));
+                            mail_content = mail_content.concat(jsonArray.getJSONObject(i).getString(getString(R.string.title)).concat(" - "));
+                            mail_content = mail_content.concat(jsonArray.getJSONObject(i).getString(getString(R.string.title_module_api)));
+                            mail_content = mail_content.concat(" : ".concat(jsonArray.getJSONObject(i).getString(getString(R.string.final_note_api))));
                             mail_content = mail_content.concat("\n");
                         }
                         Activity activity = getActivity();
@@ -101,7 +101,7 @@ public class MarkFragment extends android.app.Fragment {
         final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
         emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{""});
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My marks");
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.my_marks));
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mail_content);
         startActivity(Intent.createChooser(emailIntent, getString(R.string.send_email)));
     }
@@ -113,7 +113,7 @@ public class MarkFragment extends android.app.Fragment {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + context.getString(R.string.fragment_attach));
         }
     }
 

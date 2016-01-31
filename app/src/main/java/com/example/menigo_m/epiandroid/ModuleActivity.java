@@ -37,9 +37,9 @@ public class ModuleActivity extends MyActivities {
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), getToken());
-        params.put("scolaryear", scolaryear);
-        params.put("codemodule", codemodule);
-        params.put("codeinstance", codeinstance);
+        params.put(getString(R.string.scolaryear), scolaryear);
+        params.put(getString(R.string.codemodule), codemodule);
+        params.put(getString(R.string.codeinstance), codeinstance);
         return params;
     }
 
@@ -51,14 +51,11 @@ public class ModuleActivity extends MyActivities {
         Intent intent = getIntent();
         try {
             JSONObject object = new JSONObject(intent.getStringExtra("object"));
-            scolaryear = object.getString("scolaryear");
-            codemodule = object.getString("code");
-            codeinstance = object.getString("codeinstance");
+            scolaryear = object.getString(getString(R.string.scolaryear));
+            codemodule = object.getString(getString(R.string.code));
+            codeinstance = object.getString(getString(R.string.codeinstance));
 
-            if (object.getString("status").equals("notregistered"))
-                registered = false;
-            else
-                registered = true;
+            registered = !object.getString(getString(R.string.status_api)).equals(getString(R.string.not_registered_api));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -80,16 +77,16 @@ public class ModuleActivity extends MyActivities {
                         register_button = (Button) findViewById(R.id.register_button);
 
                         try {
-                            name.setText(response.getString("title"));
-                            description.setText(response.getString("description"));
-                            skills.setText(response.getString("competence"));
-                            credits.setText("Credits : ");
-                            credits.append(response.getString("credits"));
-                            semester.setText("Semester : ");
-                            semester.append(response.getString("semester"));
+                            name.setText(response.getString(getString(R.string.title)));
+                            description.setText(response.getString(getString(R.string.description_api)));
+                            skills.setText(response.getString(getString(R.string.competence_api)));
+                            credits.setText(R.string.credits_info);
+                            credits.append(response.getString(getString(R.string.credits_api)));
+                            semester.setText(R.string.semester_info);
+                            semester.append(response.getString(getString(R.string.semester_api)));
                             Date end_date = null;
                             try {
-                                String date = response.getString("end_register");
+                                String date = response.getString(getString(R.string.end_register_api));
                                 if (!date.equals("null"))
                                     end_date = apiFormat.parse(date);
                             } catch (ParseException ignored) {
@@ -99,9 +96,9 @@ public class ModuleActivity extends MyActivities {
                                     register_button.setEnabled(false);
                             }
                             if (registered) {
-                                register_button.setText("Unregister");
+                                register_button.setText(R.string.unregister);
                             } else {
-                                register_button.setText("Register");
+                                register_button.setText(R.string.register);
                             }
                         } catch (JSONException ignored) {
                         }
@@ -131,11 +128,11 @@ public class ModuleActivity extends MyActivities {
                     @Override
                     public void onSuccess(JSONObject response) {
                         if (registered) {
-                            Toast.makeText(getApplicationContext(), "You have been successfully unsubscribed", Toast.LENGTH_SHORT).show();
-                            register_button.setText("Register");
+                            Toast.makeText(getApplicationContext(), R.string.unsubscribe_success, Toast.LENGTH_SHORT).show();
+                            register_button.setText(R.string.register);
                         } else {
-                            Toast.makeText(getApplicationContext(), "You have been successfully subscribed", Toast.LENGTH_SHORT).show();
-                            register_button.setText("Unregister");
+                            Toast.makeText(getApplicationContext(), R.string.subscribe_success, Toast.LENGTH_SHORT).show();
+                            register_button.setText(R.string.unregister);
                         }
                         registered = !registered;
                     }

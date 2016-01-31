@@ -45,8 +45,8 @@ public class PlanningFragment extends Fragment {
     private DateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd");
     private DateFormat displayFormat = new SimpleDateFormat("EEEE yyyy-MM-dd");
     private boolean registeredOnly = false;
-    private String semester = "Semester";
-    private String year = "Year";
+    private String semester = getString(R.string.semester);
+    private String year = getString(R.string.year);
     ArrayList<String> spinnerArray = new ArrayList<>();
     LinkedList<JSONObject> objects = new LinkedList<>();
     private String mail_content = "";
@@ -56,9 +56,11 @@ public class PlanningFragment extends Fragment {
     private void prevDay() {
         date.setTime(date.getTime() - 86400000);
     }
+
     private void nextDay() {
         date.setTime(date.getTime() + 86400000);
     }
+
     private String getDate(DateFormat dateFormat) {
         return dateFormat.format(date);
     }
@@ -66,9 +68,9 @@ public class PlanningFragment extends Fragment {
     private void changeRegistered() {
         registeredOnly = !registeredOnly;
         if (registeredOnly)
-            ((TextView) (getActivity().findViewById(R.id.registeredButton))).setText("All activities");
+            ((TextView) (getActivity().findViewById(R.id.registeredButton))).setText(R.string.all_activities);
         else
-            ((TextView) (getActivity().findViewById(R.id.registeredButton))).setText("Where i'm registered only");
+            ((TextView) (getActivity().findViewById(R.id.registeredButton))).setText(R.string.registered_only);
     }
 
     public PlanningFragment() {
@@ -77,8 +79,8 @@ public class PlanningFragment extends Fragment {
     private void fillPlanning() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
-        params.put("start", getDate(apiFormat));
-        params.put("end", getDate(apiFormat));
+        params.put(getString(R.string.start), getDate(apiFormat));
+        params.put(getString(R.string.end), getDate(apiFormat));
 
         ((MyActivities) getActivity()).getApiConnection().doPost(params,
                 getString(R.string.api_url).concat(getString(R.string.planning_url)),
@@ -93,19 +95,19 @@ public class PlanningFragment extends Fragment {
                         final Activity activity = getActivity();
                         if (activity == null)
                             return;
-                        mail_content = "My Planning\n\n";
+                        mail_content = activity.getString(R.string.my_planning);
                         mail_content = mail_content.concat(getDate(displayFormat).concat("\n\n"));
                         ((TextView) (activity.findViewById(R.id.date))).setText(getDate(displayFormat));
                         objects.clear();
                         for (int i = 0; i < response.length(); i++)
-                            if (response.getJSONObject(i).getString("module_registered").equals("true") &&
-                                    (!registeredOnly || (registeredOnly && response.getJSONObject(i).getString("event_registered").equals("registered"))) &&
-                                    (semester.equals("Semester") || semester.equals(response.getJSONObject(i).getString("semester"))) &&
-                                    (year.equals("Year") || year.equals(response.getJSONObject(i).getString("scolaryear")))) {
+                            if (response.getJSONObject(i).getString(activity.getString(R.string.module_registered_api)).equals("true") &&
+                                    (!registeredOnly || (registeredOnly && response.getJSONObject(i).getString(getString(R.string.event_registered_api)).equals(getString(R.string.registered_api)))) &&
+                                    (semester.equals(getString(R.string.semester)) || semester.equals(response.getJSONObject(i).getString(getString(R.string.semester_api)))) &&
+                                    (year.equals(getString(R.string.year)) || year.equals(response.getJSONObject(i).getString(getString(R.string.scolaryear))))) {
                                 objects.add(response.getJSONObject(i));
-                                mail_content = mail_content.concat(response.getJSONObject(i).getString("acti_title"));
+                                mail_content = mail_content.concat(response.getJSONObject(i).getString(getString(R.string.acti_title)));
                                 mail_content = mail_content.concat(" : ");
-                                mail_content = mail_content.concat(response.getJSONObject(i).getString("start").split(" ")[1]);
+                                mail_content = mail_content.concat(response.getJSONObject(i).getString(getString(R.string.start)).split(" ")[1]);
                                 mail_content = mail_content.concat("\n\n");
                             }
                         final ListView listView = (ListView) activity.findViewById(R.id.planning_element);
@@ -148,7 +150,7 @@ public class PlanningFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_planning, container, false);
 
 
-        spinnerArray.add("Year");
+        spinnerArray.add(getString(R.string.year));
         for (int i = 1999; i <= Calendar.getInstance().get(Calendar.YEAR); i++)
             spinnerArray.add(String.valueOf(i));
         Spinner yearSpinner = ((Spinner) view.findViewById(R.id.yearSpinner));
@@ -157,7 +159,7 @@ public class PlanningFragment extends Fragment {
                 spinnerArray));
 
         fillPlanning();
-        ((Spinner)(view.findViewById(R.id.semestersSpinner))).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        ((Spinner) (view.findViewById(R.id.semestersSpinner))).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 semester = getResources().getStringArray(R.array.semester_array)[position];
@@ -166,7 +168,7 @@ public class PlanningFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                semester = "Semester";
+                semester = getString(R.string.semester);
                 fillPlanning();
             }
         });
@@ -179,7 +181,7 @@ public class PlanningFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                year = "Year";
+                year = getString(R.string.year);
                 fillPlanning();
             }
         });
@@ -205,7 +207,7 @@ public class PlanningFragment extends Fragment {
         final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
         emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{""});
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My planning");
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.my_planning_view));
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mail_content);
         startActivity(Intent.createChooser(emailIntent, getString(R.string.send_email)));
     }
@@ -224,7 +226,7 @@ public class PlanningFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + context.getString(R.string.fragment_attach));
         }
     }
 

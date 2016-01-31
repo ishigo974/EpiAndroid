@@ -46,10 +46,10 @@ public class ProjectActivity extends MyActivities {
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), getToken());
-        params.put("scolaryear", scolaryear);
-        params.put("codemodule", codemodule);
-        params.put("codeinstance", codeinstance);
-        params.put("codeacti", codeacti);
+        params.put(getString(R.string.scolaryear), scolaryear);
+        params.put(getString(R.string.codemodule), codemodule);
+        params.put(getString(R.string.codeinstance), codeinstance);
+        params.put(getString(R.string.codeacti), codeacti);
         return params;
     }
 
@@ -61,14 +61,11 @@ public class ProjectActivity extends MyActivities {
         Intent intent = getIntent();
         try {
             JSONObject object = new JSONObject(intent.getStringExtra("object"));
-            scolaryear = object.getString("scolaryear");
-            codemodule = object.getString("codemodule");
-            codeinstance = object.getString("codeinstance");
-            codeacti = object.getString("codeacti");
-            if (object.getString("registered").equals("1"))
-                registered = true;
-            else
-                registered = false;
+            scolaryear = object.getString(getString(R.string.scolaryear));
+            codemodule = object.getString(getString(R.string.codemodule));
+            codeinstance = object.getString(getString(R.string.codeinstance));
+            codeacti = object.getString(getString(R.string.codeacti));
+            registered = object.getString(getString(R.string.registered_api)).equals("1");
         } catch (JSONException ignored) {
         }
         display_informations();
@@ -90,30 +87,30 @@ public class ProjectActivity extends MyActivities {
                         note = (TextView) findViewById(R.id.projectNote);
                         size = (TextView) findViewById(R.id.groupSize);
                         try {
-                            name.setText(response.getString("project_title"));
-                            description.setText(response.getString("description"));
-                            module.setText(response.getString("module_title"));
-                            String nb_min = response.getString("nb_min");
-                            String nb_max = response.getString("nb_max");
+                            name.setText(response.getString(getString(R.string.project_title)));
+                            description.setText(response.getString(getString(R.string.description_api)));
+                            module.setText(response.getString(getString(R.string.module_title)));
+                            String nb_min = response.getString(getString(R.string.nb_min_api));
+                            String nb_max = response.getString(getString(R.string.nb_max_api));
                             size.append(nb_min);
                             if (!nb_min.equals(nb_max)) {
                                 size.append("-");
                                 size.append(nb_max);
                             }
-                            String project_note = response.getString("note");
+                            String project_note = response.getString(getString(R.string.note_api));
                             if (!project_note.equals("null")) {
-                                note.setText("Note : ");
+                                note.setText(R.string.note_info);
                                 note.append(project_note);
                             }
-                            Date begin_date = dateFormat.parse(response.getString("begin"));
-                            Date end_date = dateFormat.parse(response.getString("end_register"));
+                            Date begin_date = dateFormat.parse(response.getString(getString(R.string.begin_api)));
+                            Date end_date = dateFormat.parse(response.getString(getString(R.string.end_register_api)));
 
                             if (end_date.before(today))
                                 register.setEnabled(false);
                             if (registered) {
-                                register.setText("Unregister");
+                                register.setText(R.string.unregister);
                             } else {
-                                register.setText("Register");
+                                register.setText(R.string.register);
                             }
                             begin.setText(getDate(displayFormat, begin_date));
                             end.setText(getDate(displayEndFormat, end_date));
@@ -128,7 +125,7 @@ public class ProjectActivity extends MyActivities {
 
                     @Override
                     public void onError() {
-                        Toast.makeText(getApplicationContext(), "You have been successfully subscribed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.subscribe_success, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -146,11 +143,11 @@ public class ProjectActivity extends MyActivities {
                     @Override
                     public void onSuccess(JSONObject response) {
                         if (registered) {
-                            Toast.makeText(getApplicationContext(), "You have been successfully unsubscribed", Toast.LENGTH_SHORT).show();
-                            register.setText("Register");
+                            Toast.makeText(getApplicationContext(), R.string.unsubscribe_success, Toast.LENGTH_SHORT).show();
+                            register.setText(R.string.register);
                         } else {
-                            Toast.makeText(getApplicationContext(), "You have been successfully subscribed", Toast.LENGTH_SHORT).show();
-                            register.setText("Unregister");
+                            Toast.makeText(getApplicationContext(), R.string.subscribe_success, Toast.LENGTH_SHORT).show();
+                            register.setText(R.string.unregister);
                         }
                         registered = !registered;
                     }

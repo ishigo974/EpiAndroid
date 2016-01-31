@@ -61,7 +61,7 @@ public class ProjectsAdapter extends BaseAdapter {
             return layoutItem;
 
         try {
-            project_name.setText(_list.get(position).getString("project"));
+            project_name.setText(_list.get(position).getString(_context.getString(R.string.project_api)));
 
         } catch (JSONException ignored) {
         }

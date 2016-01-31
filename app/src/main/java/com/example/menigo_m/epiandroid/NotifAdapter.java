@@ -62,10 +62,10 @@ public class NotifAdapter extends BaseAdapter {
             return layoutItem;
 
         try {
-            my_notif_title.setText(Html.fromHtml(_list.get(position).getString("title")));
-            my_notif_content.setText(Html.fromHtml(_list.get(position).getString("content")));
-            my_notif_user.setText(Html.fromHtml(_list.get(position).getJSONObject("user").getString("title")));
-            my_notif_time.setText(Html.fromHtml(_list.get(position).getString("date")));
+            my_notif_title.setText(Html.fromHtml(_list.get(position).getString(_context.getString(R.string.title))));
+            my_notif_content.setText(Html.fromHtml(_list.get(position).getString(_context.getString(R.string.content_api))));
+            my_notif_user.setText(Html.fromHtml(_list.get(position).getJSONObject(_context.getString(R.string.user_api)).getString(_context.getString(R.string.title))));
+            my_notif_time.setText(Html.fromHtml(_list.get(position).getString(_context.getString(R.string.date_api))));
 
         } catch (JSONException ignored) {
         }

@@ -39,11 +39,11 @@ public class EventActivity extends MyActivities {
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), getToken());
-        params.put("scolaryear", scolaryear);
-        params.put("codemodule", codemodule);
-        params.put("codeinstance", codeinstance);
-        params.put("codeacti", codeacti);
-        params.put("codeevent", codeevent);
+        params.put(getString(R.string.scolaryear), scolaryear);
+        params.put(getString(R.string.codemodule), codemodule);
+        params.put(getString(R.string.codeinstance), codeinstance);
+        params.put(getString(R.string.codeacti), codeacti);
+        params.put(getString(R.string.codeevent), codeevent);
         return params;
     }
 
@@ -55,11 +55,11 @@ public class EventActivity extends MyActivities {
         Intent intent = getIntent();
         try {
             JSONObject object = new JSONObject(intent.getStringExtra("object"));
-            scolaryear = object.getString("scolaryear");
-            codemodule = object.getString("codemodule");
-            codeinstance = object.getString("codeinstance");
-            codeacti = object.getString("codeacti");
-            codeevent = object.getString("codeevent");
+            scolaryear = object.getString(getString(R.string.scolaryear));
+            codemodule = object.getString(getString(R.string.codemodule));
+            codeinstance = object.getString(getString(R.string.codeinstance));
+            codeacti = object.getString(getString(R.string.codeacti));
+            codeevent = object.getString(getString(R.string.codeevent));
         } catch (JSONException ignored) {
         }
         display_informations();
@@ -77,23 +77,23 @@ public class EventActivity extends MyActivities {
                         module = (TextView) findViewById(R.id.activityModule);
 
                         try {
-                            name.setText(response.getString("type_title"));
+                            name.setText(response.getString(getString(R.string.type_title)));
                             name.append("\n");
-                            name.append(response.getString("acti_title"));
+                            name.append(response.getString(getString(R.string.acti_title)));
                             try {
-                                String desc = response.getString("acti_description");
+                                String desc = response.getString(getString(R.string.acti_description));
                                 if (!desc.equals("null"))
                                     description.setText(desc);
                             } catch (JSONException ignored) {
                             }
-                            description.append(response.getJSONObject("room").getString("code"));
-                            module.setText(response.getString("module_title"));
+                            description.append(response.getJSONObject(getString(R.string.room)).getString(getString(R.string.code)));
+                            module.setText(response.getString(getString(R.string.module_title)));
 
                             Date begin = null;
                             Date end = null;
                             try {
-                                begin = dateFormat.parse(response.getString("start"));
-                                end = dateFormat.parse(response.getString("end"));
+                                begin = dateFormat.parse(response.getString(getString(R.string.start)));
+                                end = dateFormat.parse(response.getString(getString(R.string.end)));
                             } catch (ParseException ignored) {
                             }
                             if (begin != null && end != null) {
@@ -118,20 +118,19 @@ public class EventActivity extends MyActivities {
 
     public void validate_token(View view) {
         TextView token_field = (TextView) findViewById(R.id.tokenField);
-        if (token_field.getText().toString().length() != 8)
-        {
+        if (token_field.getText().toString().length() != 8) {
             Toast.makeText(getApplicationContext(), R.string.bad_token_size, Toast.LENGTH_LONG).show();
-            return ;
+            return;
         }
         Map<String, String> params = getParams();
-        params.put("tokenvalidationcode", token_field.getText().toString());
+        params.put(getString(R.string.tokenvalidationcode), token_field.getText().toString());
         getApiConnection().doPost(params,
                 getString(R.string.api_url).concat(getString(R.string.token_url)),
                 Request.Method.POST, queue,
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
-                        Toast.makeText(getApplicationContext(), "Token successfully validated", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.token_validated, Toast.LENGTH_LONG).show();
                     }
 
                     @Override

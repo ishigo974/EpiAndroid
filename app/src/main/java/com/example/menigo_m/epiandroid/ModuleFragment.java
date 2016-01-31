@@ -45,9 +45,9 @@ public class ModuleFragment extends Fragment {
 
     private boolean registeredOnly = false;
 
-    private String year = "Year";
+    private String year = getString(R.string.year);
 
-    private String semester = "Semester";
+    private String semester = getString(R.string.semester);
 
     ArrayList<String> spinnerArray = new ArrayList<>();
 
@@ -68,30 +68,30 @@ public class ModuleFragment extends Fragment {
     private void changeRegistered() {
         registeredOnly = !registeredOnly;
         if (registeredOnly)
-            ((TextView) (getActivity().findViewById(R.id.registeredButton))).setText("All activities");
+            ((TextView) (getActivity().findViewById(R.id.registeredButton))).setText(R.string.all_activities);
         else
-            ((TextView) (getActivity().findViewById(R.id.registeredButton))).setText("Where i'm registered only");
+            ((TextView) (getActivity().findViewById(R.id.registeredButton))).setText(R.string.registered_only);
     }
 
     private void fillModule() {
         Map<String, String> params = new HashMap<>();
         params.put(getString(R.string.token), ((HomeActivity) getActivity()).getToken());
-        params.put("scolaryear", year);
-        params.put("location", ((HomeActivity) getActivity()).getLocation());
-        params.put("course", ((HomeActivity) getActivity()).getCourse());
+        params.put(getString(R.string.scolaryear), year);
+        params.put(getString(R.string.location_api), ((HomeActivity) getActivity()).getLocation());
+        params.put(getString(R.string.course_api), ((HomeActivity) getActivity()).getCourse());
         ((MyActivities) getActivity()).getApiConnection().doPost(params,
                 getString(R.string.api_url).concat(getString(R.string.module_url)),
                 Request.Method.GET, ((HomeActivity) getActivity()).getQueue(),
                 new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
-                        JSONArray jsonarray = response.getJSONArray("items");
+                        JSONArray jsonarray = response.getJSONArray(getString(R.string.items_api));
                         objects.clear();
                         for (int i = 0; i < jsonarray.length(); i++) {
                             try {
-                                if ((!registeredOnly || !jsonarray.getJSONObject(i).getString("status").equals("notregistered")) &&
-                                        (semester.equals("Semester") || semester.equals(jsonarray.getJSONObject(i).getString("semester"))) &&
-                                        (year.equals("Year") || year.equals(jsonarray.getJSONObject(i).getString("scolaryear"))))
+                                if ((!registeredOnly || !jsonarray.getJSONObject(i).getString(getString(R.string.status_api)).equals(getString(R.string.not_registered_api))) &&
+                                        (semester.equals(getString(R.string.semester)) || semester.equals(jsonarray.getJSONObject(i).getString(getString(R.string.semester_api)))) &&
+                                        (year.equals(getString(R.string.year)) || year.equals(jsonarray.getJSONObject(i).getString(getString(R.string.scolaryear)))))
                                     objects.add(jsonarray.getJSONObject(i));
                             } catch (JSONException ignored) {
                             }
@@ -130,7 +130,7 @@ public class ModuleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_module, container, false);
-        spinnerArray.add("Year");
+        spinnerArray.add(getString(R.string.year));
         for (int i = 1999; i <= Calendar.getInstance().get(Calendar.YEAR); i++)
             spinnerArray.add(String.valueOf(i));
         Spinner yearSpinner = ((Spinner) view.findViewById(R.id.yearSpinner));
@@ -138,7 +138,7 @@ public class ModuleFragment extends Fragment {
                 android.R.layout.simple_spinner_dropdown_item,
                 spinnerArray));
         fillModule();
-        ((Spinner)(view.findViewById(R.id.semestersSpinner))).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        ((Spinner) (view.findViewById(R.id.semestersSpinner))).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 semester = getResources().getStringArray(R.array.semester_array)[position];
@@ -147,7 +147,7 @@ public class ModuleFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                semester = "Semester";
+                semester = getString(R.string.semester);
                 fillModule();
             }
         });
@@ -160,7 +160,7 @@ public class ModuleFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                year = "Year";
+                year = getString(R.string.year);
                 fillModule();
             }
         });
@@ -181,7 +181,7 @@ public class ModuleFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + context.getString(R.string.fragment_attach));
         }
     }
 

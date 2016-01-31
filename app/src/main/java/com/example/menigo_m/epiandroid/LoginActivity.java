@@ -60,13 +60,13 @@ public class LoginActivity extends MyActivities {
                     params.put(getString(R.string.token), response.getString(getString(R.string.token)));
                 } catch (JSONException ignored) {
                 }
-                params.put("user", login.getText().toString());
-                apiConnection.doPost(params, getString(R.string.api_url).concat("user"), Request.Method.GET, queue, new ApiRequest.INetworkCallback() {
+                params.put(getString(R.string.user), login.getText().toString());
+                apiConnection.doPost(params, getString(R.string.api_url).concat(getString(R.string.user)), Request.Method.GET, queue, new ApiRequest.INetworkCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
                         try {
-                            storeValue("location", response.getString("location"));
-                            storeValue("course_code", response.getString("course_code"));
+                            storeValue(getString(R.string.location_api), response.getString(getString(R.string.location_api)));
+                            storeValue(getString(R.string.course_code_api), response.getString(getString(R.string.course_code_api)));
                         } catch (JSONException ignored) {
                         }
                     }

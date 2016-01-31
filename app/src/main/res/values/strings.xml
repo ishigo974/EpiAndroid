@@ -1,11 +1,8 @@
 <resources>
     <string name="app_name">EpiAndroid</string>
-    <string name="welcome">Welcome on EpiAndroid</string>
     <string name="login_text">Login :</string>
     <string name="password_text">Password :</string>
-    <string name="remember_text">Remember me</string>
     <string name="submit_text">Submit</string>
-    <string name="intra_welcome">Welcome on your intra</string>
     <string name="action_settings">Settings</string>
     <string name="token">token</string>
     <string name="login">login</string>
@@ -27,9 +24,6 @@
     <string name="logout">Logout</string>
     <string name="start">start</string>
     <string name="end">end</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="network_error">A network error has occured. Retry later</string>
     <string name="user_url">user</string>
     <string name="event_url">event</string>
@@ -70,7 +64,93 @@
     <string name="next">next</string>
     <string name="prev">prev</string>
     <string name="profile">profile</string>
-
+    <string name="fragment_attach">" must implement OnFragmentInteractionListener"</string>
+    <string name="nslogs">" active hours. Minimum required : "</string>
+    <string name="credits_and">" credits and "</string>
+    <string name="spices">" spices"</string>
+    <string name="gpa">"GPA : "</string>
+    <string name="epitech">"Epitech "</string>
+    <string name="my_marks">My marks</string>
+    <string name="credits_info">"Credits : "</string>
+    <string name="semester_info">"Semester : "</string>
+    <string name="unregister">Unregister</string>
+    <string name="register">Register</string>
+    <string name="unsubscribe_success">You have been successfully unsubscribed</string>
+    <string name="subscribe_success">You have been successfully subscribed</string>
+    <string name="year">Year</string>
+    <string name="semester">Semester</string>
+    <string name="all_activities">All activities</string>
+    <string name="my_planning">My Planning\n\n</string>
+    <string name="note_info">"Note : "</string>
+    <string name="all_projects">All projects</string>
+    <string name="promo">Promo</string>
+    <string name="course">Course</string>
+    <string name="share_planning">Share my planning</string>
+    <string name="scolaryear">scolaryear</string>
+    <string name="codemodule">codemodule</string>
+    <string name="codeinstance">codeinstance</string>
+    <string name="codeacti">codeacti</string>
+    <string name="codeevent">codeevent</string>
+    <string name="acti_title">acti_title</string>
+    <string name="type_title">type_title</string>
+    <string name="acti_description">acti_description</string>
+    <string name="room">room</string>
+    <string name="code">code</string>
+    <string name="module_title">module_title</string>
+    <string name="tokenvalidationcode">tokenvalidationcode</string>
+    <string name="token_validated">Token successfully validated</string>
+    <string name="title">title</string>
+    <string name="grade">grade</string>
+    <string name="my_grades">My Grades\n\n</string>
+    <string name="modules_array">modules</string>
+    <string name="my_grades_mail">My grades</string>
+    <string name="promo_api">promo</string>
+    <string name="location_api">location</string>
+    <string name="credits_api">credits</string>
+    <string name="spice_api">spice</string>
+    <string name="available_spice">available_spice</string>
+    <string name="gpa_api">gpa</string>
+    <string name="nsstat_api">nsstat</string>
+    <string name="active">active</string>
+    <string name="nslog_norm">nslog_norm</string>
+    <string name="user_api">user</string>
+    <string name="course_code_api">course_code</string>
+    <string name="final_note_api">final_note</string>
+    <string name="title_module_api">titlemodule</string>
+    <string name="notes_api">notes</string>
+    <string name="status_api">status</string>
+    <string name="not_registered_api">notregistered</string>
+    <string name="description_api">description</string>
+    <string name="competence_api">competence</string>
+    <string name="semester_api">semester</string>
+    <string name="end_register_api">end_register</string>
+    <string name="course_api">course</string>
+    <string name="items_api">items</string>
+    <string name="content_api">content</string>
+    <string name="date_api">date</string>
+    <string name="module_registered_api">module_registered</string>
+    <string name="registered_api">registered</string>
+    <string name="event_registered_api">event_registered</string>
+    <string name="my_planning_view">My planning</string>
+    <string name="project_title">project_title</string>
+    <string name="nb_min_api">nb_min</string>
+    <string name="nb_max_api">nb_max</string>
+    <string name="note_api">note</string>
+    <string name="begin_api">begin</string>
+    <string name="project_api">project</string>
+    <string name="end_acti_api">end_acti</string>
+    <string name="begin_acti_api">begin_acti</string>
+    <string name="userinfo_api">userinfo</string>
+    <string name="telephone_api">telephone</string>
+    <string name="value_api">value</string>
+    <string name="firstname_api">firstname</string>
+    <string name="lastname_api">lastname</string>
+    <string name="internal_email_api">internal_email</string>
+    <string name="picture_api">picture</string>
+    <string name="year_api">year</string>
+    <string name="year_api_date">2014</string>
+    <string name="offset_api">offset</string>
+    <string name="total_api">total</string>
 
     <string-array name="semester_array">
         <item>Semester</item>
@@ -103,5 +183,4 @@
         <item>tek4</item>
         <item>tek5</item>
     </string-array>
-
 </resources>

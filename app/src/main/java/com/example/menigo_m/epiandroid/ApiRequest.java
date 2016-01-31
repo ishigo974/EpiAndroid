@@ -28,8 +28,7 @@ public class ApiRequest {
 
     private Map<String, String> params = null;
 
-    private String setGetParams(String action)
-    {
+    private String setGetParams(String action) {
         if (!params.isEmpty()) {
             action = action.concat("?");
             while (!params.isEmpty()) {
